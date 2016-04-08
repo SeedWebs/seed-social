@@ -1,4 +1,5 @@
-# Seed Social: Minimal Social Sharing WordPress Plugin
+# Seed Social
+## Minimal Social Sharing WordPress Plugin
 
 [Thai Language]
 ปลั๊กอินสำหรับเพิ่มปุ่มแชร์ไปที่ Facebook / Twitter / Google Plus และ Line
