@@ -94,8 +94,8 @@ if(class_exists('Seed_Social'))
 
 	function seed_social_scripts() {
 		if(!is_admin()) {
-			wp_enqueue_script( 'seed-social-js', plugins_url( 'seed-social/seed-social.js' ), array('jquery'), '2016-1', true );
-			wp_enqueue_style( 'seed-social-css', plugins_url( 'seed-social/seed-social.css' ), array() );
+			wp_enqueue_script( 'seed-social-js', plugin_dir_url( __FILE__ ) . '/seed-social.js' , array('jquery'), '2016-1', true );
+			wp_enqueue_style( 'seed-social-css', plugin_dir_url( __FILE__ ) . '/seed-social.css' , array() );
 		}
 	}
 
@@ -146,7 +146,7 @@ if(class_exists('Seed_Social'))
 }
 
 function seed_social_auto( $content ) {
-    if( is_single() || is_page() )  {
+    if( ( is_single() || is_page() ) && ! is_front_page() )  {
         if ( $GLOBALS['post']->ID == get_the_ID() ) {
             $content .= seed_social( false );
         }
@@ -154,4 +154,5 @@ function seed_social_auto( $content ) {
 
     return $content;
 }
-add_filter('the_content', 'seed_social_auto');
+
+// add_filter('the_content', 'seed_social_auto');
