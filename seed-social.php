@@ -124,7 +124,7 @@ if(class_exists('Seed_Social'))
 
 // Line
 
-		$line_it = '<a href="https://lineit.line.me/share/ui?url='.urlencode( get_the_permalink( $post->ID ) ).'"><i class="ss-line"></i><span class="text">Line It!</span></a>';
+		$line_it = '<a href="https://lineit.line.me/share/ui?url='.urlencode( get_the_permalink( $post->ID ) ).'"><i class="ss-line"></i><span class="text">Line</span></a>';
 
 //		echo '<div class="seed-social-line-it">'.$line_it.'</div>';
 
