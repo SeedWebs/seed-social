@@ -1,7 +1,7 @@
 # Seed Social 0.9
 Minimal Social Sharing WordPress Plugin (Just Facebook / Twitter / Google Plus and Line)
 
-## [English Language]
+## English Language
 
 ### How to use?
 Just upload this plugin to WordPress and activate it. The plugin will add social sharing buttons under content.
@@ -15,7 +15,7 @@ remove_filter('the_content', 'seed_social_auto');
 ```php
 <?php if(function_exists('seed_social')) {seed_social();} ?>
 ```
-## [Thai Language]
+## Thai Language
 ปลั๊กอินสำหรับเพิ่มปุ่มแชร์ไปที่ Facebook / Twitter / Google Plus และ Line
 
 ### วิธีใช้งาน
