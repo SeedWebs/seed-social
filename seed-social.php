@@ -3,7 +3,7 @@
 Plugin Name: Seed Social
 Plugin URI: http://seedthemes.github.com/seed-social
 Description: A plugin for sharing social
-Version: 0.8.1
+Version: 0.9
 Author: Seed Themes
 Author URI: http://www.seedthemes.com
 License: GPL2
@@ -155,4 +155,4 @@ function seed_social_auto( $content ) {
     return $content;
 }
 
-// add_filter('the_content', 'seed_social_auto');
+add_filter('the_content', 'seed_social_auto');
