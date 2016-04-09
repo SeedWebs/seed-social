@@ -47,9 +47,13 @@
 
 
 .seed-social {
-	overflow: hidden;
 	font-size: 12px;
+	margin: 1.5em 0;
 }
+	.seed-social:before,
+	.seed-social:after{content: "";display: table;}
+	.seed-social:after {clear: both;}
+
 	.seed-social > div {
 		float: left;
 		margin-right: 10px;
