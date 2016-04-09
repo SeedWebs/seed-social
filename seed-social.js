@@ -9,9 +9,26 @@
 		jQuery.getJSON(url, function(json) {
 
 			var fbcount = '';
+			var fb_raw_count = '';
 
 			if (typeof json.shares !== 'undefined')
-				fbcount = json.shares;
+				fb_raw_count = json.shares;
+
+			if( fb_raw_count != '' ) {
+				var fb_num_count = parseInt( fb_raw_count );
+
+				if( fb_num_count < 1000 ) {
+					fbcount = fb_num_count.toString();
+				} else if( ( fb_num_count >= 1000 ) && ( fb_num_count < 10000 ) ) {
+					if( (fb_num_count / 1000).toFixed( 1 ) % 1 === 0 ) {
+						fbcount = (fb_num_count / 1000).toFixed().toString() + "k";
+					} else {
+						fbcount = (fb_num_count / 1000).toFixed( 1 ).toString() + "k";
+					}
+				} else if( fb_num_count >= 10000 ) {
+					fbcount = (fb_num_count / 1000).toFixed().toString() + "k";
+				}
+			}
 
 			// A little animation once fetched
 			jQuery('.seed-social .facebook .count').animate( { opacity:0 }, 500 ,function(){

@@ -99,7 +99,7 @@ if(class_exists('Seed_Social'))
 		}
 	}
 
-	function seed_social() {
+	function seed_social( $echo = true ) {
 		global $post;
 
 // 	Share Button	
@@ -130,10 +130,28 @@ if(class_exists('Seed_Social'))
 
 //		echo '</div>';
 
-		echo '<div class="seed-social">';
-		echo '<div class="facebook">'.$fbshare.'</div>';
-		echo '<div class="twitter">'.$tweet.'</div>';
-		echo '<div class="google-plus">'.$gplus.'</div>';
-		echo '<div class="line">'.$line_it.'</div>';
-		echo '</div>';
+		$seed_social_echo = '';
+
+		$seed_social_echo .= '<div class="seed-social">';
+		$seed_social_echo .= '<div class="facebook">'.$fbshare.'</div>';
+		$seed_social_echo .= '<div class="twitter">'.$tweet.'</div>';
+		$seed_social_echo .= '<div class="google-plus">'.$gplus.'</div>';
+		$seed_social_echo .= '<div class="line">'.$line_it.'</div>';
+		$seed_social_echo .= '</div>';
+
+		if( $echo )
+			echo $seed_social_echo;
+
+		return $seed_social_echo;
 }
+
+function seed_social_auto( $content ) {
+    if( is_single() || is_page() )  {
+        if ( $GLOBALS['post']->ID == get_the_ID() ) {
+            $content .= seed_social( false );
+        }
+    }
+
+    return $content;
+}
+add_filter('the_content', 'seed_social_auto');
