@@ -7,11 +7,11 @@ Minimal Social Sharing WordPress Plugin (Just Facebook / Twitter / Google Plus a
 Just upload this plugin to WordPress and activate it. The plugin will add social sharing buttons under content.
 
 ### How to add buttons manually?
-1. Remove buttons by putting this code to functions.php
+1) Remove buttons by putting this code to functions.php
 ```php
 remove_filter('the_content', 'seed_social_auto');
 ```
-2. Add this code after "The Loop" in template files, such as page.php, single.php or archive.php.
+2) Add this code after "The Loop" in template files, such as page.php, single.php or archive.php.
 ```php
 <?php if(function_exists('seed_social')) {seed_social();} ?>
 ```
