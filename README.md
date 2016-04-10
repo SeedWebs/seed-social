@@ -15,6 +15,12 @@ Put this code to functions.php
 
 	remove_filter('the_content', 'seed_social_auto');
 
+# How to let seed_social put the opengraph for you site
+
+Put this code to functions.php
+
+	add_action('wp_head','seed_social_fb_og');
+
 
 ## [Thai Language]
 ปลั๊กอินสำหรับเพิ่มปุ่มแชร์ไปที่ Facebook / Twitter / Google Plus และ Line
@@ -29,3 +35,9 @@ Put this code to functions.php
 ใส่โค้ดข่างล่างนี้ใน functions.php
 
 	remove_filter('the_content', 'seed_social_auto');
+	
+#### หากต้องการให้ seed_social เพิ่ม opengraph
+
+ใส่โค้ดข่างล่างนี้ใน functions.php
+
+	add_action('wp_head','seed_social_fb_og');

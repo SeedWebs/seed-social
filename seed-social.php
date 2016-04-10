@@ -66,7 +66,7 @@ if(class_exists('Seed_Social'))
     $seed_social = new Seed_Social();
 }
 
-	add_action('wp_head','seed_social_fb_og');
+//	add_action('wp_head','seed_social_fb_og');
 
 	function seed_social_fb_og() {
 		global $post;
