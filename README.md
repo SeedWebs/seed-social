@@ -1,43 +1,51 @@
 # Seed Social 0.9
 Minimal Social Sharing WordPress Plugin (Just Facebook / Twitter / Google Plus and Line)
 
-# How to use (for now)
+## English Language
 
-Put this code to page.php or single.php
+### How to use?
+Just upload this plugin to WordPress and activate it. The plugin will add social sharing buttons under content.
 
-```php
+### How to add buttons manually?
+
+1) Remove buttons by putting this code to functions.php
+
+remove_filter('the_content', 'seed_social_auto');
+
+2) Add this code after "The Loop" in template files, such as page.php, single.php or archive.php.
+
 <?php if(function_exists('seed_social')) {seed_social();} ?>
-```
 
-# How to remove the seed_social from single.php
+### How to let seed_social add opengraph?
 
-Put this code to functions.php
+1) putting this code to functions.php
 
-	remove_filter('the_content', 'seed_social_auto');
+add_action('wp_head','seed_social_fb_og');
 
-# How to let seed_social put the opengraph for you site
-
-Put this code to functions.php
-
-	add_action('wp_head','seed_social_fb_og');
-
-
-## [Thai Language]
+## Thai Language
 ปลั๊กอินสำหรับเพิ่มปุ่มแชร์ไปที่ Facebook / Twitter / Google Plus และ Line
 
-#### ข้อจำกัดของการแชร์ผ่าน Line
+=======
+### วิธีใช้งาน
+ดาวน์โหลดไฟล์ปลั๊กอิน และนำไปติดตั้งในเวิร์ดเพรส. ปลั๊กอินนี้จะเพิ่มปุ่มแชร์ของ Facebook, Twitter, Google Plus และ Line ให้อัตโนมัติ ใต้เนื้อหาแต่ละหน้า
+
+### หากต้องการเปลี่ยนตำแหน่งของปุ่ม
+
+1) สั่งให้ระบบนำโค้ดแสดงปุ่มแชร์ออก โดยเพิ่มโค้ดด้านล่างนี้ในไฟล์ functions.php
+
+remove_filter('the_content', 'seed_social_auto');
+
+2) เพิ่มโค้ดด้านล่างนี้ในตำแหน่งที่ต้องการแชร์ ซึ่งมักจะอยู่ต่อจาก Loop ของเวิร์ดเพรส ในไฟล์เทมเพลตต่างๆ เช่น page.php, single.php หรือ archive.php
+
+<?php if(function_exists('seed_social')) {seed_social();} ?>
+
+### หากต้องการให้ seed_social เพิ่ม opengraph
+
+1) เพิ่มโค้ดด้านล่างนี้ในไฟล์ functions.php
+
+add_action('wp_head','seed_social_fb_og');
+
+#### หมายเหตุ: ข้อจำกัดของการแชร์ผ่าน Line
 ขณะนี้ Line API ตัวใหม่ยังไม่รองรับการแสดงผลแบบ Responsive ทำให้เวลาแชร์ผ่านมือถือจะใช้งานยากกว่า API รุ่นเก่าที่ให้เลือกใน App ว่าจะแชร์ให้ใคร 
 
 ดังนั้นปลั๊กอินนี้จึงใช้วิธีแสดงลิงก์สำหรับ Line รุ่นใหม่ในหน้าจอ Desktop และแสดงลิงก์สำหรับ Line รุ่นเก่าในหน้าจอ Mobile ไปก่อน จนกว่า Line จะมีการอัพเดท
-
-#### หากต้องการยุติการแสดง seed_social แบบอัตโนมัติในหน้า single
-
-ใส่โค้ดข่างล่างนี้ใน functions.php
-
-	remove_filter('the_content', 'seed_social_auto');
-	
-#### หากต้องการให้ seed_social เพิ่ม opengraph
-
-ใส่โค้ดข่างล่างนี้ใน functions.php
-
-	add_action('wp_head','seed_social_fb_og');
