@@ -41,7 +41,7 @@ add_action('wp_head','seed_social_fb_og');
 remove_filter('the_content', 'seed_social_auto');
 ```
 
-2) เพิ่มโค้ดด้านล่างนี้ในตำแหน่งที่ต้องการแชร์ ซึ่งมักจะอยู่ต่อจาก Loop ของเวิร์ดเพรส ในไฟล์เทมเพลตต่างๆ เช่น page.php, single.php หรือ archive.php
+2) เพิ่มโค้ดด้านล่างนี้ในตำแหน่งที่ต้องการแชร์ ซึ่งมักจะอยู่ต่อจาก Loop ของเวิร์ดเพรส ในไฟล์เทมเพลตต่างๆ เช่น page.php, single.php หรือ archive.php โดยสามารถเพิ่มหลายตำแหน่งได้ (เช่น ก่อนและหลังการแสดง the_content())
 
 ```php
 <?php if(function_exists('seed_social')) {seed_social();} ?>
