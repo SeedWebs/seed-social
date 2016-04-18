@@ -62,7 +62,8 @@
 		font-size: 20px;
 	}
 	.seed-social a {
-		color: #fff;
+		color: #fff !important;
+		text-decoration: none !important;
 		display: block;
 		height: 36px;
 		width: 54px;
