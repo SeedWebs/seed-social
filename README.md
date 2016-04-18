@@ -1,4 +1,4 @@
-# Seed Social 0.9
+# Seed Social 0.9.2
 Minimal Social Sharing WordPress Plugin (Just Facebook / Twitter / Google Plus and Line)
 
 ## English Language
