@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: Seed Social
-Plugin URI: http://seedthemes.github.com/seed-social
+Plugin URI: https://github.com/SeedThemes/seed-social
 Description: A plugin for sharing social
-Version: 0.9
+Version: 0.9.2
 Author: Seed Themes
 Author URI: http://www.seedthemes.com
 License: GPL2
