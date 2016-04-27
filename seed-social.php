@@ -104,11 +104,11 @@ if(class_exists('Seed_Social'))
 
 // 	Share Button	
 
-		$fbshare = '<a href="https://www.facebook.com/share.php?u='.urlencode( get_the_permalink( $post->ID ) ).'"><i class="ss-facebook"></i><span class="text">Facebook</span><span class="count"></span></a>';
+		$fbshare = '<a href="https://www.facebook.com/share.php?u='.urlencode( get_the_permalink( $post->ID ) ).'" target="seed-social"><i class="ss-facebook"></i><span class="text">Facebook</span><span class="count"></span></a>';
 
 // Twitter Button		
 
-		$tweet = '<a href="https://twitter.com/share?url='.urlencode( get_the_permalink( $post->ID ) ).'&text='.urlencode($post->post_title).'"><i class="ss-twitter"></i><span class="text">Twitter</span></a>';
+		$tweet = '<a href="https://twitter.com/share?url='.urlencode( get_the_permalink( $post->ID ) ).'&text='.urlencode($post->post_title).'" target="seed-social"><i class="ss-twitter"></i><span class="text">Twitter</span></a>';
 
 // Google Plus Share
 
@@ -120,11 +120,11 @@ if(class_exists('Seed_Social'))
 
 //		echo '<div class="seed-social-plus-share">'.$plus_share.'</div>';
 
-		$gplus = '<a href="https://plus.google.com/share?url='.urlencode( get_the_permalink( $post->ID ) ).'"><i class="ss-google-plus"></i><span class="text">Google+</span></a>';
+		$gplus = '<a href="https://plus.google.com/share?url='.urlencode( get_the_permalink( $post->ID ) ).'" target="seed-social"><i class="ss-google-plus"></i><span class="text">Google+</span></a>';
 
 // Line
 
-		$line_it = '<a href="https://lineit.line.me/share/ui?url='.urlencode( get_the_permalink( $post->ID ) ).'"><i class="ss-line"></i><span class="text">Line</span></a>';
+		$line_it = '<a href="https://lineit.line.me/share/ui?url='.urlencode( get_the_permalink( $post->ID ) ).'" target="seed-social"><i class="ss-line"></i><span class="text">Line</span></a>';
 
 //		echo '<div class="seed-social-line-it">'.$line_it.'</div>';
 
