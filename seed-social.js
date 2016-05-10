@@ -1,12 +1,13 @@
-	jQuery(document).ready(function () {
+	jQuery(document).ready(function ($) {
 
 		// Set Url of JSON data from the facebook graph api. make sure callback is set with a '?' to overcome the cross domain problems with JSON
 
 		var url = 'https://graph.facebook.com/' + encodeURIComponent(jQuery(location).attr('href'));
-
+		var fbCountBox = $('.seed-social .facebook .count');
+		
 		// Use jQuery getJSON method to fetch the data from the url and then create our unordered list with the relevant data.
 
-		jQuery.getJSON(url, function(json) {
+		$.getJSON(url, function(json) {
 
 			var fbcount = '';
 			var fb_raw_count = '';
@@ -31,11 +32,11 @@
 			}
 
 			// A little animation once fetched
-			jQuery('.seed-social .facebook .count').animate( { opacity:0 }, 500 ,function(){
-				jQuery('.seed-social .facebook .count').html(fbcount);
+			fbCountBox.animate( { opacity:0 }, 500 ,function(){
+				fbCountBox.html(fbcount);
 			});
 
-			jQuery('.seed-social .facebook .count').animate( { opacity:1 }, 500);
+			fbCountBox.animate( { opacity:1 }, 500);
 		});
 
 		var isMobile = false; //initiate as false
@@ -51,20 +52,20 @@
 			var winTop = (screen.height / 2) - (winHeight / 2);
 			var winLeft = (screen.width / 2) - (winWidth / 2);
 
-			jQuery('.seed-social a').click(function (event) {
+			$('.seed-social a').click(function (event) {
 				event.preventDefault();
-				var url = jQuery(this).attr('href');
+				var url = $(this).attr('href');
 
 				window.open(url, 'social', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width=' + winWidth + ',height=' + winHeight);
 			});
 		} else {
-			jQuery('.seed-social a').click(function (event) {
-				if(jQuery(this).attr('href').indexOf('lineit') != -1) {
+			$('.seed-social a').click(function (event) {
+				if($(this).attr('href').indexOf('lineit') != -1) {
 //					event.preventDefault();
 
-					var url = 'http://line.me/R/msg/text/?LINE%20it%21%0d%0a'+ encodeURIComponent(jQuery(location).attr('href'));
+					var url = 'http://line.me/R/msg/text/?LINE%20it%21%0d%0a'+ encodeURIComponent($(location).attr('href'));
 
-					jQuery(this).attr('href', url);
+					$(this).attr('href', url);
 				}
 			});
 		}
