@@ -155,4 +155,4 @@ function seed_social_auto( $content ) {
     return $content;
 }
 
-add_filter('the_content', 'seed_social_auto');
+add_filter('the_content', 'seed_social_auto', 15);
