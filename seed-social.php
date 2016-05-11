@@ -104,7 +104,7 @@ if(class_exists('Seed_Social'))
 
 // 	Share Button	
 
-		$fbshare = '<a href="https://www.facebook.com/share.php?u='.urlencode( get_the_permalink( $post->ID ) ).'" target="seed-social"><i class="ss-facebook"></i><span class="text">Facebook</span><span class="count"></span></a>';
+		$fbshare = '<a href="https://www.facebook.com/sharer/sharer.php?u='.urlencode( get_the_permalink( $post->ID ) ).'" target="seed-social"><i class="ss-facebook"></i><span class="text">Facebook</span><span class="count"></span></a>';
 
 // Twitter Button		
 
