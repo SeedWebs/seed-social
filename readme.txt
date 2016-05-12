@@ -32,15 +32,15 @@ There is no settings right now.
 
 1) Remove buttons by putting this code to functions.php
 
-`remove_filter('the_content', 'seed_social_auto');`
+`remove_filter('the_content', 'seed_social_auto', 15);`
 
 2) Add this code after "The Loop" in template files, such as page.php, single.php or archive.php.
 
 `<?php if(function_exists('seed_social')) {seed_social();} ?>`
 
-= How to let seed_social add opengraph? =
+= How to let seed_social add Open Graph? =
 
-1) putting this code to functions.php
+We recommend "All in one SEO pack" or "Yoast SEO" to add Open Graph manually. But if you'd like simeple solution, you can put this code to functions.php
 
 `add_action('wp_head','seed_social_fb_og');`
 
