@@ -4,11 +4,11 @@ Donate link: http://seedthemes.com/
 Tags: social, facebook, twitter, google plus, line, share
 Requires at least: 4.0.1
 Tested up to: 4.5
-Stable tag: 0.9.2
+Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Minimal Social Sharing WordPress Plugin (Just Facebook / Twitter / Google Plus and Line)
+Minimal Social Sharing WordPress Plugin (Just Facebook, Twitter, Google Plus and Line)
 
 == Description ==
 
@@ -51,11 +51,18 @@ There is no settings right now.
 
 == Changelog ==
 
+= 1.0.0 =
+* Change to new FB Share URL
+* Increase the priority to avoid conflct with Page Bullder by SiteOrigin
+
 = 0.9.2 =
 * First public version.
 
 
 == Upgrade Notice ==
+
+= 1.0.0 =
+Change to new FB Share URL and support Page Bullder by SiteOrigin
 
 = 0.9.2 =
 Just start basic functions.

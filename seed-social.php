@@ -2,8 +2,8 @@
 /*
 Plugin Name: Seed Social
 Plugin URI: https://github.com/SeedThemes/seed-social
-Description: A plugin for sharing social
-Version: 0.9.2
+Description: Minimal Social Sharing WordPress Plugin
+Version: 1.0.0
 Author: Seed Themes
 Author URI: http://www.seedthemes.com
 License: GPL2
