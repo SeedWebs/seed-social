@@ -98,10 +98,10 @@ if(class_exists('Seed_Social'))
 
 	function seed_social_scripts() {
 		if(!is_admin()) {
-			$is_facebook = get_option( 'seed_social_is_facebook' );
-			$is_twitter = get_option( 'seed_social_is_twitter' );
-			$is_google_plus = get_option( 'seed_social_is_google_plus' );
-			$is_line_it = get_option( 'seed_social_is_line_it' );
+			$is_facebook = get_option( 'seed_social_is_facebook', array( 'on' ) );
+			$is_twitter = get_option( 'seed_social_is_twitter', array( 'on' ) );
+			$is_google_plus = get_option( 'seed_social_is_google_plus', array( 'on' ) );
+			$is_line_it = get_option( 'seed_social_is_line_it', array( 'on' ) );
 
 			if( $is_facebook || $is_twitter || $is_google_plus || $is_line_it ) {
 				wp_enqueue_script( 'seed-social', plugin_dir_url( __FILE__ ) . 'seed-social.js' , array('jquery'), '2016-1', true );
@@ -111,11 +111,11 @@ if(class_exists('Seed_Social'))
 	}
 
 	function seed_social( $echo = true ) {
-		$is_facebook = get_option( 'seed_social_is_facebook' );
-		$is_twitter = get_option( 'seed_social_is_twitter' );
-		$is_google_plus = get_option( 'seed_social_is_google_plus' );
-		$is_line_it = get_option( 'seed_social_is_line_it' );
-
+		$is_facebook = get_option( 'seed_social_is_facebook', array( 'on' ) );
+		$is_twitter = get_option( 'seed_social_is_twitter', array( 'on' ) );
+		$is_google_plus = get_option( 'seed_social_is_google_plus', array( 'on' ) );
+		$is_line_it = get_option( 'seed_social_is_line_it', array( 'on' ) );
+		
 		global $post;
 
 		$seed_social_echo = '';
@@ -190,7 +190,7 @@ function seed_social_auto( $content ) {
 add_filter('the_content', 'seed_social_auto', 15);
 
 function seed_social_setup_menu() {
-	$seed_social_page = add_menu_page ( __( 'Seed Social', 'seed-social' ), __( 'Social Share', 'seed-social' ), 'manage_options', 'seed-social', 'seed_social_init' );
+	$seed_social_page = add_submenu_page ( 'options-general.php', __( 'Seed Social', 'seed-social' ), __( 'Social Share', 'seed-social' ), 'manage_options', 'seed-social', 'seed_social_init' );
 }
 
 add_action( 'admin_menu', 'seed_social_setup_menu' );
@@ -254,28 +254,28 @@ function seed_social_get_settings() {
 					'title'   => esc_html__( 'Facebook', 'seed-social' ),
 					'type'    => 'checkbox',
 					'options' => array( 'on' => esc_html__( '', 'seed-social' ) ),
-					'default' => 'on'
+					'default' => array( 'on' )
 				),
 				array(
 					'id'      => seed_social_get_option_id( 'is_twitter' ),
 					'title'   => esc_html__( 'Twitter', 'seed-social' ),
 					'type'    => 'checkbox',
 					'options' => array( 'on' => esc_html__( '', 'seed-social' ) ),
-					'default' => 'on'
+					'default' => array( 'on' )
 				),
 				array(
 					'id'      => seed_social_get_option_id( 'is_google_plus' ),
 					'title'   => esc_html__( 'Google Plus', 'seed-social' ),
 					'type'    => 'checkbox',
 					'options' => array( 'on' => esc_html__( '', 'seed-social' ) ),
-					'default' => 'on'
+					'default' => array( 'on' )
 				),
 				array(
 					'id'      => seed_social_get_option_id( 'is_line_it' ),
 					'title'   => esc_html__( 'Line It', 'seed-social' ),
 					'type'    => 'checkbox',
 					'options' => array( 'on' => esc_html__( '', 'seed-social' ) ),
-					'default' => 'on'
+					'default' => array( 'on' )
 				)
 			),
 		),
