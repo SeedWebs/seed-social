@@ -101,9 +101,9 @@ if(class_exists('Seed_Social'))
 			$is_facebook = get_option( 'seed_social_is_facebook', array( 'on' ) );
 			$is_twitter = get_option( 'seed_social_is_twitter', array( 'on' ) );
 			$is_google_plus = get_option( 'seed_social_is_google_plus', array( 'on' ) );
-			$is_line_it = get_option( 'seed_social_is_line_it', array( 'on' ) );
+			$is_line = get_option( 'seed_social_is_line', array( 'on' ) );
 
-			if( $is_facebook || $is_twitter || $is_google_plus || $is_line_it ) {
+			if( $is_facebook || $is_twitter || $is_google_plus || $is_line ) {
 				wp_enqueue_script( 'seed-social', plugin_dir_url( __FILE__ ) . 'seed-social.js' , array('jquery'), '2016-1', true );
 				wp_enqueue_style( 'seed-social', plugin_dir_url( __FILE__ ) . 'seed-social.css' , array() );
 			}
@@ -114,13 +114,13 @@ if(class_exists('Seed_Social'))
 		$is_facebook = get_option( 'seed_social_is_facebook', array( 'on' ) );
 		$is_twitter = get_option( 'seed_social_is_twitter', array( 'on' ) );
 		$is_google_plus = get_option( 'seed_social_is_google_plus', array( 'on' ) );
-		$is_line_it = get_option( 'seed_social_is_line_it', array( 'on' ) );
+		$is_line = get_option( 'seed_social_is_line', array( 'on' ) );
 		
 		global $post;
 
 		$seed_social_echo = '';
 
-		if( $is_facebook || $is_twitter || $is_google_plus || $is_line_it ) {
+		if( $is_facebook || $is_twitter || $is_google_plus || $is_line ) {
 
 // 	Share Button	
 
@@ -147,10 +147,10 @@ if(class_exists('Seed_Social'))
 
 // Line
 
-			if( $is_line_it )
-				$line_it = '<a href="https://lineit.line.me/share/ui?url='.urlencode( get_the_permalink( $post->ID ) ).'" target="seed-social"><i class="ss-line"></i><span class="text">Line</span></a>';
+			if( $is_line )
+				$line = '<a href="https://lineit.line.me/share/ui?url='.urlencode( get_the_permalink( $post->ID ) ).'" target="seed-social"><i class="ss-line"></i><span class="text">Line</span></a>';
 
-//		echo '<div class="seed-social-line-it">'.$line_it.'</div>';
+//		echo '<div class="seed-social-line">'.$line.'</div>';
 
 //		echo '</div>';
 
@@ -165,8 +165,8 @@ if(class_exists('Seed_Social'))
 			if( $is_google_plus )
 				$seed_social_echo .= '<div class="google-plus">'.$google_plus.'</div>';
 
-			if( $is_line_it )
-				$seed_social_echo .= '<div class="line">'.$line_it.'</div>';
+			if( $is_line )
+				$seed_social_echo .= '<div class="line">'.$line.'</div>';
 
 			$seed_social_echo .= '</div>';
 		}
@@ -190,7 +190,7 @@ function seed_social_auto( $content ) {
 add_filter('the_content', 'seed_social_auto', 15);
 
 function seed_social_setup_menu() {
-	$seed_social_page = add_submenu_page ( 'options-general.php', __( 'Seed Social', 'seed-social' ), __( 'Social Share', 'seed-social' ), 'manage_options', 'seed-social', 'seed_social_init' );
+	$seed_social_page = add_submenu_page ( 'options-general.php', __( 'Seed Social', 'seed-social' ), __( 'Seed Social', 'seed-social' ), 'manage_options', 'seed-social', 'seed_social_init' );
 }
 
 add_action( 'admin_menu', 'seed_social_setup_menu' );
@@ -201,9 +201,12 @@ function seed_social_init() { ?>
 		<h2><?php esc_html_e( 'Seed Social', 'seed-social' ); ?></h2>
 
 		<?php
-		if( isset( $_GET['settings-updated'] ) ) {
-			?><div class="updated"><p><strong><?php esc_html_e( 'Settings updated successfully.', 'seed-social' ); ?></strong></div><?php
-		}
+
+//	 	Uncomment this if set admin menu outside Settings menu
+
+//		if( isset( $_GET['settings-updated'] ) ) {
+			?><!-- div class="updated"><p><strong><?php esc_html_e( 'Settings updated successfully.', 'seed-social' ); ?></strong></div --><?php
+//		}
 		?>
 		<p>
 			<?php // printf( wp_kses( __( ' text <a href="%1s">link</a> ', 'seed-social' ), array( 'a' => array( 'href' => array(), 'target' => array() ) ) ), esc_url( 'https://www.seedthemes.com/' ) ); ?>
@@ -271,8 +274,8 @@ function seed_social_get_settings() {
 					'default' => array( 'on' )
 				),
 				array(
-					'id'      => seed_social_get_option_id( 'is_line_it' ),
-					'title'   => esc_html__( 'Line It', 'seed-social' ),
+					'id'      => seed_social_get_option_id( 'is_line' ),
+					'title'   => esc_html__( 'Line', 'seed-social' ),
 					'type'    => 'checkbox',
 					'options' => array( 'on' => esc_html__( '', 'seed-social' ) ),
 					'default' => array( 'on' )
@@ -342,9 +345,9 @@ function seed_social_output_settings_field( $option ) {
 	$id         = str_replace( '_', '-', $option['name'] );
 
 	// Because disabling the options when "Enable" is unchecked saved empty values we need to make sure the default is taken into account
-	if ( empty( $current ) && ! empty( $option['default'] ) ) {
-		$current = $option['default'];
-	}
+//	if ( empty( $current ) && ! empty( $option['default'] ) ) {
+//		$current = $option['default'];
+//	}
 
 	switch( $field_type ):
 
@@ -360,6 +363,7 @@ function seed_social_output_settings_field( $option ) {
 				}
 
 				$selected = is_array( $current ) && in_array( $val, $current ) ? 'checked="checked"' : '';  ?>
+
 				<label for="<?php echo $id; ?>">
 					<input type="checkbox" name="<?php echo $option['name']; ?>[]" value="<?php echo $val; ?>" id="<?php echo $id; ?>" <?php echo $selected; ?> />
 					<?php echo $choice; ?>
