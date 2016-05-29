@@ -4,7 +4,7 @@ Donate link: https://seedthemes.com/
 Tags: social, facebook, twitter, google plus, line, share
 Requires at least: 4.0.1
 Tested up to: 4.5.2
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,7 +14,7 @@ Minimal Social Sharing WordPress Plugin (Just Facebook, Twitter, Google Plus and
 
 Just upload this plugin to WordPress and activate it. The plugin will add social sharing buttons under post content.
 
-In this version, Seed Social has no options page yet. If you need to remove any button, just hide it with CSS.
+You can enable each social network via Settings -> Seed Social.
 
 
 == Installation ==
@@ -28,7 +28,11 @@ There is no settings right now.
 
 == Frequently Asked Questions ==
 
-= How to add buttons manually? =
+= How to disable some social networks =
+
+* Go to Settings -> Seed Social.
+
+= How to add buttons manually in template files? =
 
 1) Remove buttons by putting this code to functions.php
 
@@ -38,18 +42,15 @@ There is no settings right now.
 
 `<?php if(function_exists('seed_social')) {seed_social();} ?>`
 
-= How to let seed_social add Open Graph? =
-
-We recommend "All in one SEO pack" or "Yoast SEO" to add Open Graph manually. But if you'd like simeple solution, you can put this code to functions.php
-
-`add_action('wp_head','seed_social_fb_og');`
-
 == Screenshots ==
 
 1. Desktop Version
 2. Mobile Version
 
 == Changelog ==
+
+= 1.1.0 =
+* Add options page (Settings -> Seed Social).
 
 = 1.0.0 =
 * Change to new FB Share URL
@@ -60,6 +61,9 @@ We recommend "All in one SEO pack" or "Yoast SEO" to add Open Graph manually. Bu
 
 
 == Upgrade Notice ==
+
+= 1.1.0 =
+Add options page (Settings -> Seed Social).
 
 = 1.0.0 =
 Change to new FB Share URL and support Page Bullder by SiteOrigin
