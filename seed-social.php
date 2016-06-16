@@ -178,7 +178,9 @@ if(class_exists('Seed_Social'))
 }
 
 function seed_social_auto( $content ) {
-    if( ( is_single() || is_page() ) && ! is_front_page() )  {
+  $is_post = get_option( 'seed_social_is_post', array( 'on' ) );
+  $is_page = get_option( 'seed_social_is_page', array( 'on' ) );
+  if( ( ( is_single() && $is_post ) || ( is_page() && $is_page ) ) && ! is_front_page() )  {
         if ( $GLOBALS['post']->ID == get_the_ID() ) {
             $content .= seed_social( false );
         }
@@ -251,6 +253,20 @@ function seed_social_get_settings() {
 					'type'    => 'checkbox',
 					'options' => array( 'on' => esc_html__( '', 'seed-social' ) ),
 					'desc' => 'We recommend "All in one SEO pack" or "Yoast SEO" to add Open Graph manually. But if you\'d like simeple solution, you can check this box.'
+				),
+        array(
+					'id'      => seed_social_get_option_id( 'is_post' ),
+					'title'   => esc_html__( 'Show on Post', 'seed-social' ),
+					'type'    => 'checkbox',
+					'options' => array( 'on' => esc_html__( '', 'seed-social' ) ),
+					'default' => array( 'on' )
+				),
+        array(
+					'id'      => seed_social_get_option_id( 'is_page' ),
+					'title'   => esc_html__( 'Show on Page', 'seed-social' ),
+					'type'    => 'checkbox',
+					'options' => array( 'on' => esc_html__( '', 'seed-social' ) ),
+					'default' => array( 'on' )
 				),
 				array(
 					'id'      => seed_social_get_option_id( 'is_facebook' ),
