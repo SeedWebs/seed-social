@@ -178,13 +178,13 @@ if(class_exists('Seed_Social'))
 }
 
 function seed_social_auto( $content ) {
-  $is_post = get_option( 'seed_social_is_post', array( 'on' ) );
-  $is_page = get_option( 'seed_social_is_page', array( 'on' ) );
-  if( ( ( is_single() && $is_post ) || ( is_page() && $is_page ) ) && ! is_front_page() )  {
-        if ( $GLOBALS['post']->ID == get_the_ID() ) {
-            $content .= seed_social( false );
-        }
-    }
+	$post_types = get_option( 'seed_social_post_types' , array() );
+
+	if( in_array( get_post_type() , $post_types ) && ! is_front_page() )  {
+		if ( $GLOBALS['post']->ID == get_the_ID() ) {
+			$content .= seed_social( false );
+		}
+	}
 
     return $content;
 }
@@ -203,7 +203,6 @@ function seed_social_init() { ?>
 		<h2><?php esc_html_e( 'Seed Social', 'seed-social' ); ?></h2>
 
 		<?php
-
 //	 	Uncomment this if set admin menu outside Settings menu
 
 //		if( isset( $_GET['settings-updated'] ) ) {
@@ -255,18 +254,11 @@ function seed_social_get_settings() {
 					'desc' => 'We recommend "All in one SEO pack" or "Yoast SEO" to add Open Graph manually. But if you\'d like simeple solution, you can check this box.'
 				),
         array(
-					'id'      => seed_social_get_option_id( 'is_post' ),
-					'title'   => esc_html__( 'Show on Post', 'seed-social' ),
+					'id'      => seed_social_get_option_id( 'post_types' ),
+					'title'   => esc_html__( 'Show on which Post Types', 'seed-social' ),
 					'type'    => 'checkbox',
-					'options' => array( 'on' => esc_html__( '', 'seed-social' ) ),
-					'default' => array( 'on' )
-				),
-        array(
-					'id'      => seed_social_get_option_id( 'is_page' ),
-					'title'   => esc_html__( 'Show on Page', 'seed-social' ),
-					'type'    => 'checkbox',
-					'options' => array( 'on' => esc_html__( '', 'seed-social' ) ),
-					'default' => array( 'on' )
+					'options' => seed_social_get_post_types_option_list(),
+					'default' => array( 'post', 'page' )
 				),
 				array(
 					'id'      => seed_social_get_option_id( 'is_facebook' ),
@@ -343,6 +335,28 @@ function seed_social_register_plugin_settings() {
 		}
 	}
 
+}
+
+/**
+ * Generate the option field output
+ *
+ * @since 0.10.0
+ *
+ * @param array $option The current option array
+ *
+ * @return void
+ */
+function seed_social_get_post_types_option_list(  ) {
+	$list = array();
+
+	$list[ 'post' ] = 'Posts';
+	$list[ 'page' ] = 'Pages';
+
+	foreach ( get_post_types( array( '_builtin' => false, 'public' => true ), 'objects') as $_slug => $_post_type ) {
+		$list[ $_slug ] = $_post_type->labels->name ;
+	}
+
+	return $list;
 }
 
 /**
