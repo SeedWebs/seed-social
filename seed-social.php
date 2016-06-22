@@ -115,7 +115,7 @@ if(class_exists('Seed_Social'))
 		$is_twitter = get_option( 'seed_social_is_twitter', array( 'on' ) );
 		$is_google_plus = get_option( 'seed_social_is_google_plus', array( 'on' ) );
 		$is_line = get_option( 'seed_social_is_line', array( 'on' ) );
-		
+
 		global $post;
 
 		$seed_social_echo = '';
@@ -178,7 +178,7 @@ if(class_exists('Seed_Social'))
 }
 
 function seed_social_auto( $content ) {
-	$post_types = get_option( 'seed_social_post_types' , array() );
+	$post_types = get_option( 'seed_social_post_types' , array( 'post', 'page' ) );
 
 	if( in_array( get_post_type() , $post_types ) && ! is_front_page() )  {
 		if ( $GLOBALS['post']->ID == get_the_ID() ) {
