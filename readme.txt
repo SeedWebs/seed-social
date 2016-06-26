@@ -50,6 +50,9 @@ There is no settings right now.
 
 == Changelog ==
 
+= 1.2.1 =
+Bug fixed: hide the buttons in archive pages
+
 = 1.2.0 =
 Add Post Types options
 
@@ -65,6 +68,9 @@ Add Post Types options
 
 
 == Upgrade Notice ==
+
+= 1.2.1 =
+Bug fixed: hide the buttons in archive pages
 
 = 1.2.0 =
 Add Post Types options

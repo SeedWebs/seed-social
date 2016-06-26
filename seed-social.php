@@ -3,7 +3,7 @@
 Plugin Name: Seed Social
 Plugin URI: https://github.com/SeedThemes/seed-social
 Description: Minimal Social Sharing WordPress Plugin
-Version: 1.2.0
+Version: 1.2.1
 Author: SeedThemes
 Author URI: https://www.seedthemes.com
 License: GPL2
@@ -180,7 +180,7 @@ if(class_exists('Seed_Social'))
 function seed_social_auto( $content ) {
 	$post_types = get_option( 'seed_social_post_types' , array( 'post', 'page' ) );
 
-	if( in_array( get_post_type() , $post_types ) && ! is_front_page() )  {
+	if( in_array( get_post_type() , $post_types ) && ! is_front_page() && is_singular() )  {
 		if ( $GLOBALS['post']->ID == get_the_ID() ) {
 			$content .= seed_social( false );
 		}
