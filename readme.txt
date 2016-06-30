@@ -4,7 +4,7 @@ Donate link: https://seedthemes.com/
 Tags: social, facebook, twitter, google plus, line, share
 Requires at least: 4.0.1
 Tested up to: 4.5.3
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,13 +34,15 @@ There is no settings right now.
 
 = How to add buttons manually in template files? =
 
-1) Remove buttons by putting this code to functions.php
-
-`remove_filter('the_content', 'seed_social_auto', 15);`
-
-2) Add this code after "The Loop" in template files, such as page.php, single.php or archive.php.
+* Add this code after "The Loop" in template files, such as page.php, single.php or archive.php.
 
 `<?php if(function_exists('seed_social')) {seed_social();} ?>`
+
+= How to add buttons manually in content? =
+
+* Add this short code in the content box
+
+[seed_social]
 
 == Screenshots ==
 
@@ -49,6 +51,10 @@ There is no settings right now.
 3. Settings
 
 == Changelog ==
+
+= 1.2.2 =
+Add Positions options
+Add short code [seed_social]
 
 = 1.2.1 =
 Bug fixed: hide the buttons in archive pages
@@ -68,6 +74,10 @@ Add Post Types options
 
 
 == Upgrade Notice ==
+
+= 1.2.2 =
+Add Positions options
+Add short code [seed_social]
 
 = 1.2.1 =
 Bug fixed: hide the buttons in archive pages
