@@ -113,7 +113,7 @@ if(class_exists('Seed_Social'))
 
 		$seed_social_echo = '';
 
-		if( $is_facebook || $is_twitter || $is_google_plus || $is_line) {
+		if( $is_facebook || $is_twitter || $is_google_plus || $is_line ) {
 
 // 	Share Button	
 
@@ -171,7 +171,7 @@ if(class_exists('Seed_Social'))
 }
 
 function seed_social_auto( $content ) {
-	$positions = get_option( 'seed_social_positions', array( 'top', 'bottom' ) );
+	$positions = get_option( 'seed_social_positions', array( 'bottom' ) );
 	$post_types = get_option( 'seed_social_post_types' , array( 'post', 'page' ) );
 
 	if( ! empty( $positions ) && in_array( get_post_type() , $post_types ) && ! is_front_page() && is_singular() )  {
@@ -270,7 +270,7 @@ function seed_social_get_settings() {
 					'title'   => esc_html__( 'Positions', 'seed-social' ),
 					'type'    => 'checkbox',
 					'options' => array( 'top' => esc_html__( 'Top', 'seed-social' ) , 'bottom' => esc_html__( 'Bottom', 'seed-social' ) ),
-					'default' => array( 'top', 'bottom' )
+					'default' => array( 'bottom' )
 				),
 				array(
 					'id'      => seed_social_get_option_id( 'is_facebook' ),
