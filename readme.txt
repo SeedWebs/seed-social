@@ -3,8 +3,8 @@ Contributors: SeedThemes
 Donate link: https://seedthemes.com/
 Tags: social, facebook, twitter, google plus, line, share
 Requires at least: 4.0.1
-Tested up to: 4.5.3
-Stable tag: 1.2.2
+Tested up to: 4.6
+Stable tag: 1.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,22 +52,25 @@ There is no settings right now.
 
 == Changelog ==
 
+= 1.2.3 =
+* Fixed: use San-Serif font instead of theme font in sharing buttons.
+
 = 1.2.2 =
-Add Positions options
-Add short code [seed_social]
+* Add Positions options.
+* Add short code [seed_social].
 
 = 1.2.1 =
-Bug fixed: hide the buttons in archive pages
+* Bug fixed: hide the buttons in archive pages.
 
 = 1.2.0 =
-Add Post Types options
+* Add Post Types options.
 
 = 1.1.0 =
 * Add options page (Settings -> Seed Social).
 
 = 1.0.0 =
-* Change to new FB Share URL
-* Increase the priority to avoid conflct with Page Bullder by SiteOrigin
+* Change to new FB Share URL.
+* Increase the priority to avoid conflct with Page Bullder by SiteOrigin.
 
 = 0.9.2 =
 * First public version.
@@ -75,21 +78,24 @@ Add Post Types options
 
 == Upgrade Notice ==
 
+= 1.2.3 =
+* Fixed: use San-Serif font instead of theme font in sharing buttons.
+
 = 1.2.2 =
-Add Positions options
-Add short code [seed_social]
+Add Positions options.
+Add short code [seed_social].
 
 = 1.2.1 =
-Bug fixed: hide the buttons in archive pages
+Bug fixed: hide the buttons in archive pages.
 
 = 1.2.0 =
-Add Post Types options
+Add Post Types options.
 
 = 1.1.0 =
 Add options page (Settings -> Seed Social).
 
 = 1.0.0 =
-Change to new FB Share URL and support Page Bullder by SiteOrigin
+Change to new FB Share URL and support Page Bullder by SiteOrigin.
 
 = 0.9.2 =
 Just start basic functions.
