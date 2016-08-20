@@ -53,7 +53,7 @@ There is no settings right now.
 == Changelog ==
 
 = 1.2.4 =
-* Update: use new Facebook Graph API.
+* Updated: use new Facebook Graph API.
 
 = 1.2.3 =
 * Fixed: use San-Serif font instead of theme font in sharing buttons.
