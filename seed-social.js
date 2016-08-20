@@ -2,7 +2,7 @@
 
 		// Set Url of JSON data from the facebook graph api. make sure callback is set with a '?' to overcome the cross domain problems with JSON
 
-		var url = 'https://graph.facebook.com/' + encodeURIComponent(jQuery(location).attr('href'));
+		var url = 'https://graph.facebook.com/?fields=og_object{id},share&id=' + encodeURIComponent(jQuery(location).attr('href'));
 		var fbCountBox = $('.seed-social .facebook .count');
 		
 		// Use jQuery getJSON method to fetch the data from the url and then create our unordered list with the relevant data.
@@ -12,8 +12,8 @@
 			var fbcount = '';
 			var fb_raw_count = '';
 
-			if (typeof json.shares !== 'undefined')
-				fb_raw_count = json.shares;
+			if (typeof json.share !== 'undefined')
+				fb_raw_count = json.share.share_count;
 
 			if( fb_raw_count != '' ) {
 				var fb_num_count = parseInt( fb_raw_count );

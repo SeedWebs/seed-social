@@ -4,7 +4,7 @@ Donate link: https://seedthemes.com/
 Tags: social, facebook, twitter, google plus, line, share
 Requires at least: 4.0.1
 Tested up to: 4.6
-Stable tag: 1.2.3
+Stable tag: 1.2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,6 +52,9 @@ There is no settings right now.
 
 == Changelog ==
 
+= 1.2.4 =
+* Update: use new Facebook Graph API.
+
 = 1.2.3 =
 * Fixed: use San-Serif font instead of theme font in sharing buttons.
 
@@ -77,6 +80,9 @@ There is no settings right now.
 
 
 == Upgrade Notice ==
+
+= 1.2.4 =
+* Update: use new Facebook Graph API.
 
 = 1.2.3 =
 * Fixed: use San-Serif font instead of theme font in sharing buttons.
