@@ -2,41 +2,69 @@
 
 		// Set Url of JSON data from the facebook graph api. make sure callback is set with a '?' to overcome the cross domain problems with JSON
 
+		var access_token_url = 'https://graph.facebook.com/oauth/access_token?client_id=1813810002186544&client_secret=2dc77d0d52301c6d5f94d5e40c6f0fc5&grant_type=client_credentials';
+		var access_token = '';
+
 		var url = 'https://graph.facebook.com/?fields=og_object{id},share&id=' + encodeURIComponent(jQuery(location).attr('href'));
-		var fbCountBox = $('.seed-social .facebook .count');
-		
-		// Use jQuery getJSON method to fetch the data from the url and then create our unordered list with the relevant data.
+		var id = '';
 
-		$.getJSON(url, function(json) {
+		var fbcount = '';
+		var fb_raw_count = '';
+		var fb_num_count = 0;
 
-			var fbcount = '';
-			var fb_raw_count = '';
-
-			if (typeof json.share !== 'undefined')
-				fb_raw_count = json.share.share_count;
-
-			if( fb_raw_count != '' ) {
-				var fb_num_count = parseInt( fb_raw_count );
-
-				if( fb_num_count < 1000 ) {
-					fbcount = fb_num_count.toString();
-				} else if( ( fb_num_count >= 1000 ) && ( fb_num_count < 10000 ) ) {
-					if( (fb_num_count / 1000).toFixed( 1 ) % 1 === 0 ) {
-						fbcount = (fb_num_count / 1000).toFixed().toString() + "k";
-					} else {
-						fbcount = (fb_num_count / 1000).toFixed( 1 ).toString() + "k";
-					}
-				} else if( fb_num_count >= 10000 ) {
-					fbcount = (fb_num_count / 1000).toFixed().toString() + "k";
-				}
+		$.ajax({
+			url: access_token_url,
+			success: function(data) {
+				access_token = data;
 			}
+		}).done(function () {
+			$.getJSON(url, function(json) {
+				if (typeof json.og_object !== 'undefined')
+					id = json.og_object.id;
 
-			// A little animation once fetched
-			fbCountBox.animate( { opacity:0 }, 500 ,function(){
-				fbCountBox.html(fbcount);
+				if (typeof json.share !== 'undefined') {
+					fb_raw_count = json.share.share_count;
+
+					if( fb_raw_count != '' )
+						fb_num_count = parseInt( fb_raw_count );
+
+					fb_raw_count = json.share.comment_count;
+
+					if( fb_raw_count != '' )
+						fb_num_count = fb_num_count + parseInt( fb_raw_count );				
+				}
+			}).done(function () {
+				var likes_url = 'https://graph.facebook.com/' + id + '/likes?' + access_token + '&pretty=1&limit=1000000';
+
+				$.getJSON(likes_url, function(json) {
+					if (typeof json.data !== 'undefined') {
+						fb_num_count = fb_num_count + json.data.length;
+					}
+				}).done( function() {
+					var fbCountBox = $('.seed-social .facebook .count');
+
+					if( fb_num_count > 0 ) {
+						if( fb_num_count < 1000 ) {
+							fbcount = fb_num_count.toString();
+						} else if( ( fb_num_count >= 1000 ) && ( fb_num_count < 10000 ) ) {
+							if( (fb_num_count / 1000).toFixed( 1 ) % 1 === 0 ) {
+								fbcount = (fb_num_count / 1000).toFixed().toString() + "k";
+							} else {
+								fbcount = (fb_num_count / 1000).toFixed( 1 ).toString() + "k";
+							}
+						} else if( fb_num_count >= 10000 ) {
+							fbcount = (fb_num_count / 1000).toFixed().toString() + "k";
+						}
+
+						// A little animation once fetched
+						fbCountBox.animate( { opacity:0 }, 500 ,function(){
+							fbCountBox.html(fbcount);
+						});
+
+						fbCountBox.animate( { opacity:1 }, 500);
+					}
+				});
 			});
-
-			fbCountBox.animate( { opacity:1 }, 500);
 		});
 
 		var isMobile = false; //initiate as false
