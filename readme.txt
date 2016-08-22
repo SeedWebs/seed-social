@@ -4,7 +4,7 @@ Donate link: https://seedthemes.com/
 Tags: social, facebook, twitter, google plus, line, share
 Requires at least: 4.0.1
 Tested up to: 4.6
-Stable tag: 1.2.4
+Stable tag: 1.2.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,24 +52,28 @@ There is no settings right now.
 
 == Changelog ==
 
+= 1.2.5 =
+* Tweak: use post title when share to Line for mobile.
+* Tweak: use share + comment in Facebook button.
+
 = 1.2.4 =
-* Update: use new Facebook Graph API.
+* Tweak: use new Facebook Graph API.
 
 = 1.2.3 =
-* Fixed: use San-Serif font instead of theme font in sharing buttons.
+* Fix: use San-Serif font instead of theme font in sharing buttons.
 
 = 1.2.2 =
-* Add Positions options.
-* Add short code [seed_social].
+* New: Positions options.
+* New: short code [seed_social].
 
 = 1.2.1 =
-* Bug fixed: hide the buttons in archive pages.
+* Fix: hide the buttons in archive pages.
 
 = 1.2.0 =
-* Add Post Types options.
+* New: Post Types options.
 
 = 1.1.0 =
-* Add options page (Settings -> Seed Social).
+* New: options page (Settings -> Seed Social).
 
 = 1.0.0 =
 * Change to new FB Share URL.
@@ -81,27 +85,32 @@ There is no settings right now.
 
 == Upgrade Notice ==
 
+= 1.2.5 =
+* Tweak: use post title when share to Line for mobile.
+* Tweak: use share + comment in Facebook button.
+
 = 1.2.4 =
-* Update: use new Facebook Graph API.
+* Tweak: use new Facebook Graph API.
 
 = 1.2.3 =
-* Fixed: use San-Serif font instead of theme font in sharing buttons.
+* Fix: use San-Serif font instead of theme font in sharing buttons.
 
 = 1.2.2 =
-Add Positions options.
-Add short code [seed_social].
+* New: Positions options.
+* New: short code [seed_social].
 
 = 1.2.1 =
-Bug fixed: hide the buttons in archive pages.
+* Fix: hide the buttons in archive pages.
 
 = 1.2.0 =
-Add Post Types options.
+* New: Post Types options.
 
 = 1.1.0 =
-Add options page (Settings -> Seed Social).
+* New: options page (Settings -> Seed Social).
 
 = 1.0.0 =
-Change to new FB Share URL and support Page Bullder by SiteOrigin.
+* Change to new FB Share URL.
+* Increase the priority to avoid conflct with Page Bullder by SiteOrigin.
 
 = 0.9.2 =
-Just start basic functions.
+* First public version.
