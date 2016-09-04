@@ -58,6 +58,7 @@
 	.seed-social > div {
 		float: left;
 		margin-right: 10px;
+		overflow: hidden;
 	}
 	.seed-social i {
 		font-size: 20px;
