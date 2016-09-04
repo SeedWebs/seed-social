@@ -59,6 +59,7 @@
 		float: left;
 		margin-right: 10px;
 		overflow: hidden;
+		vertical-align: top;
 	}
 	.seed-social i {
 		font-size: 20px;
