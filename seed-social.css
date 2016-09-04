@@ -98,6 +98,10 @@
 	.seed-social .line a{
 		background-color: #00c300;
 	}
+
+.woocommerce-account .seed-social {
+	display: none;
+}
 	
 @media (min-width:768px) {
 	.seed-social i {
