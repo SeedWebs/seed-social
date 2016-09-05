@@ -99,6 +99,8 @@
 		background-color: #00c300;
 	}
 
+.woocommerce-cart .seed-social,
+.woocommerce-checkout .seed-social,
 .woocommerce-account .seed-social {
 	display: none;
 }
