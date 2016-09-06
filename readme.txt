@@ -40,9 +40,9 @@ There is no settings right now.
 
 = How to add buttons manually in content? =
 
-* Add this short code in the content box
+* Add this short code in the content box (Visual Editor or WYSIWYG Editor.)
 
-[seed_social]
+`[seed_social]`
 
 == Screenshots ==
 
