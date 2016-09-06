@@ -4,7 +4,7 @@ Donate link: https://seedthemes.com/
 Tags: social, facebook, twitter, google plus, line, share
 Requires at least: 4.0.1
 Tested up to: 4.6
-Stable tag: 1.2.5
+Stable tag: 1.2.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,6 +51,10 @@ There is no settings right now.
 3. Settings
 
 == Changelog ==
+
+= 1.2.6 =
+* New: hide on some WooCommerce pages by default. (Cart, Checkout, Account pages.)
+* Fix: Facebook has more space than others. Now we can use inline-block and align-center.
 
 = 1.2.5 =
 * Tweak: use post title when share to Line for mobile.
