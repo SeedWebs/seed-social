@@ -63,6 +63,10 @@
 	}
 	.seed-social i {
 		font-size: 20px;
+		color: #fff;
+	}
+	.seed-social span {
+		color: #fff;
 	}
 	.seed-social a {
 		color: #fff !important;
