@@ -3,7 +3,7 @@ Contributors: SeedThemes
 Donate link: https://seedthemes.com/
 Tags: social, facebook, twitter, google plus, line, share
 Requires at least: 4.0.1
-Tested up to: 4.6
+Tested up to: 4.6.1
 Stable tag: 1.2.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -51,6 +51,9 @@ There is no settings right now.
 3. Settings
 
 == Changelog ==
+
+= 1.2.6 =
+* Fix: Close window after shared on Facebook (Mobile Chrome).
 
 = 1.2.6 =
 * New: hide on some WooCommerce pages by default. (Cart, Checkout, Account pages.)
