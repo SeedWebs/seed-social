@@ -3,7 +3,7 @@
 Plugin Name: Seed Social
 Plugin URI: https://github.com/SeedThemes/seed-social
 Description: Minimal Social Sharing WordPress Plugin
-Version: 1.2.6
+Version: 1.2.7
 Author: SeedThemes
 Author URI: https://www.seedthemes.com
 License: GPL2
@@ -136,7 +136,7 @@ if(class_exists('Seed_Social'))
 //		echo '<div class="seed-social-plus-share">'.$plus_share.'</div>';
 
 			if( $is_google_plus )
-				$google_plus = '<a href="https://plus.google.com/share?url='.urlencode( get_the_permalink( $post->ID ) ).'" target="seed-social"><i class="ss-google-plus"></i><span class="text">Google+</span></a>';
+				$google_plus = '<a href="https://plus.google.com/share?url='.urlencode( get_the_permalink( $post->ID ) ).'" target="seed-social"><i class="ss-google-plus"></i><span class="text">Google+</span><span class="count"></span></a>';
 
 // Line
 

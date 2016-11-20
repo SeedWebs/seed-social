@@ -52,6 +52,9 @@ There is no settings right now.
 
 == Changelog ==
 
+= 1.2.7 =
+* New: Google Plus share count.
+
 = 1.2.6 =
 * Fix: Close window after shared on Facebook (Mobile Chrome).
 

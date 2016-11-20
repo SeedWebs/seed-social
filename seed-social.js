@@ -1,5 +1,63 @@
 	jQuery(document).ready(function ($) {
 
+		var uri = jQuery(location).attr('href');
+		var gpCountBox = $('.seed-social .google-plus .count');
+
+		var gpcount = '';
+		var gp_raw_count = '';
+		var gp_num_count = 0;
+
+		$.ajax({
+			type: 'POST',
+			url: 'https://clients6.google.com/rpc',
+			processData: true,
+			contentType: 'application/json',
+			data: JSON.stringify({
+				'method': 'pos.plusones.get',
+				'id': 'p',
+				'params': {
+					'nolog': true,
+					'id': uri,
+					'source': 'widget',
+					'userId': '@viewer',
+					'groupId': '@self'
+				},
+				'jsonrpc': '2.0',
+				'key': 'p',
+				'apiVersion': 'v1'
+		}),
+		success: function(response) {
+			if( typeof response.result !== 'undefined') {
+
+				gp_raw_count = response.result.metadata.globalCounts.count;
+
+				if( gp_raw_count != '' )
+					gp_num_count = parseInt( gp_raw_count );
+				}
+
+				if( gp_num_count > 0 ) {
+					if( gp_num_count < 1000 ) {
+						gpcount = gp_num_count.toString();
+					} else if( ( gp_num_count >= 1000 ) && ( gp_num_count < 10000 ) ) {
+						if( (gp_num_count / 1000).toFixed( 1 ) % 1 === 0 ) {
+							gpcount = (gp_num_count / 1000).toFixed().toString() + "k";
+						} else {
+							gpcount = (gp_num_count / 1000).toFixed( 1 ).toString() + "k";
+						}
+					} else if( gp_num_count >= 10000 ) {
+						gpcount = (gp_num_count / 1000).toFixed().toString() + "k";
+					}
+
+					// A little animation once fetched
+					gpCountBox.animate( { opacity:0 }, 500 ,function(){
+						gpCountBox.html(gpcount);
+					});
+
+					gpCountBox.animate( { opacity:1 }, 500);
+				}
+			}
+		});
+
 		// Set Url of JSON data from the facebook graph api. make sure callback is set with a '?' to overcome the cross domain problems with JSON
 
 		var url = 'https://graph.facebook.com/?fields=og_object{id},share&id=' + encodeURIComponent(jQuery(location).attr('href'));
