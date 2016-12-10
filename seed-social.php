@@ -3,7 +3,7 @@
 Plugin Name: Seed Social
 Plugin URI: https://github.com/SeedThemes/seed-social
 Description: Minimal Social Sharing WordPress Plugin
-Version: 1.2.7
+Version: 1.2.8
 Author: SeedThemes
 Author URI: https://www.seedthemes.com
 License: GPL2
@@ -170,6 +170,16 @@ if(class_exists('Seed_Social'))
 		return $seed_social_echo;
 }
 
+/**
+ * Check woo-commerce plugin is installed and activated or not.
+ * @return bool
+ */
+if ( ! function_exists( 'is_woocommerce_activated' ) ) {
+	function is_woocommerce_activated() {
+		if ( class_exists( 'woocommerce' ) ) { return true; } else { return false; }
+	}
+}
+
 function seed_social_auto( $content ) {
 	$positions = get_option( 'seed_social_positions', array( 'bottom' ) );
 	$post_types = get_option( 'seed_social_post_types' , array( 'post', 'page' ) );
@@ -188,6 +198,26 @@ function seed_social_auto( $content ) {
 }
 
 add_filter('the_content', 'seed_social_auto', 15);
+
+function seed_social_woocommerce_after_product_content() {
+	$woocommerce = get_option( 'seed_social_woocommerce', array( 'after-summary' ) );
+
+	if( ! empty( $woocommerce ) )
+		if( in_array( 'after-product-content' , $woocommerce ) )
+			seed_social();
+}
+
+add_action( 'woocommerce_share', 'seed_social_woocommerce_after_product_content', 10);
+
+function seed_social_woocommerce_after_summary() {
+	$woocommerce = get_option( 'seed_social_woocommerce', array( 'after-summary' ) );
+
+	if( ! empty( $woocommerce ) )
+		if( in_array( 'after-summary' , $woocommerce ) )
+			seed_social();
+}
+
+add_action( 'woocommerce_after_single_product', 'seed_social_woocommerce_after_summary', 10);
 
 // [seed_social]
 function seed_social_shortcode( $atts ){
@@ -258,12 +288,19 @@ function seed_social_get_settings() {
 					'options' => array( 'on' => esc_html__( '', 'seed-social' ) ),
 					'desc' => 'We recommend "All in one SEO pack" or "Yoast SEO" to add Open Graph manually. But if you\'d like simeple solution, you can check this box.'
 				),
-        array(
+		        array(
 					'id'      => seed_social_get_option_id( 'post_types' ),
 					'title'   => esc_html__( 'Show on which Post Types', 'seed-social' ),
 					'type'    => 'checkbox',
 					'options' => seed_social_get_post_types_option_list(),
 					'default' => array( 'post', 'page' )
+				),
+				array(
+					'id'      => seed_social_get_option_id( 'woocommerce' ),
+					'title'   => esc_html__( 'WooCommerce', 'seed-social' ),
+					'type'    => 'checkbox',
+					'options' => array( 'after-summary' => esc_html__( 'Show after summary', 'seed-social' ) , 'after-product-content' => esc_html__( 'Show after product content', 'seed-social' ) ),
+					'default' => array( 'after-product-content' )
 				),
 				array(
 					'id'      => seed_social_get_option_id( 'positions' ),
@@ -303,6 +340,9 @@ function seed_social_get_settings() {
 			),
 		),
 	);
+
+	if( ! is_woocommerce_activated() )
+		unset( $settings [0]['options'][2] );
 
 	return $settings;
 
@@ -365,7 +405,9 @@ function seed_social_get_post_types_option_list(  ) {
 	$list[ 'page' ] = 'Pages';
 
 	foreach ( get_post_types( array( '_builtin' => false, 'public' => true ), 'objects') as $_slug => $_post_type ) {
-		$list[ $_slug ] = $_post_type->labels->name ;
+		if( ( ( ! is_woocommerce_activated() ) || ( $_post_type->name != 'product' ) ) &&
+		( $_post_type->name != 'seed_confirm_log' ) )
+			$list[ $_slug ] = $_post_type->labels->name ;
 	}
 
 	return $list;
