@@ -54,6 +54,7 @@ There is no settings right now.
 
 = 1.2.9 =
 * New: Add CSS Classes for button positions (-top, -bottom, -product-summary, -product-content).
+* Tweak: Settings description.
 * Fix: Wrong WooCommerce position setting names.
 
 = 1.2.8 =

@@ -271,17 +271,23 @@ function seed_social_get_settings() {
 			'options' => array(
 				array(
 					'id'      => seed_social_get_option_id( 'is_open_graph' ),
-					'title'   => esc_html__( 'Open Graph', 'seed-social' ),
+					'title'   => esc_html__( 'Simple Open Graph', 'seed-social' ),
 					'type'    => 'checkbox',
-					'options' => array( 'on' => esc_html__( '', 'seed-social' ) ),
-					'desc' => 'We recommend "All in one SEO pack" or "Yoast SEO" to add Open Graph manually. But if you\'d like simeple solution, you can check this box.'
+					'options' => array( 'on' => esc_html__( 'Enable (Check if no SEO plugin installed.)', 'seed-social' ) )
 				),
 		        array(
 					'id'      => seed_social_get_option_id( 'post_types' ),
-					'title'   => esc_html__( 'Show on which Post Types', 'seed-social' ),
+					'title'   => esc_html__( 'Show on which Post Types?', 'seed-social' ),
 					'type'    => 'checkbox',
 					'options' => seed_social_get_post_types_option_list(),
 					'default' => array( 'post', 'page' )
+				),
+		    array(
+					'id'      => seed_social_get_option_id( 'positions' ),
+					'title'   => esc_html__( 'Positions', 'seed-social' ),
+					'type'    => 'checkbox',
+					'options' => array( 'top' => esc_html__( 'Top', 'seed-social' ) , 'bottom' => esc_html__( 'Bottom', 'seed-social' ) ),
+					'default' => array( 'bottom' )
 				),
 				array(
 					'id'      => seed_social_get_option_id( 'woocommerce' ),
@@ -290,13 +296,7 @@ function seed_social_get_settings() {
 					'options' => array( 'after-summary' => esc_html__( 'Show after summary', 'seed-social' ) , 'after-product-content' => esc_html__( 'Show after product content', 'seed-social' ) ),
 					'default' => array( 'after-product-content' )
 				),
-				array(
-					'id'      => seed_social_get_option_id( 'positions' ),
-					'title'   => esc_html__( 'Positions', 'seed-social' ),
-					'type'    => 'checkbox',
-					'options' => array( 'top' => esc_html__( 'Top', 'seed-social' ) , 'bottom' => esc_html__( 'Bottom', 'seed-social' ) ),
-					'default' => array( 'bottom' )
-				),
+				
 				array(
 					'id'      => seed_social_get_option_id( 'is_facebook' ),
 					'title'   => esc_html__( 'Facebook', 'seed-social' ),
