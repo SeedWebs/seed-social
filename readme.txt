@@ -3,8 +3,8 @@ Contributors: SeedThemes
 Donate link: https://seedthemes.com/
 Tags: social, facebook, twitter, google plus, line, share
 Requires at least: 4.0.1
-Tested up to: 4.7
-Stable tag: 1.2.8
+Tested up to: 4.7.2
+Stable tag: 1.2.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,6 +51,10 @@ There is no settings right now.
 3. Settings
 
 == Changelog ==
+
+= 1.2.9 =
+* New: Add CSS Classes for button positions (-top, -bottom, -product-summary, -product-content).
+* Fix: Wrong WooCommerce position setting names.
 
 = 1.2.8 =
 * New: Woocommerce positions.

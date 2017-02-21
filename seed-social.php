@@ -103,7 +103,7 @@ if(class_exists('Seed_Social'))
 		}
 	}
 
-	function seed_social( $echo = true ) {
+	function seed_social( $echo = true , $css_class = '') {
 		$is_facebook = get_option( 'seed_social_is_facebook', array( 'on' ) );
 		$is_twitter = get_option( 'seed_social_is_twitter', array( 'on' ) );
 		$is_google_plus = get_option( 'seed_social_is_google_plus', array( 'on' ) );
@@ -127,14 +127,6 @@ if(class_exists('Seed_Social'))
 
 // Google Plus Share
 
-//		$plus_share = '<!-- Place this tag in your head or just before your close body tag. -->
-// <script src="https://apis.google.com/js/platform.js" async defer></script>
-
-// <!-- Place this tag where you want the share button to render. -->
-// <div class="g-plus" data-action="share" data-annotation="bubble"></div>';
-
-//		echo '<div class="seed-social-plus-share">'.$plus_share.'</div>';
-
 			if( $is_google_plus )
 				$google_plus = '<a href="https://plus.google.com/share?url='.urlencode( get_the_permalink( $post->ID ) ).'" target="seed-social"><i class="ss-google-plus"></i><span class="text">Google+</span><span class="count"></span></a>';
 
@@ -143,11 +135,7 @@ if(class_exists('Seed_Social'))
 			if( $is_line )
 				$line = '<a href="https://lineit.line.me/share/ui?url='.urlencode( get_the_permalink( $post->ID ) ).'" target="seed-social"><i class="ss-line"></i><span class="text">Line</span></a>';
 
-//		echo '<div class="seed-social-line">'.$line.'</div>';
-
-//		echo '</div>';
-
-			$seed_social_echo .= '<div class="seed-social">';
+			$seed_social_echo .= '<div class="seed-social '. $css_class . '">';
 
 			if( $is_facebook )
 				$seed_social_echo .= '<div class="facebook">'.$fbshare.'</div>';
@@ -171,7 +159,7 @@ if(class_exists('Seed_Social'))
 }
 
 /**
- * Check woo-commerce plugin is installed and activated or not.
+ * Check if WooCommerce plugin is installed and activated.
  * @return bool
  */
 if ( ! function_exists( 'is_woocommerce_activated' ) ) {
@@ -187,10 +175,10 @@ function seed_social_auto( $content ) {
 	if( ! empty( $positions ) && in_array( get_post_type() , $post_types ) && ! is_front_page() && is_singular() )  {
 		if ( $GLOBALS['post']->ID == get_the_ID() ) {
 			if( in_array( 'top' , $positions ) )
-				$content = seed_social( false ) . $content;
+				$content = seed_social( false, '-top' ) . $content;
 
 			if( in_array( 'bottom' , $positions ) )
-				$content .= seed_social( false );
+				$content .= seed_social( false, '-bottom' );
 		}
 	}
 
@@ -204,24 +192,24 @@ function seed_social_woocommerce_after_product_content() {
 
 	if( ! empty( $woocommerce ) )
 		if( in_array( 'after-product-content' , $woocommerce ) )
-			seed_social();
+			seed_social( true , '-product-content');
 }
 
-add_action( 'woocommerce_share', 'seed_social_woocommerce_after_product_content', 10);
+add_action( 'woocommerce_after_single_product', 'seed_social_woocommerce_after_product_content', 10);
 
 function seed_social_woocommerce_after_summary() {
 	$woocommerce = get_option( 'seed_social_woocommerce', array( 'after-summary' ) );
 
 	if( ! empty( $woocommerce ) )
 		if( in_array( 'after-summary' , $woocommerce ) )
-			seed_social();
+			seed_social( true , '-product-summary');
 }
 
-add_action( 'woocommerce_after_single_product', 'seed_social_woocommerce_after_summary', 10);
+add_action( 'woocommerce_share', 'seed_social_woocommerce_after_summary', 10);
 
 // [seed_social]
 function seed_social_shortcode( $atts ){
-	return seed_social( false );
+	return seed_social( false , '-shortcode');
 }
 
 add_shortcode( 'seed_social', 'seed_social_shortcode' );
