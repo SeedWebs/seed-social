@@ -3,7 +3,7 @@ Contributors: SeedThemes
 Donate link: https://seedthemes.com/
 Tags: social, facebook, twitter, google plus, line, share
 Requires at least: 4.0.1
-Tested up to: 4.7.2
+Tested up to: 4.7.3
 Stable tag: 1.2.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -32,17 +32,22 @@ There is no settings right now.
 
 * Go to Settings -> Seed Social.
 
+= Image not shown on social network / facebook post? =
+
+* Go to Settings -> Seed Social and enable Open Graph. Or use Yoast SEO / All in one SEO plugin.
+
 = How to add buttons manually in template files? =
 
 * Add this code after "The Loop" in template files, such as page.php, single.php or archive.php.
 
-`<?php if(function_exists('seed_social')) {seed_social();} ?>`
+*<?php if(function_exists('seed_social')) {seed_social();} ?>*
 
 = How to add buttons manually in content? =
 
 * Add this short code in the content box (Visual Editor or WYSIWYG Editor.)
 
-`[seed_social]`
+*[seed_social]*
+
 
 == Screenshots ==
 
