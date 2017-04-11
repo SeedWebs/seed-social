@@ -23,8 +23,6 @@ You can enable each social network via Settings -> Seed Social.
 1. Upload the plugin files to the `/wp-content/plugins/seed-social` directory, or install the plugin through the WordPress plugins screen directly.
 1. Activate the plugin through the 'Plugins' screen in WordPress
 
-There is no settings right now.
-
 
 == Frequently Asked Questions ==
 
@@ -38,16 +36,19 @@ There is no settings right now.
 
 = How to add buttons manually in template files? =
 
-* Add this code after "The Loop" in template files, such as page.php, single.php or archive.php.
+* Add `seed_social()` function after "The Loop" in template files, such as page.php, single.php or archive.php.
 
-*<?php if(function_exists('seed_social')) {seed_social();} ?>*
+```
+<?php if(function_exists('seed_social')) {seed_social();} ?>
+```
 
 = How to add buttons manually in content? =
 
 * Add this short code in the content box (Visual Editor or WYSIWYG Editor.)
 
-*[seed_social]*
-
+```
+[seed_social]
+```
 
 == Screenshots ==
 
