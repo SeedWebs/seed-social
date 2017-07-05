@@ -172,7 +172,7 @@ function seed_social_auto( $content ) {
 	$positions = get_option( 'seed_social_positions', array( 'bottom' ) );
 	$post_types = get_option( 'seed_social_post_types' , array( 'post', 'page' ) );
 
-	if( ! empty( $positions ) && in_array( get_post_type() , $post_types ) && ! is_front_page() && is_singular() )  {
+	if( ! empty( $positions ) && ! empty( $post_types ) && in_array( get_post_type() , $post_types ) && ! is_front_page() && is_singular() )  {
 		if ( $GLOBALS['post']->ID == get_the_ID() ) {
 			if( in_array( 'top' , $positions ) )
 				$content = seed_social( false, '-top' ) . $content;
