@@ -3,8 +3,8 @@ Contributors: SeedThemes
 Donate link: https://seedthemes.com/
 Tags: social, facebook, twitter, google plus, line, share
 Requires at least: 4.0.1
-Tested up to: 4.7.3
-Stable tag: 1.2.9
+Tested up to: 4.8
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,7 +14,7 @@ Minimal Social Sharing WordPress Plugin (Just Facebook, Twitter, Google Plus and
 
 Just upload this plugin to WordPress and activate it. The plugin will add social sharing buttons under post content.
 
-You can enable each social network via Settings -> Seed Social.
+You can enable each social network and change settings via Settings -> Seed Social.
 
 
 == Installation ==
@@ -39,7 +39,7 @@ You can enable each social network via Settings -> Seed Social.
 * Add `seed_social()` function after "The Loop" in template files, such as page.php, single.php or archive.php.
 
 ```
-<?php if(function_exists('seed_social')) {seed_social();} ?>
+&lt;?php if(function_exists('seed_social')) {seed_social();} ?&gt;
 ```
 
 = How to add buttons manually in content? =
@@ -50,6 +50,34 @@ You can enable each social network via Settings -> Seed Social.
 [seed_social]
 ```
 
+= Can you suggest CSS to align buttons center? =
+
+* You can add this CSS code in Appearance -> Customize -> Additional CSS
+
+```
+.seed-social {
+    text-align: center;
+}
+```
+= Can you suggest CSS to make buttons rounded? =
+
+* You can add this CSS code in Appearance -> Customize -> Additional CSS
+
+```
+.seed-social a {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    line-height: 49px;
+}
+.seed-social i {
+    font-size: 20px;
+}
+.seed-social span {
+    display: none;
+}
+```
+
 == Screenshots ==
 
 1. Desktop Version
@@ -57,6 +85,12 @@ You can enable each social network via Settings -> Seed Social.
 3. Settings
 
 == Changelog ==
+
+= 1.3.0 =
+* New: Change buttons CSS, easier to modify.
+* New: Example CSS in readme.
+* Tweak: Settings description.
+* Fix: Position setting disappeared if WooCommerce is not activate.
 
 = 1.2.9 =
 * New: Add CSS Classes for button positions (-top, -bottom, -product-summary, -product-content).
