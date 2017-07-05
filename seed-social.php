@@ -221,6 +221,9 @@ function seed_social_setup_menu() {
 add_action( 'admin_menu', 'seed_social_setup_menu' );
 
 function seed_social_init() { ?>
+	<style>
+    form label {display: inline-block; min-width: 72px;} 
+  </style>
 	<div class="wrap">
 		<div class="icon32" id="icon-options-general"></div>
 		<h2><?php esc_html_e( 'Seed Social', 'seed-social' ); ?></h2>
@@ -233,7 +236,7 @@ function seed_social_init() { ?>
 //		}
 		?>
 		<p>
-			<?php // printf( wp_kses( __( ' text <a href="%1s">link</a> ', 'seed-social' ), array( 'a' => array( 'href' => array(), 'target' => array() ) ) ), esc_url( 'https://www.seedthemes.com/' ) ); ?>
+			<?php printf( wp_kses( __( 'For more information, please visit <a href="%1s" target="_blank">FAQ on WordPress.org</a>.', 'seed-social' ), array( 'a' => array( 'href' => array(), 'target' => array() ) ) ), esc_url( 'https://wordpress.org/plugins/seed-social/#faq' ) ); ?>
 		</p>
 		<form action="<?php echo admin_url( 'options.php' ); ?>" method="post" id="seed-social-form">
 			<?php
@@ -322,7 +325,7 @@ function seed_social_get_settings() {
 				array(
 					'id'      => seed_social_get_option_id( 'is_open_graph' ),
 					'title'   => esc_html__( 'Share featured image?', 'seed-social' ),
-					'desc'    => esc_html__( 'This will add Open Graph. Do not check this if SEO plugin is installed.', 'seed-social' ),
+					'desc'    => esc_html__( 'This will add Open Graph meta tags. Do not check this if SEO plugin is installed.', 'seed-social' ),
 					'type'    => 'checkbox',
 					'options' => array( 'on' => esc_html__( 'Yes', 'seed-social' ) )
 				),
