@@ -267,24 +267,18 @@ function seed_social_get_settings() {
 	$settings = array(
 		array(
 			'id'      => 'seed_social_settings',
-			'title'   => __( 'Social Share Settings', 'seed-social' ),
+			'title'   => __( 'Social Sharing Buttons', 'seed-social' ),
 			'options' => array(
-				array(
-					'id'      => seed_social_get_option_id( 'is_open_graph' ),
-					'title'   => esc_html__( 'Simple Open Graph', 'seed-social' ),
-					'type'    => 'checkbox',
-					'options' => array( 'on' => esc_html__( 'Enable (Check if no SEO plugin installed.)', 'seed-social' ) )
-				),
-		        array(
+		    array(
 					'id'      => seed_social_get_option_id( 'post_types' ),
-					'title'   => esc_html__( 'Auto show on which Post Types?', 'seed-social' ),
+					'title'   => esc_html__( 'Post Type to show:', 'seed-social' ),
 					'type'    => 'checkbox',
 					'options' => seed_social_get_post_types_option_list(),
 					'default' => array( 'post', 'page' )
 				),
 		    array(
 					'id'      => seed_social_get_option_id( 'positions' ),
-					'title'   => esc_html__( 'Positions', 'seed-social' ),
+					'title'   => esc_html__( 'Position to show:', 'seed-social' ),
 					'type'    => 'checkbox',
 					'options' => array( 'top' => esc_html__( 'Top', 'seed-social' ) , 'bottom' => esc_html__( 'Bottom', 'seed-social' ) ),
 					'default' => array( 'bottom' )
@@ -324,10 +318,18 @@ function seed_social_get_settings() {
 					'type'    => 'checkbox',
 					'options' => array( 'on' => esc_html__( '', 'seed-social' ) ),
 					'default' => array( 'on' )
-				)
+				),
+				array(
+					'id'      => seed_social_get_option_id( 'is_open_graph' ),
+					'title'   => esc_html__( 'Share featured image?', 'seed-social' ),
+					'desc'    => esc_html__( 'This will add Open Graph. Do not check this if SEO plugin is installed.', 'seed-social' ),
+					'type'    => 'checkbox',
+					'options' => array( 'on' => esc_html__( 'Yes', 'seed-social' ) )
+				),
 			),
 		),
 	);
+
 
 	if( ! is_woocommerce_activated() )
 		unset( $settings [0]['options'][2] );
