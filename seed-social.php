@@ -277,7 +277,7 @@ function seed_social_get_settings() {
 				),
 		        array(
 					'id'      => seed_social_get_option_id( 'post_types' ),
-					'title'   => esc_html__( 'Show on which Post Types?', 'seed-social' ),
+					'title'   => esc_html__( 'Auto show on which Post Types?', 'seed-social' ),
 					'type'    => 'checkbox',
 					'options' => seed_social_get_post_types_option_list(),
 					'default' => array( 'post', 'page' )
