@@ -3,7 +3,7 @@
 Plugin Name: Seed Social
 Plugin URI: https://github.com/SeedThemes/seed-social
 Description: Minimal Social Sharing WordPress Plugin
-Version: 1.2.9
+Version: 1.3.0
 Author: SeedThemes
 Author URI: https://www.seedthemes.com
 License: GPL2
@@ -123,7 +123,7 @@ if(class_exists('Seed_Social'))
 // Twitter Button
 
 			if( $is_twitter )
-				$tweet = '<a href="https://twitter.com/share?url='.urlencode( get_the_permalink( $post->ID ) ).'&text='.urlencode($post->post_title).'" target="seed-social"><i class="ss-twitter"></i><span class="text">Twitter</span></a>';
+				$tweet = '<a href="https://twitter.com/share?url='.urlencode( get_the_permalink( $post->ID ) ).'&text='.urlencode($post->post_title).'" target="seed-social"><i class="ss-twitter"></i><span class="text">Twitter</span><span class="count"></span></a>';
 
 // Google Plus Share
 
@@ -133,7 +133,7 @@ if(class_exists('Seed_Social'))
 // Line
 
 			if( $is_line )
-				$line = '<a href="https://lineit.line.me/share/ui?url='.urlencode( get_the_permalink( $post->ID ) ).'" target="seed-social"><i class="ss-line"></i><span class="text">Line</span></a>';
+				$line = '<a href="https://lineit.line.me/share/ui?url='.urlencode( get_the_permalink( $post->ID ) ).'" target="seed-social"><i class="ss-line"></i><span class="text">Line</span><span class="count"></span></a>';
 
 			$seed_social_echo .= '<div class="seed-social '. $css_class . '">';
 
@@ -222,7 +222,7 @@ add_action( 'admin_menu', 'seed_social_setup_menu' );
 
 function seed_social_init() { ?>
 	<style>
-    form label {display: inline-block; min-width: 72px;} 
+    form label {display: inline-block; min-width: 60px; margin-right: 10px;} 
   </style>
 	<div class="wrap">
 		<div class="icon32" id="icon-options-general"></div>
