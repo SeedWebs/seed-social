@@ -4,7 +4,7 @@ Donate link: https://seedthemes.com/
 Tags: social, facebook, twitter, google plus, line, share
 Requires at least: 4.0.1
 Tested up to: 4.8
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,9 @@ You can enable each social network and change settings via Settings -> Seed Soci
 3. Settings
 
 == Changelog ==
+
+= 1.3.1 =
+* New: Support BBPress
 
 = 1.3.0 =
 * New: Change buttons CSS, easier to modify.

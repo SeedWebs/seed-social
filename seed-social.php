@@ -3,7 +3,7 @@
 Plugin Name: Seed Social
 Plugin URI: https://github.com/SeedThemes/seed-social
 Description: Minimal Social Sharing WordPress Plugin
-Version: 1.3.0
+Version: 1.3.1
 Author: SeedThemes
 Author URI: https://www.seedthemes.com
 License: GPL2
@@ -186,6 +186,38 @@ function seed_social_auto( $content ) {
 }
 
 add_filter('the_content', 'seed_social_auto', 15);
+
+function seed_social_bbpress_auto_bottom(  ) {
+	$positions = get_option( 'seed_social_positions', array( 'bottom' ) );
+	$post_types = get_option( 'seed_social_post_types' , array( 'post', 'page' ) );
+
+	if( ! empty( $positions ) && in_array( get_post_type() , $post_types ) && ! is_front_page() && is_singular() )  {
+		if ( $GLOBALS['post']->ID == get_the_ID() ) {
+			if( in_array( 'bottom' , $positions ) )
+				seed_social( true, '-bbpress-bottom' );
+		}
+	}
+
+    return $content;
+}
+
+add_action( 'bbp_template_after_single_topic', 'seed_social_bbpress_auto_bottom', 15, 0);
+
+function seed_social_bbpress_auto_top() {
+	$positions = get_option( 'seed_social_positions', array( 'bottom' ) );
+	$post_types = get_option( 'seed_social_post_types' , array( 'post', 'page' ) );
+
+	if( ! empty( $positions ) && in_array( get_post_type() , $post_types ) && ! is_front_page() && is_singular() )  {
+		if ( $GLOBALS['post']->ID == get_the_ID() ) {
+			if( in_array( 'top' , $positions ) )
+				seed_social( true, '-bbpress-top' );
+		}
+	}
+
+    return $content;
+}
+
+add_action( 'bbp_template_before_single_topic', 'seed_social_bbpress_auto_top', 15, 0);
 
 function seed_social_woocommerce_after_product_content() {
 	$woocommerce = get_option( 'seed_social_woocommerce', array( 'after-summary' ) );
