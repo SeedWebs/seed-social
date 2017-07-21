@@ -1,0 +1,109 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-21 05:15+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/"
+
+#. Name of the plugin
+#: seed-social.php:250 seed-social.php:250 seed-social.php:261
+msgid "Seed Social"
+msgstr ""
+
+#: seed-social.php:267
+msgid "Settings updated successfully."
+msgstr ""
+
+#: seed-social.php:271
+#, php-format
+msgid ""
+"For more information, please visit <a href=\"%1s\" target=\"_blank\">FAQ on "
+"WordPress.org</a>."
+msgstr ""
+
+#: seed-social.php:305
+msgid "Social Sharing Buttons"
+msgstr ""
+
+#: seed-social.php:309
+msgid "Post Type to show:"
+msgstr ""
+
+#: seed-social.php:316
+msgid "Position to show:"
+msgstr ""
+
+#: seed-social.php:318
+msgid "Top"
+msgstr ""
+
+#: seed-social.php:318
+msgid "Bottom"
+msgstr ""
+
+#: seed-social.php:323
+msgid "WooCommerce"
+msgstr ""
+
+#: seed-social.php:325
+msgid "Show after summary"
+msgstr ""
+
+#: seed-social.php:325
+msgid "Show after product content"
+msgstr ""
+
+#: seed-social.php:331
+msgid "Facebook"
+msgstr ""
+
+#: seed-social.php:338
+msgid "Twitter"
+msgstr ""
+
+#: seed-social.php:345
+msgid "Google Plus"
+msgstr ""
+
+#: seed-social.php:352
+msgid "Line"
+msgstr ""
+
+#: seed-social.php:359
+msgid "Share featured image?"
+msgstr ""
+
+#: seed-social.php:360
+msgid ""
+"This will add Open Graph meta tags. Do not check this if SEO plugin is "
+"installed."
+msgstr ""
+
+#: seed-social.php:362
+msgid "Yes"
+msgstr ""
+
+#. Description of the plugin
+msgid "Minimal Social Sharing WordPress Plugin"
+msgstr ""
+
+#. URI of the plugin
+msgid "https://github.com/SeedThemes/seed-social"
+msgstr ""
+
+#. Author of the plugin
+msgid "SeedThemes"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://www.seedthemes.com"
+msgstr ""
