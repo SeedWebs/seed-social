@@ -16,6 +16,8 @@ Just upload this plugin to WordPress and activate it. The plugin will add social
 
 You can enable each social network and change settings via Settings -> Seed Social.
 
+Official development of Seed Social is on GitHub, with official stable releases published on WordPress.org. The GitHub repo can be found at https://github.com/SeedThemes/seed-social. Please use the Support tab for potential bugs, issues, or enhancement ideas.
+
 
 == Installation ==
 
@@ -145,32 +147,9 @@ You can enable each social network and change settings via Settings -> Seed Soci
 
 == Upgrade Notice ==
 
-= 1.2.5 =
-* Tweak: use post title when share to Line for mobile.
-* Tweak: use share + comment in Facebook button.
-
-= 1.2.4 =
-* Tweak: use new Facebook Graph API.
-
-= 1.2.3 =
-* Fix: use San-Serif font instead of theme font in sharing buttons.
-
-= 1.2.2 =
-* New: Positions options.
-* New: short code [seed_social].
-
-= 1.2.1 =
-* Fix: hide the buttons in archive pages.
-
-= 1.2.0 =
-* New: Post Types options.
-
-= 1.1.0 =
-* New: options page (Settings -> Seed Social).
-
-= 1.0.0 =
-* Change to new FB Share URL.
-* Increase the priority to avoid conflct with Page Bullder by SiteOrigin.
-
-= 0.9.2 =
-* First public version.
+= 1.3.0 =
+* New: Support BBPress
+* New: Change buttons CSS, easier to modify.
+* New: Example CSS in readme.
+* Tweak: Settings description.
+* Fix: Position setting disappeared if WooCommerce is not activate.
