@@ -162,8 +162,8 @@ if(class_exists('Seed_Social'))
  * Check if WooCommerce plugin is installed and activated.
  * @return bool
  */
-if ( ! function_exists( 'is_woocommerce_activated' ) ) {
-	function is_woocommerce_activated() {
+if ( ! function_exists( 'is_woo_activated' ) ) {
+	function is_woo_activated() {
 		if ( class_exists( 'woocommerce' ) ) { return true; } else { return false; }
 	}
 }
@@ -366,7 +366,7 @@ function seed_social_get_settings() {
 	);
 
 
-	if( ! is_woocommerce_activated() )
+	if( ! is_woo_activated() )
 		unset( $settings [0]['options'][2] );
 
 	return $settings;
@@ -430,7 +430,7 @@ function seed_social_get_post_types_option_list(  ) {
 	$list[ 'page' ] = 'Pages';
 
 	foreach ( get_post_types( array( '_builtin' => false, 'public' => true ), 'objects') as $_slug => $_post_type ) {
-		if( ( ( ! is_woocommerce_activated() ) || ( $_post_type->name != 'product' ) ) &&
+		if( ( ( ! is_woo_activated() ) || ( $_post_type->name != 'product' ) ) &&
 		( $_post_type->name != 'seed_confirm_log' ) )
 			$list[ $_slug ] = $_post_type->labels->name ;
 	}
