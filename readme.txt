@@ -94,10 +94,13 @@ Official development of Seed Social is on GitHub, with official stable releases 
 * New: Example CSS in readme.
 * Tweak: Settings description.
 * Fix: Position setting disappeared if WooCommerce is not activate.
+* Fix: Support PHP7.
+* Fix: Some mobile browsers don't close properly.
 
 = 1.2.9 =
 * New: Add CSS Classes for button positions (-top, -bottom, -product-summary, -product-content).
 * Tweak: Settings description.
+* Fix: Conflict with Flatsome theme.
 * Fix: Wrong WooCommerce position setting names.
 
 = 1.2.8 =
