@@ -4,7 +4,7 @@ Donate link: https://seedthemes.com/
 Tags: social, facebook, twitter, google plus, line, share
 Requires at least: 4.5
 Tested up to: 4.8
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -41,7 +41,7 @@ Official development of Seed Social is on GitHub, with official stable releases 
 * Add `seed_social()` function after "The Loop" in template files, such as page.php, single.php or archive.php.
 
 ```
-&lt;?php if(function_exists('seed_social')) {seed_social();} ?&gt;
+<?php if(function_exists('seed_social')) {seed_social();} ?>
 ```
 
 = How to add buttons manually in content? =
@@ -88,8 +88,13 @@ Official development of Seed Social is on GitHub, with official stable releases 
 
 == Changelog ==
 
+= 1.3.1 =
+* New: Buttons can be disabled on any Post/Page.
+* New: Button text can be changed.
+* Tweak: Buttons CSS on bbPress topic.
+
 = 1.3.0 =
-* New: Support BBPress
+* New: Support bbPress topic.
 * New: Change buttons CSS, easier to modify.
 * New: Example CSS in readme.
 * Tweak: Settings description.

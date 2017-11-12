@@ -120,6 +120,10 @@
 	display: none;
 }
 
+.seed-social.-bbpress-top {
+    clear: both;
+}
+
 @media (min-width:768px) {
 	.seed-social i {
 		font-size: 16px;
