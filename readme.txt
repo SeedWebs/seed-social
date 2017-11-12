@@ -41,7 +41,7 @@ Official development of Seed Social is on GitHub, with official stable releases 
 * Add `seed_social()` function after "The Loop" in template files, such as page.php, single.php or archive.php.
 
 ```
-<?php if(function_exists('seed_social')) {seed_social();} ?>
+&lt;?php if(function_exists('seed_social')) {seed_social();} ?&gt;
 ```
 
 = How to add buttons manually in content? =
