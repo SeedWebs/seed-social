@@ -3,7 +3,7 @@
 Plugin Name: Seed Social
 Plugin URI: https://github.com/SeedThemes/seed-social
 Description: Minimal Social Sharing WordPress Plugin
-Version: 1.3.1
+Version: 1.3.2
 Author: SeedThemes
 Author URI: https://www.seedthemes.com
 License: GPL2
@@ -560,10 +560,11 @@ function seed_social_output_settings_field( $option ) {
 
 function seed_social_box()
 {
+
 	if( is_woo_activated() ) {
-		$screens = ['post', 'page', 'product'];
+		$screens =  array('post', 'page', 'product');
 	} else {
-		$screens = ['post', 'page'];
+		$screens = array('post', 'page');
 	}
 	foreach ($screens as $screen) {
 		add_meta_box(
