@@ -109,10 +109,15 @@ function seed_social( $echo = true , $css_class = '') {
 	$is_google_plus = get_option( 'seed_social_is_google_plus', array( 'on' ) );
 	$is_line = get_option( 'seed_social_is_line', array( 'on' ) );
 
-	$facebook_text = ( get_option( 'seed_social_facebook_text' ) );
-	$twitter_text = ( get_option( 'seed_social_twitter_text' ) );
-	$google_plus_text = ( get_option( 'seed_social_google_plus_text' ) );
-	$line_text = ( get_option( 'seed_social_line_text' ) );
+	$facebook_text = get_option( 'seed_social_facebook_text', 'Facebook' );
+	$twitter_text = get_option( 'seed_social_twitter_text', 'Twitter' );
+	$google_plus_text = get_option( 'seed_social_google_plus_text', 'Google Plus' );
+	$line_text = get_option( 'seed_social_line_text', 'Line' );
+
+	if( $facebook_text == '' ) $facebook_text = 'Facebook';
+	if( $twitter_text == '' ) $twitter_text = 'Twitter';
+	if( $google_plus_text == '' ) $google_plus_text = 'FGoogle Plus';
+	if( $line_text == '' ) $line_text = 'Line';		
 
 	global $post;
 
