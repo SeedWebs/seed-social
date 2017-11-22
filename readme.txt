@@ -4,7 +4,7 @@ Donate link: https://seedthemes.com/
 Tags: social, facebook, twitter, google plus, line, share
 Requires at least: 4.5
 Tested up to: 4.8
-Stable tag: 1.3.2
+Stable tag: 1.3.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -87,6 +87,12 @@ if(function_exists('seed_social')) {seed_social();}
 3. Settings
 
 == Changelog ==
+
+= 1.3.4 =
+* Fix: "Google Plus" Misspelled.
+
+= 1.3.3 =
+* Fix: Empty button text.
 
 = 1.3.2 =
 * Fix: Support PHP5.3
