@@ -116,7 +116,7 @@ function seed_social( $echo = true , $css_class = '') {
 
 	if( $facebook_text == '' ) $facebook_text = 'Facebook';
 	if( $twitter_text == '' ) $twitter_text = 'Twitter';
-	if( $google_plus_text == '' ) $google_plus_text = 'FGoogle Plus';
+	if( $google_plus_text == '' ) $google_plus_text = 'Google Plus';
 	if( $line_text == '' ) $line_text = 'Line';		
 
 	global $post;
