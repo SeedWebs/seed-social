@@ -127,7 +127,7 @@ function seed_social( $echo = true , $css_class = '') {
 
 		/* Facebook Button */
 		if( $is_facebook )
-			$fbshare = '<a href="https://www.facebook.com/sharer/sharer.php?u='.urlencode( get_the_permalink( $post->ID ) ).'&redirect_uri='.plugins_url( 'close.html' , __FILE__ ).'" target="seed-social"><i class="ss-facebook"></i><span class="text">'. $facebook_text . '</span><span class="count"></span></a>';
+		$fbshare = '<a href="https://www.facebook.com/share.php?u='.urlencode( get_the_permalink( $post->ID ) ).'" target="seed-social"><i class="ss-facebook"></i><span class="text">'. $facebook_text . '</span><span class="count"></span></a>';
 
 		/* Twitter Button */
 		if( $is_twitter )
