@@ -3,7 +3,7 @@
 Plugin Name: Seed Social
 Plugin URI: https://github.com/SeedThemes/seed-social
 Description: Minimal Social Sharing WordPress Plugin
-Version: 1.3.4
+Version: 1.3.5
 Author: SeedThemes
 Author URI: https://www.seedthemes.com
 License: GPL2
