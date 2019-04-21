@@ -106,36 +106,29 @@ function seed_social_scripts() {
 function seed_social( $echo = true , $css_class = '') {
 	$is_facebook = get_option( 'seed_social_is_facebook', array( 'on' ) );
 	$is_twitter = get_option( 'seed_social_is_twitter', array( 'on' ) );
-	$is_google_plus = get_option( 'seed_social_is_google_plus', array( 'on' ) );
 	$is_line = get_option( 'seed_social_is_line', array( 'on' ) );
 
 	$facebook_text = get_option( 'seed_social_facebook_text', 'Facebook' );
 	$twitter_text = get_option( 'seed_social_twitter_text', 'Twitter' );
-	$google_plus_text = get_option( 'seed_social_google_plus_text', 'Google Plus' );
 	$line_text = get_option( 'seed_social_line_text', 'Line' );
 
 	if( $facebook_text == '' ) $facebook_text = 'Facebook';
 	if( $twitter_text == '' ) $twitter_text = 'Twitter';
-	if( $google_plus_text == '' ) $google_plus_text = 'Google Plus';
 	if( $line_text == '' ) $line_text = 'Line';		
 
 	global $post;
 
 	$seed_social_echo = '';
 
-	if( $is_facebook || $is_twitter || $is_google_plus || $is_line ) {
+	if( $is_facebook || $is_twitter || $is_line ) {
 
 		/* Facebook Button */
 		if( $is_facebook )
-		$fbshare = '<a href="https://www.facebook.com/share.php?u='.urlencode( get_the_permalink( $post->ID ) ).'" target="seed-social"><i class="ss-facebook"></i><span class="text">'. $facebook_text . '</span><span class="count"></span></a>';
+			$fbshare = '<a href="https://www.facebook.com/share.php?u='.urlencode( get_the_permalink( $post->ID ) ).'" target="seed-social"><i class="ss-facebook"></i><span class="text">'. $facebook_text . '</span><span class="count"></span></a>';
 
 		/* Twitter Button */
 		if( $is_twitter )
 			$tweet = '<a href="https://twitter.com/share?url='.urlencode( get_the_permalink( $post->ID ) ).'&text='.urlencode($post->post_title).'" target="seed-social"><i class="ss-twitter"></i><span class="text">' . $twitter_text . '</span><span class="count"></span></a>';
-
-		/* Google Plus Share */
-		if( $is_google_plus )
-			$google_plus = '<a href="https://plus.google.com/share?url='.urlencode( get_the_permalink( $post->ID ) ).'" target="seed-social"><i class="ss-google-plus"></i><span class="text">' . $google_plus_text . '</span><span class="count"></span></a>';
 
 		/* Line */
 		if( $is_line )
@@ -148,9 +141,6 @@ function seed_social( $echo = true , $css_class = '') {
 
 		if( $is_twitter )
 			$seed_social_echo .= '<div class="twitter">'.$tweet.'</div>';
-
-		if( $is_google_plus )
-			$seed_social_echo .= '<div class="google-plus">'.$google_plus.'</div>';
 
 		if( $is_line )
 			$seed_social_echo .= '<div class="line">'.$line.'</div>';
@@ -279,37 +269,36 @@ add_action( 'admin_menu', 'seed_social_setup_menu' );
 
 function seed_social_init() { 
 	?><style>
-	form label{
-		display: inline-block; min-width: 60px; margin-right: 10px;
+		form label{
+			display: inline-block; min-width: 60px; margin-right: 10px;
+		}
+		.form-table th,.form-table td {
+			padding: 0;line-height: 4em;
+		}
+		.form-table td p.description {
+			margin-top: -10px;
+		}
+		input#seed-social-facebook-text,
+		input#seed-social-twitter-text,
+		input#seed-social-line-text {
+			position: absolute;margin: -3em 0 0 24px;width: 100px;
+		}</style>
+		<div class="wrap">
+			<div class="icon32" id="icon-options-general"></div>
+			<h2><?php esc_html_e( 'Seed Social', 'seed-social' ); ?></h2>
+			<p>
+				<?php printf( wp_kses( __( 'For more information, please visit <a href="%1s" target="_blank">FAQ on WordPress.org</a>.', 'seed-social' ), array( 'a' => array( 'href' => array(), 'target' => array() ) ) ), esc_url( 'https://wordpress.org/plugins/seed-social/#faq' ) ); ?>
+			</p>
+			<form action="<?php echo admin_url( 'options.php' ); ?>" method="post" id="seed-social-form">
+				<?php
+				settings_fields( 'seed-social' );
+				do_settings_sections( 'seed-social' );
+				submit_button();
+				?>
+			</form>
+		</div>
+		<?php 
 	}
-	.form-table th,.form-table td {
-		padding: 0;line-height: 4em;
-	}
-	.form-table td p.description {
-		margin-top: -10px;
-	}
-	input#seed-social-facebook-text,
-	input#seed-social-twitter-text,
-	input#seed-social-google-plus-text,
-	input#seed-social-line-text {
-		position: absolute;margin: -3em 0 0 24px;width: 100px;
-	}</style>
-	<div class="wrap">
-		<div class="icon32" id="icon-options-general"></div>
-		<h2><?php esc_html_e( 'Seed Social', 'seed-social' ); ?></h2>
-		<p>
-			<?php printf( wp_kses( __( 'For more information, please visit <a href="%1s" target="_blank">FAQ on WordPress.org</a>.', 'seed-social' ), array( 'a' => array( 'href' => array(), 'target' => array() ) ) ), esc_url( 'https://wordpress.org/plugins/seed-social/#faq' ) ); ?>
-		</p>
-		<form action="<?php echo admin_url( 'options.php' ); ?>" method="post" id="seed-social-form">
-			<?php
-			settings_fields( 'seed-social' );
-			do_settings_sections( 'seed-social' );
-			submit_button();
-			?>
-		</form>
-	</div>
-	<?php 
-}
 
 /**
  * Quick helper function that prefixes an option ID
@@ -380,19 +369,6 @@ function seed_social_get_settings() {
 					'title'   => esc_html__( '', 'seed-social' ),
 					'type'    => 'text',
 					'default' => 'Twitter'
-				),
-				array(
-					'id'      => seed_social_get_option_id( 'is_google_plus' ),
-					'title'   => esc_html__( 'Google Plus', 'seed-social' ),
-					'type'    => 'checkbox',
-					'options' => array( 'on' => esc_html__( '', 'seed-social' ) ),
-					'default' => array( 'on' )
-				),
-				array(
-					'id'      => seed_social_get_option_id( 'google_plus_text' ),
-					'title'   => esc_html__( '', 'seed-social' ),
-					'type'    => 'text',
-					'default' => 'Google Plus'
 				),
 				array(
 					'id'      => seed_social_get_option_id( 'is_line' ),
@@ -507,53 +483,53 @@ function seed_social_output_settings_field( $option ) {
 
 	switch( $field_type ):
 
-	case 'text': ?>
-	<input type="text" name="<?php echo $option['name']; ?>" id="<?php echo $id; ?>" value="<?php echo $current; ?>" class="regular-text" />
-	<?php break;
+		case 'text': ?>
+		<input type="text" name="<?php echo $option['name']; ?>" id="<?php echo $id; ?>" value="<?php echo $current; ?>" class="regular-text" />
+		<?php break;
 
-	case 'checkbox':
-	foreach( $option['options'] as $val => $choice ):
+		case 'checkbox':
+		foreach( $option['options'] as $val => $choice ):
 
-		if ( count( $option['options'] ) > 1 ) {
-			$id = "{$id}_{$val}";
-		}
+			if ( count( $option['options'] ) > 1 ) {
+				$id = "{$id}_{$val}";
+			}
 
-		$selected = is_array( $current ) && in_array( $val, $current ) ? 'checked="checked"' : '';  
-		?>
-		<label for="<?php echo $id; ?>">
-			<input type="checkbox" name="<?php echo $option['name']; ?>[]" value="<?php echo $val; ?>" id="<?php echo $id; ?>" <?php echo $selected; ?> />
-			<?php echo $choice; ?>
-		</label>
-		<?php 
-	endforeach;
-	break;
-
-	case 'dropdown': ?>
-	<label for="<?php echo $option['name']; ?>">
-		<select name="<?php echo $option['name']; ?>" id="<?php echo $id; ?>">
-			<?php 
-			foreach( $option['options'] as $val => $choice ):
-				if( $val == $current ) {
-					$selected = 'selected="selected"';
-				}
-				else {
-					$selected = ''; ?><option value="<?php echo $val; ?>" <?php echo $selected; ?>><?php echo $choice; ?></option><?php 
-				}
-			endforeach; 
+			$selected = is_array( $current ) && in_array( $val, $current ) ? 'checked="checked"' : '';  
 			?>
-		</select>
-	</label>
-	<?php break;
+			<label for="<?php echo $id; ?>">
+				<input type="checkbox" name="<?php echo $option['name']; ?>[]" value="<?php echo $val; ?>" id="<?php echo $id; ?>" <?php echo $selected; ?> />
+				<?php echo $choice; ?>
+			</label>
+			<?php 
+		endforeach;
+		break;
 
-	case 'textarea':
-	if( !$current && isset($option['std']) ) { $current = $option['std']; } ?>
-	<textarea name="<?php echo $option['name']; ?>" id="<?php echo $id; ?>" rows="8" cols="70"><?php echo $current; ?></textarea>
-	<?php break;
+		case 'dropdown': ?>
+		<label for="<?php echo $option['name']; ?>">
+			<select name="<?php echo $option['name']; ?>" id="<?php echo $id; ?>">
+				<?php 
+				foreach( $option['options'] as $val => $choice ):
+					if( $val == $current ) {
+						$selected = 'selected="selected"';
+					}
+					else {
+						$selected = ''; ?><option value="<?php echo $val; ?>" <?php echo $selected; ?>><?php echo $choice; ?></option><?php 
+					}
+				endforeach; 
+				?>
+			</select>
+		</label>
+		<?php break;
 
-	case 'textarea_code':
-	if( !$current && isset($option['std']) ) { $current = $option['std']; } ?>
-	<textarea name="<?php echo $option['name']; ?>" id="<?php echo $id; ?>" rows="4" cols="60" class="code" readonly><?php echo $current; ?></textarea>
-	<?php break;
+		case 'textarea':
+		if( !$current && isset($option['std']) ) { $current = $option['std']; } ?>
+		<textarea name="<?php echo $option['name']; ?>" id="<?php echo $id; ?>" rows="8" cols="70"><?php echo $current; ?></textarea>
+		<?php break;
+
+		case 'textarea_code':
+		if( !$current && isset($option['std']) ) { $current = $option['std']; } ?>
+		<textarea name="<?php echo $option['name']; ?>" id="<?php echo $id; ?>" rows="4" cols="60" class="code" readonly><?php echo $current; ?></textarea>
+		<?php break;
 
 	endswitch;
 
