@@ -37,6 +37,7 @@
 	font-size: 12px;
 	line-height: 20px;
 	margin: 1.5em 0;
+	text-align: center;
 }
 .seed-social * {box-sizing: border-box;}
 .seed-social:before,
@@ -57,7 +58,7 @@
 	font-size: 20px;
 	color: #fff;
 	transition: 0.3s ease;
-	padding: 0 4px;
+	padding: 0 3px;
 }
 .seed-social span {
 	color: #fff;
@@ -68,7 +69,7 @@
 	text-decoration: none !important;
 	display: block;
 	height: 40px;
-	min-width: 60px;
+	min-width: 80px;
 	border-radius: 3px;
 	text-align: center;
 	padding: 4px;
@@ -120,6 +121,9 @@
 }
 
 @media (min-width:768px) {
+	.seed-social {
+		text-align: left;
+	}
 	.seed-social i {
 		font-size: 16px;
 		vertical-align: -3px;
