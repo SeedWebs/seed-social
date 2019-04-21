@@ -1,14 +1,14 @@
 === Seed Social ===
 Contributors: SeedThemes
 Donate link: https://seedthemes.com/
-Tags: social, facebook, twitter, google plus, line, share
+Tags: social, facebook, twitter, line, share
 Requires at least: 4.5
 Tested up to: 5.1.1
 Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Minimal Social Sharing WordPress Plugin (Just Facebook, Twitter, Google Plus and Line)
+Minimal Social Sharing WordPress Plugin (Just Facebook, Twitter and Line)
 
 == Description ==
 
