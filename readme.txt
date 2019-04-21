@@ -3,8 +3,8 @@ Contributors: SeedThemes
 Donate link: https://seedthemes.com/
 Tags: social, facebook, twitter, google plus, line, share
 Requires at least: 4.5
-Tested up to: 4.8
-Stable tag: 1.3.5
+Tested up to: 5.1.1
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -87,6 +87,11 @@ if(function_exists('seed_social')) {seed_social();}
 3. Settings
 
 == Changelog ==
+
+= 1.4.0 =
+* New: Facebook API v2.12, will be available until May 1, 2020. (If using v3.2, our plugin need App ID).
+* Tweak: Remove Google Plus (Shut down on April 2, 2019).
+* Tweak: Align center on mobile.
 
 = 1.3.5 =
 * Fix: Facebook Deprecated Sharer URL.
