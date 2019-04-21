@@ -10,12 +10,9 @@
 		var fb_raw_count = '';
 		var fb_num_count = 0;
 
-		console.log(url);
-
 		$.getJSON(url, function(json) {
 
 			if (typeof json.og_object !== 'undefined') {
-				// console.log(json.og_object);
 
 				$.each(json.og_object.engagement, function (key, value) {
 					if(key === 'count') {
