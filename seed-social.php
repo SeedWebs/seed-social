@@ -98,7 +98,7 @@ add_action( 'wp_enqueue_scripts', 'seed_social_scripts' );
 
 function seed_social_scripts() {
 	if(!is_admin()) {
-		wp_enqueue_script( 'seed-social', plugin_dir_url( __FILE__ ) . 'seed-social.js' , array('jquery'), '2016-1', true );
+		wp_enqueue_script( 'seed-social', plugin_dir_url( __FILE__ ) . 'seed-social.js' , array(), '2016-1', true );
 		wp_enqueue_style( 'seed-social', plugin_dir_url( __FILE__ ) . 'seed-social.css' , array() );
 	}
 }
@@ -124,28 +124,28 @@ function seed_social( $echo = true , $css_class = '') {
 
 		/* Facebook Button */
 		if( $is_facebook )
-			$fbshare = '<a href="https://www.facebook.com/share.php?u='.urlencode( get_the_permalink( $post->ID ) ).'" target="seed-social"><i class="ss-facebook"></i><span class="text">'. $facebook_text . '</span><span class="count"></span></a>';
+			$fbshare = '<a href="https://www.facebook.com/share.php?u='.urlencode( get_the_permalink( $post->ID ) ).'" data-href="https://www.facebook.com/share.php?u='.urlencode( get_the_permalink( $post->ID ) ).'" class="seed-social-btn" target="seed-social"><i class="ss-facebook"></i><span class="text">'. $facebook_text . '</span><span class="count"></span></a>';
 
 		/* Twitter Button */
 		if( $is_twitter )
-			$tweet = '<a href="https://twitter.com/share?url='.urlencode( get_the_permalink( $post->ID ) ).'&text='.urlencode($post->post_title).'" target="seed-social"><i class="ss-twitter"></i><span class="text">' . $twitter_text . '</span><span class="count"></span></a>';
+			$tweet = '<a href="https://twitter.com/share?url='.urlencode( get_the_permalink( $post->ID ) ).'&text='.urlencode($post->post_title).'" data-href="https://twitter.com/share?url='.urlencode( get_the_permalink( $post->ID ) ).'&text='.urlencode($post->post_title).'" class="seed-social-btn" target="seed-social"><i class="ss-twitter"></i><span class="text">' . $twitter_text . '</span><span class="count"></span></a>';
 
 		/* Line */
 		if( $is_line )
-			$line = '<a href="https://lineit.line.me/share/ui?url='.urlencode( get_the_permalink( $post->ID ) ).'" target="seed-social"><i class="ss-line"></i><span class="text">' . $line_text . '</span><span class="count"></span></a>';
+			$line = '<a href="https://lineit.line.me/share/ui?url='.urlencode( get_the_permalink( $post->ID ) ).'" data-href="https://lineit.line.me/share/ui?url='.urlencode( get_the_permalink( $post->ID ) ).'" class="seed-social-btn" target="seed-social -line"><i class="ss-line"></i><span class="text">' . $line_text . '</span><span class="count"></span></a>';
 
-		$seed_social_echo .= '<div class="seed-social '. $css_class . '">';
+		$seed_social_echo .= '<ul data-list="seed-social" class="seed-social '. $css_class . '">';
 
 		if( $is_facebook )
-			$seed_social_echo .= '<div class="facebook">'.$fbshare.'</div>';
+			$seed_social_echo .= '<li class="facebook">'.$fbshare.'</li>';
 
 		if( $is_twitter )
-			$seed_social_echo .= '<div class="twitter">'.$tweet.'</div>';
+			$seed_social_echo .= '<li class="twitter">'.$tweet.'</li>';
 
 		if( $is_line )
-			$seed_social_echo .= '<div class="line">'.$line.'</div>';
+			$seed_social_echo .= '<li class="line">'.$line.'</li>';
 
-		$seed_social_echo .= '</div>';
+		$seed_social_echo .= '</ul>';
 	}
 
 	if( $echo )
@@ -162,6 +162,18 @@ if ( ! function_exists( 'is_woo_activated' ) ) {
 	function is_woo_activated() {
 		if ( class_exists( 'woocommerce' ) ) { return true; } else { return false; }
 	}
+}
+
+
+add_action('wp_footer', 'facebook_key_encrypt'); 
+
+function facebook_key_encrypt() { 
+
+	$app_id = date('mY') . get_option('seed_social_app_id');
+	$app_secret = base64_encode( date('mY') . get_option('seed_social_app_secret') );
+	$value = base64_encode($app_id . ' ' . $app_secret);
+
+	echo '<input type="hidden" value="'. $value .'" class="pass-encrypt">';
 }
 
 function seed_social_auto( $content ) {
@@ -382,6 +394,18 @@ function seed_social_get_settings() {
 					'title'   => esc_html__( '', 'seed-social' ),
 					'type'    => 'text',
 					'default' => 'Line'
+				),
+				array(
+					'id'      => seed_social_get_option_id( 'app_id' ),
+					'title'   => esc_html__( 'App ID ( Facebook )', 'seed-social' ),
+					'type'    => 'text',
+					'default' => ''
+				),
+				array(
+					'id'      => seed_social_get_option_id( 'app_secret' ),
+					'title'   => esc_html__( 'App Secret ( Facebook )', 'seed-social' ),
+					'type'    => 'text',
+					'default' => ''
 				),
 				array(
 					'id'      => seed_social_get_option_id( 'is_open_graph' ),

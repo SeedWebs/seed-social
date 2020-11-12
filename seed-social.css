@@ -37,21 +37,23 @@
 	font-size: 12px;
 	line-height: 20px;
 	margin: 1.5em 0;
+	padding: 0;
 	text-align: center;
+	list-style: none;
 }
 .seed-social * {box-sizing: border-box;}
 .seed-social:before,
 .seed-social:after{content: "";display: table;}
 .seed-social:after {clear: both;}
 
-.seed-social > div {
+.seed-social > li {
 	display: inline-block;
 	margin-right: 10px;
 	margin-bottom: 10px;
 	overflow: hidden;
 	vertical-align: top;
 }
-.seed-social > div:last-of-type a {
+.seed-social > li:last-of-type a {
 	margin-right: 0;
 }
 .seed-social i {
@@ -59,10 +61,12 @@
 	color: #fff;
 	transition: 0.3s ease;
 	padding: 0 3px;
+	pointer-events: none;
 }
 .seed-social span {
 	color: #fff;
 	transition: 0.3s ease;
+	pointer-events: none;
 }
 .seed-social a {
 	color: #fff !important;
@@ -91,6 +95,7 @@
 }
 .seed-social .text {
 	display: none;
+	pointer-events: none;
 }
 .seed-social .count {
 	vertical-align: 4px;
@@ -98,15 +103,20 @@
 	background: none;
 	float: none;
 	font-size: inherit;
+	pointer-events: none;
 }
-.seed-social .facebook a{
+.seed-social .facebook .count {
+	opacity: 0;
+	transition: 500ms ease-in-out;
+}
+.seed-social .facebook a {
 	background-color: #3b5998;
 	float: left;
 }
-.seed-social .twitter a{
+.seed-social .twitter a {
 	background-color: #55acee;
 }
-.seed-social .line a{
+.seed-social .line a {
 	background-color: #00c300;
 }
 
