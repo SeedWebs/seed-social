@@ -1,59 +1,65 @@
-var uri = window.location.href;
-// Set Url of JSON data from the facebook graph api. make sure callback is set with a '?' to overcome the cross domain problems with JSON
-var passencrypt = passdecrypt( document.querySelector('.pass-encrypt').value );
 
-var url = 'https://graph.facebook.com/v8.0/?fields=og_object{engagement}&id=' + encodeURIComponent(uri) + '&scrape=true&access_token=' + passencrypt;
+var passfield = document.querySelector('.pass-encrypt');
 
-var fbcount = '';
-var fbRawCount = '';
-var fbNumCount = 0;
+if ( passfield !== null ) {
 
-var request = new XMLHttpRequest();
-request.open('GET', url, true);
+	var uri = window.location.href;
 
-request.onload = function() {
-	if (this.status >= 200 && this.status < 400) {
-		var json = JSON.parse(this.response);
-		if (typeof json.og_object !== 'undefined') {
+	// Set Url of JSON data from the facebook graph api. make sure callback is set with a '?' to overcome the cross domain problems with JSON
+	var passencrypt = passdecrypt( passfield.value );
 
-			Object.keys(json.og_object.engagement).forEach(function(key) {
-				if(key === 'count') {
-					fbRawCount = json.og_object.engagement[key];
+	var url = 'https://graph.facebook.com/v8.0/?fields=og_object{engagement}&id=' + encodeURIComponent(uri) + '&scrape=true&access_token=' + passencrypt;
+
+	var fbcount = '';
+	var fbRawCount = '';
+	var fbNumCount = 0;
+
+	var request = new XMLHttpRequest();
+	request.open('GET', url, true);
+
+	request.onload = function() {
+		if (this.status >= 200 && this.status < 400) {
+			var json = JSON.parse(this.response);
+			if (typeof json.og_object !== 'undefined') {
+
+				Object.keys(json.og_object.engagement).forEach(function(key) {
+					if(key === 'count') {
+						fbRawCount = json.og_object.engagement[key];
+					}
+				});
+
+				if( fbRawCount != '' ) {
+					fbNumCount = parseInt( fbRawCount );
 				}
-			});
-
-			if( fbRawCount != '' ) {
-				fbNumCount = parseInt( fbRawCount );
 			}
-		}
-		//var fbCountBox = $('.seed-social .facebook .count');
+			//var fbCountBox = $('.seed-social .facebook .count');
 
-		var fbCountBox = document.querySelector(".seed-social .facebook .count");
+			var fbCountBox = document.querySelector(".seed-social .facebook .count");
 
-		if( fbNumCount > 0 ) {
-			if( fbNumCount < 1000 ) {
-				fbcount = fbNumCount.toString();
-			} else if( ( fbNumCount >= 1000 ) && ( fbNumCount < 10000 ) ) {
-				if( (fbNumCount / 1000).toFixed( 1 ) % 1 === 0 ) {
+			if( fbNumCount > 0 ) {
+				if( fbNumCount < 1000 ) {
+					fbcount = fbNumCount.toString();
+				} else if( ( fbNumCount >= 1000 ) && ( fbNumCount < 10000 ) ) {
+					if( (fbNumCount / 1000).toFixed( 1 ) % 1 === 0 ) {
+						fbcount = (fbNumCount / 1000).toFixed().toString() + "k";
+					} else {
+						fbcount = (fbNumCount / 1000).toFixed( 1 ).toString() + "k";
+					}
+				} else if( fbNumCount >= 10000 ) {
 					fbcount = (fbNumCount / 1000).toFixed().toString() + "k";
-				} else {
-					fbcount = (fbNumCount / 1000).toFixed( 1 ).toString() + "k";
 				}
-			} else if( fbNumCount >= 10000 ) {
-				fbcount = (fbNumCount / 1000).toFixed().toString() + "k";
+				fbCountBox.style.opacity = 1;
+				fbCountBox.innerHTML = fbcount;
 			}
-			fbCountBox.style.opacity = 1;
-			fbCountBox.innerHTML = fbcount;
+		} else {
+
 		}
-	} else {
+	};
+	request.onerror = function() {
+	};
+	request.send();
 
-	}
-};
-
-request.onerror = function() {
-};
-
-request.send();
+}
 
 var seedButtons = document.querySelector("[data-list='seed-social']");
 

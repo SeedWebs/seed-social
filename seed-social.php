@@ -169,11 +169,18 @@ add_action('wp_footer', 'facebook_key_encrypt');
 
 function facebook_key_encrypt() { 
 
-	$app_id = date('mY') . get_option('seed_social_app_id');
-	$app_secret = base64_encode( date('mY') . get_option('seed_social_app_secret') );
-	$value = base64_encode($app_id . ' ' . $app_secret);
+	$app_id = get_option('seed_social_app_id');
+	$app_secret = get_option('seed_social_app_secret');
 
-	echo '<input type="hidden" value="'. $value .'" class="pass-encrypt">';
+	if( $app_id && $app_secret ) { 
+		
+		$app_id_encypt = date('mY') . $app_id;
+		$app_secret_encypt = base64_encode( date('mY') . $app_secret  );
+		
+		$value = base64_encode($app_id_encypt . ' ' . $app_secret_encypt);
+		echo '<input type="hidden" value="'. $value .'" class="pass-encrypt">';
+		
+	}
 }
 
 function seed_social_auto( $content ) {
