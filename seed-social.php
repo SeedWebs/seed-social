@@ -281,35 +281,45 @@ add_action( 'admin_menu', 'seed_social_setup_menu' );
 
 function seed_social_init() { 
 	?><style>
-		form label{
-			display: inline-block; min-width: 60px; margin-right: 10px;
-		}
-		.form-table th,.form-table td {
-			padding: 0;line-height: 4em;
-		}
-		.form-table td p.description {
-			margin-top: -10px;
-		}
-		input#seed-social-facebook-text,
-		input#seed-social-twitter-text,
-		input#seed-social-line-text {
-			position: absolute;margin: -3em 0 0 24px;width: 100px;
-		}</style>
-		<div class="wrap">
-			<div class="icon32" id="icon-options-general"></div>
-			<h2><?php esc_html_e( 'Seed Social', 'seed-social' ); ?></h2>
-			<p>
-				<?php printf( wp_kses( __( 'For more information, please visit <a href="%1s" target="_blank">FAQ on WordPress.org</a>.', 'seed-social' ), array( 'a' => array( 'href' => array(), 'target' => array() ) ) ), esc_url( 'https://wordpress.org/plugins/seed-social/#faq' ) ); ?>
-			</p>
-			<form action="<?php echo admin_url( 'options.php' ); ?>" method="post" id="seed-social-form">
-				<?php
+form label {
+    display: inline-block;
+    min-width: 60px;
+    margin-right: 10px;
+}
+
+.form-table th,
+.form-table td {
+    padding: 0;
+    line-height: 4em;
+}
+
+.form-table td p.description {
+    margin-top: -10px;
+}
+
+input#seed-social-facebook-text,
+input#seed-social-twitter-text,
+input#seed-social-line-text {
+    position: absolute;
+    margin: -3em 0 0 24px;
+    width: 100px;
+}
+</style>
+<div class="wrap">
+    <div class="icon32" id="icon-options-general"></div>
+    <h2><?php esc_html_e( 'Seed Social', 'seed-social' ); ?></h2>
+    <p>
+        <?php printf( wp_kses( __( 'For more information, please visit <a href="%1s" target="_blank">FAQ on WordPress.org</a>.', 'seed-social' ), array( 'a' => array( 'href' => array(), 'target' => array() ) ) ), esc_url( 'https://wordpress.org/plugins/seed-social/#faq' ) ); ?>
+    </p>
+    <form action="<?php echo admin_url( 'options.php' ); ?>" method="post" id="seed-social-form">
+        <?php
 				settings_fields( 'seed-social' );
 				do_settings_sections( 'seed-social' );
 				submit_button();
 				?>
-			</form>
-		</div>
-		<?php 
+    </form>
+</div>
+<?php 
 	}
 
 /**
@@ -397,13 +407,13 @@ function seed_social_get_settings() {
 				),
 				array(
 					'id'      => seed_social_get_option_id( 'app_id' ),
-					'title'   => esc_html__( 'App ID ( Facebook )', 'seed-social' ),
+					'title'   => esc_html__( 'Facebook App ID', 'seed-social' ),
 					'type'    => 'text',
 					'default' => ''
 				),
 				array(
 					'id'      => seed_social_get_option_id( 'app_secret' ),
-					'title'   => esc_html__( 'App Secret ( Facebook )', 'seed-social' ),
+					'title'   => esc_html__( 'Facebook App Secret', 'seed-social' ),
 					'type'    => 'text',
 					'default' => ''
 				),
@@ -508,8 +518,8 @@ function seed_social_output_settings_field( $option ) {
 	switch( $field_type ):
 
 		case 'text': ?>
-		<input type="text" name="<?php echo $option['name']; ?>" id="<?php echo $id; ?>" value="<?php echo $current; ?>" class="regular-text" />
-		<?php break;
+<input type="text" name="<?php echo $option['name']; ?>" id="<?php echo $id; ?>" value="<?php echo $current; ?>" class="regular-text" />
+<?php break;
 
 		case 'checkbox':
 		foreach( $option['options'] as $val => $choice ):
@@ -520,18 +530,18 @@ function seed_social_output_settings_field( $option ) {
 
 			$selected = is_array( $current ) && in_array( $val, $current ) ? 'checked="checked"' : '';  
 			?>
-			<label for="<?php echo $id; ?>">
-				<input type="checkbox" name="<?php echo $option['name']; ?>[]" value="<?php echo $val; ?>" id="<?php echo $id; ?>" <?php echo $selected; ?> />
-				<?php echo $choice; ?>
-			</label>
-			<?php 
+<label for="<?php echo $id; ?>">
+    <input type="checkbox" name="<?php echo $option['name']; ?>[]" value="<?php echo $val; ?>" id="<?php echo $id; ?>" <?php echo $selected; ?> />
+    <?php echo $choice; ?>
+</label>
+<?php 
 		endforeach;
 		break;
 
 		case 'dropdown': ?>
-		<label for="<?php echo $option['name']; ?>">
-			<select name="<?php echo $option['name']; ?>" id="<?php echo $id; ?>">
-				<?php 
+<label for="<?php echo $option['name']; ?>">
+    <select name="<?php echo $option['name']; ?>" id="<?php echo $id; ?>">
+        <?php 
 				foreach( $option['options'] as $val => $choice ):
 					if( $val == $current ) {
 						$selected = 'selected="selected"';
@@ -541,19 +551,19 @@ function seed_social_output_settings_field( $option ) {
 					}
 				endforeach; 
 				?>
-			</select>
-		</label>
-		<?php break;
+    </select>
+</label>
+<?php break;
 
 		case 'textarea':
 		if( !$current && isset($option['std']) ) { $current = $option['std']; } ?>
-		<textarea name="<?php echo $option['name']; ?>" id="<?php echo $id; ?>" rows="8" cols="70"><?php echo $current; ?></textarea>
-		<?php break;
+<textarea name="<?php echo $option['name']; ?>" id="<?php echo $id; ?>" rows="8" cols="70"><?php echo $current; ?></textarea>
+<?php break;
 
 		case 'textarea_code':
 		if( !$current && isset($option['std']) ) { $current = $option['std']; } ?>
-		<textarea name="<?php echo $option['name']; ?>" id="<?php echo $id; ?>" rows="4" cols="60" class="code" readonly><?php echo $current; ?></textarea>
-		<?php break;
+<textarea name="<?php echo $option['name']; ?>" id="<?php echo $id; ?>" rows="4" cols="60" class="code" readonly><?php echo $current; ?></textarea>
+<?php break;
 
 	endswitch;
 
@@ -588,9 +598,9 @@ function seed_social_custom_box_html($post)
 {
 	$value = get_post_meta(get_the_ID(), '_seed_social_disable', true);
 	?>
-	<input type="checkbox" name="seed_social_disable" id="seed_social_disable" class="postbox" <?php checked( $value, 'on' ); ?> />
-	<label for="seed_social_disable">Disable social sharing button</label>
-	<?php
+<input type="checkbox" name="seed_social_disable" id="seed_social_disable" class="postbox" <?php checked( $value, 'on' ); ?> />
+<label for="seed_social_disable">Disable social sharing button</label>
+<?php
 }
 
 function seed_social_save_postdata($post_id)
