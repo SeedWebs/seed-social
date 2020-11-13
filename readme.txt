@@ -3,8 +3,8 @@ Contributors: SeedThemes
 Donate link: https://seedthemes.com/
 Tags: social, facebook, twitter, line, share
 Requires at least: 4.5
-Tested up to: 5.1.1
-Stable tag: 1.4.0
+Tested up to: 5.5.3
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,7 +14,7 @@ Minimal Social Sharing WordPress Plugin (Just Facebook, Twitter and Line)
 
 Just upload this plugin to WordPress and activate it. The plugin will add social sharing buttons under post content.
 
-You can enable each social network and change settings via Settings -> Seed Social.
+You can enable each social network and change settings via Settings → Seed Social.
 
 Official development of Seed Social is on GitHub, with official stable releases published on WordPress.org. The GitHub repo can be found at https://github.com/SeedThemes/seed-social. Please use the Support tab for potential bugs, issues, or enhancement ideas.
 
@@ -30,11 +30,12 @@ Official development of Seed Social is on GitHub, with official stable releases 
 
 = How to disable some social networks =
 
-* Go to Settings -> Seed Social.
+* Go to Settings → Seed Social.
 
 = Image not shown on social network / facebook post? =
 
-* Go to Settings -> Seed Social and enable Open Graph. Or use Yoast SEO / All in one SEO plugin.
+* Go to Settings → Seed Social and enable Open Graph. Or use Yoast SEO / All in one SEO plugin.
+* After setup, go to https://developers.facebook.com/tools/debug/ put your link and click Scrape Again button.
 
 = How to add buttons manually in template files? =
 
@@ -54,7 +55,7 @@ if(function_exists('seed_social')) {seed_social();}
 
 = Can you suggest CSS to align buttons center? =
 
-* You can add this CSS code in Appearance -> Customize -> Additional CSS
+* You can add this CSS code in Appearance → Customize → Additional CSS
 
 ```
 .seed-social {
@@ -63,19 +64,22 @@ if(function_exists('seed_social')) {seed_social();}
 ```
 = Can you suggest CSS to make buttons rounded? =
 
-* You can add this CSS code in Appearance -> Customize -> Additional CSS
+* You can add this CSS code in Appearance → Customize → Additional CSS
 
 ```
 .seed-social a {
-    width: 50px;
-    height: 50px;
-    border-radius: 25px;
-    line-height: 49px;
+    min-width: 40px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
 }
 .seed-social i {
-    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    background-size: 100%;
 }
-.seed-social span {
+.seed-social span.text,
+.seed-social span.count {
     display: none;
 }
 ```
@@ -87,6 +91,12 @@ if(function_exists('seed_social')) {seed_social();}
 3. Settings
 
 == Changelog ==
+
+= 2.0.0 =
+* Date: 13 Nov 2020
+* New: Rewrite JS in Vanilla JS. No jQuery needed.
+* New: Rewrite CSS, now using SVG base64 CSS background. No icon fonts loaded.
+* New: Support Facebook Graph API v9.0. Require App ID and App Secret.
 
 = 1.4.0 =
 * New: Facebook API v2.12, will be available until May 1, 2020. (If using v3.2, our plugin need App ID).
@@ -160,7 +170,7 @@ if(function_exists('seed_social')) {seed_social();}
 * New: Post Types options.
 
 = 1.1.0 =
-* New: options page (Settings -> Seed Social).
+* New: options page (Settings → Seed Social).
 
 = 1.0.0 =
 * Change to new FB Share URL.
