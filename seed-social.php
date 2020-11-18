@@ -3,7 +3,7 @@
 Plugin Name: Seed Social
 Plugin URI: https://github.com/SeedThemes/seed-social
 Description: Minimal Social Sharing WordPress Plugin
-Version: 2.0.0
+Version: 2.0.1
 Author: SeedThemes
 Author URI: https://www.seedthemes.com
 License: GPL2
@@ -98,8 +98,8 @@ add_action( 'wp_enqueue_scripts', 'seed_social_scripts' );
 
 function seed_social_scripts() {
 	if(!is_admin()) {
-		wp_enqueue_script( 'seed-social', plugin_dir_url( __FILE__ ) . 'seed-social.js' , array(), '2016-1', true );
-		wp_enqueue_style( 'seed-social', plugin_dir_url( __FILE__ ) . 'seed-social.css' , array() );
+		wp_enqueue_script( 'seed-social', plugin_dir_url( __FILE__ ) . 'script.js' , array(), '2020.01', true );
+		wp_enqueue_style( 'seed-social', plugin_dir_url( __FILE__ ) . 'style.css' , array() );
 	}
 }
 

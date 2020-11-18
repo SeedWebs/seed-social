@@ -4,7 +4,7 @@ Donate link: https://seedthemes.com/
 Tags: social, facebook, twitter, line, share
 Requires at least: 4.5
 Tested up to: 5.5.3
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -91,6 +91,10 @@ if(function_exists('seed_social')) {seed_social();}
 3. Settings
 
 == Changelog ==
+
+= 2.0.1 =
+* Date: 18 Nov 2020
+* Tweak: Rename JS and CSS files. Make it easy for people who can't clear cache.
 
 = 2.0.0 =
 * Date: 13 Nov 2020
