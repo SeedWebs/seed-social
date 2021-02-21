@@ -98,8 +98,8 @@ add_action( 'wp_enqueue_scripts', 'seed_social_scripts' );
 
 function seed_social_scripts() {
 	if(!is_admin()) {
-		wp_enqueue_script( 'seed-social', plugin_dir_url( __FILE__ ) . 'script.js' , array(), '2020.01', true );
-		wp_enqueue_style( 'seed-social', plugin_dir_url( __FILE__ ) . 'style.css' , array() );
+		wp_enqueue_script( 'seed-social', plugin_dir_url( __FILE__ ) . 'script.js' , array(), '2021.02', true );
+		wp_enqueue_style( 'seed-social', plugin_dir_url( __FILE__ ) . 'style.css' , array(), '2021.02' );
 	}
 }
 
@@ -112,9 +112,17 @@ function seed_social( $echo = true , $css_class = '') {
 	$twitter_text = get_option( 'seed_social_twitter_text', 'Twitter' );
 	$line_text = get_option( 'seed_social_line_text', 'Line' );
 
+	$facebook_icon = '<svg class="ss-facebook" role="img" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><title>Facebook icon</title><path d="M23.9981 11.9991C23.9981 5.37216 18.626 0 11.9991 0C5.37216 0 0 5.37216 0 11.9991C0 17.9882 4.38789 22.9522 10.1242 23.8524V15.4676H7.07758V11.9991H10.1242V9.35553C10.1242 6.34826 11.9156 4.68714 14.6564 4.68714C15.9692 4.68714 17.3424 4.92149 17.3424 4.92149V7.87439H15.8294C14.3388 7.87439 13.8739 8.79933 13.8739 9.74824V11.9991H17.2018L16.6698 15.4676H13.8739V23.8524C19.6103 22.9522 23.9981 17.9882 23.9981 11.9991Z"/></svg>';
+	
+	$twitter_icon = '<svg class="ss-twitter" role="img" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Twitter icon</title><path d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z"/></svg>';
+
+	$line_icon = '<svg class="ss-line" role="img" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>LINE icon</title><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>';
+
+
 	if( $facebook_text == '' ) $facebook_text = 'Facebook';
 	if( $twitter_text == '' ) $twitter_text = 'Twitter';
-	if( $line_text == '' ) $line_text = 'Line';		
+	if( $line_text == '' ) $line_text = 'Line';
+
 
 	global $post;
 
@@ -124,15 +132,15 @@ function seed_social( $echo = true , $css_class = '') {
 
 		/* Facebook Button */
 		if( $is_facebook )
-			$fbshare = '<a href="https://www.facebook.com/share.php?u='.urlencode( get_the_permalink( $post->ID ) ).'" data-href="https://www.facebook.com/share.php?u='.urlencode( get_the_permalink( $post->ID ) ).'" class="seed-social-btn" target="seed-social"><i class="ss-facebook"></i><span class="text">'. $facebook_text . '</span><span class="count"></span></a>';
+			$fbshare = '<a href="https://www.facebook.com/share.php?u='.urlencode( get_the_permalink( $post->ID ) ).'" data-href="https://www.facebook.com/share.php?u='.urlencode( get_the_permalink( $post->ID ) ).'" class="seed-social-btn" target="seed-social">' . $facebook_icon . '<span class="text">'. $facebook_text . '</span><span class="count"></span></a>';
 
 		/* Twitter Button */
 		if( $is_twitter )
-			$tweet = '<a href="https://twitter.com/share?url='.urlencode( get_the_permalink( $post->ID ) ).'&text='.urlencode($post->post_title).'" data-href="https://twitter.com/share?url='.urlencode( get_the_permalink( $post->ID ) ).'&text='.urlencode($post->post_title).'" class="seed-social-btn" target="seed-social"><i class="ss-twitter"></i><span class="text">' . $twitter_text . '</span><span class="count"></span></a>';
+			$tweet = '<a href="https://twitter.com/share?url='.urlencode( get_the_permalink( $post->ID ) ).'&text='.urlencode($post->post_title).'" data-href="https://twitter.com/share?url='.urlencode( get_the_permalink( $post->ID ) ).'&text='.urlencode($post->post_title).'" class="seed-social-btn" target="seed-social">' . $twitter_icon . '<span class="text">' . $twitter_text . '</span><span class="count"></span></a>';
 
 		/* Line */
 		if( $is_line )
-			$line = '<a href="https://lineit.line.me/share/ui?url='.urlencode( get_the_permalink( $post->ID ) ).'" data-href="https://lineit.line.me/share/ui?url='.urlencode( get_the_permalink( $post->ID ) ).'" class="seed-social-btn" target="seed-social -line"><i class="ss-line"></i><span class="text">' . $line_text . '</span><span class="count"></span></a>';
+			$line = '<a href="https://lineit.line.me/share/ui?url='.urlencode( get_the_permalink( $post->ID ) ).'" data-href="https://lineit.line.me/share/ui?url='.urlencode( get_the_permalink( $post->ID ) ).'" class="seed-social-btn" target="seed-social -line">' . $line_icon . '<span class="text">' . $line_text . '</span><span class="count"></span></a>';
 
 		$seed_social_echo .= '<ul data-list="seed-social" class="seed-social '. $css_class . '">';
 
