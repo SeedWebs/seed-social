@@ -92,6 +92,11 @@ if(function_exists('seed_social')) {seed_social();}
 
 == Changelog ==
 
+= 2.0.2 =
+* Date: 21 Feb 2021
+* Tweak: Inline SVG instead of CSS. Make it easier to override style.
+* Fix: Remove url parameters for correct shared count
+
 = 2.0.1 =
 * Date: 18 Nov 2020
 * Tweak: Rename JS and CSS files. Make it easy for people who can't clear cache.
