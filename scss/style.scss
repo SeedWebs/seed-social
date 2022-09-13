@@ -95,6 +95,16 @@
       background-color: #00b900;
     }
   }
+  .copylink {
+    a {
+      background-color: #333;
+    }
+  }
+
+  #seed-social-qrcode{
+    width: 40px;
+    height: 40px;
+  }
 
   @media (min-width: 768px) {
     text-align: left;

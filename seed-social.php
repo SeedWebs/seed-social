@@ -67,7 +67,6 @@ if(class_exists('Seed_Social'))
 }
 
 add_action('wp_head','seed_social_fb_og');
-
 function seed_social_fb_og() {
 	$is_open_graph = get_option( 'seed_social_is_open_graph' );
 
@@ -95,11 +94,14 @@ function seed_social_fb_og() {
 }
 
 add_action( 'wp_enqueue_scripts', 'seed_social_scripts' );
-
 function seed_social_scripts() {
 	if(!is_admin()) {
 		wp_enqueue_script( 'seed-social', plugin_dir_url( __FILE__ ) . 'script.js' , array(), '2021.02', true );
 		wp_enqueue_style( 'seed-social', plugin_dir_url( __FILE__ ) . 'style.css' , array(), '2021.02' );
+
+		// QR Code
+		wp_enqueue_script( 'seed-social-qr', plugin_dir_url( __FILE__ ) . 'qrcode.js' , array(), '', false );
+		wp_enqueue_script( 'seed-social-qr-min', plugin_dir_url( __FILE__ ) . 'qrcode.min.js' , array(), '', false );
 	}
 }
 
@@ -107,15 +109,15 @@ function seed_social( $echo = true , $css_class = '') {
 	$is_facebook = get_option( 'seed_social_is_facebook', array( 'on' ) );
 	$is_twitter = get_option( 'seed_social_is_twitter', array( 'on' ) );
 	$is_line = get_option( 'seed_social_is_line', array( 'on' ) );
+	$is_copylink = get_option( 'seed_social_is_copylink', array( 'on' ) );
+	$is_qrcode = get_option( 'seed_social_is_qrcode', array( 'on' ) );
 
 	$facebook_text = get_option( 'seed_social_facebook_text', 'Facebook' );
 	$twitter_text = get_option( 'seed_social_twitter_text', 'Twitter' );
 	$line_text = get_option( 'seed_social_line_text', 'Line' );
 
 	$facebook_icon = '<svg class="ss-facebook" role="img" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><title>Facebook icon</title><path d="M23.9981 11.9991C23.9981 5.37216 18.626 0 11.9991 0C5.37216 0 0 5.37216 0 11.9991C0 17.9882 4.38789 22.9522 10.1242 23.8524V15.4676H7.07758V11.9991H10.1242V9.35553C10.1242 6.34826 11.9156 4.68714 14.6564 4.68714C15.9692 4.68714 17.3424 4.92149 17.3424 4.92149V7.87439H15.8294C14.3388 7.87439 13.8739 8.79933 13.8739 9.74824V11.9991H17.2018L16.6698 15.4676H13.8739V23.8524C19.6103 22.9522 23.9981 17.9882 23.9981 11.9991Z"/></svg>';
-	
 	$twitter_icon = '<svg class="ss-twitter" role="img" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Twitter icon</title><path d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z"/></svg>';
-
 	$line_icon = '<svg class="ss-line" role="img" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>LINE icon</title><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>';
 
 
@@ -131,31 +133,38 @@ function seed_social( $echo = true , $css_class = '') {
 	if( $is_facebook || $is_twitter || $is_line ) {
 
 		/* Facebook Button */
-		if( $is_facebook )
-			$fbshare = '<a href="https://www.facebook.com/share.php?u='.urlencode( get_the_permalink( $post->ID ) ).'" data-href="https://www.facebook.com/share.php?u='.urlencode( get_the_permalink( $post->ID ) ).'" class="seed-social-btn" target="seed-social">' . $facebook_icon . '<span class="text">'. $facebook_text . '</span><span class="count"></span></a>';
+		if( $is_facebook ) $fbshare = '<a href="https://www.facebook.com/share.php?u='.urlencode( get_the_permalink( $post->ID ) ).'" data-href="https://www.facebook.com/share.php?u='.urlencode( get_the_permalink( $post->ID ) ).'" class="seed-social-btn" target="seed-social">' . $facebook_icon . '<span class="text">'. $facebook_text . '</span><span class="count"></span></a>';
 
 		/* Twitter Button */
-		if( $is_twitter )
-			$tweet = '<a href="https://twitter.com/share?url='.urlencode( get_the_permalink( $post->ID ) ).'&text='.urlencode($post->post_title).'" data-href="https://twitter.com/share?url='.urlencode( get_the_permalink( $post->ID ) ).'&text='.urlencode($post->post_title).'" class="seed-social-btn" target="seed-social">' . $twitter_icon . '<span class="text">' . $twitter_text . '</span><span class="count"></span></a>';
+		if( $is_twitter ) $tweet = '<a href="https://twitter.com/share?url='.urlencode( get_the_permalink( $post->ID ) ).'&text='.urlencode($post->post_title).'" data-href="https://twitter.com/share?url='.urlencode( get_the_permalink( $post->ID ) ).'&text='.urlencode($post->post_title).'" class="seed-social-btn" target="seed-social">' . $twitter_icon . '<span class="text">' . $twitter_text . '</span><span class="count"></span></a>';
 
 		/* Line */
-		if( $is_line )
-			$line = '<a href="https://lineit.line.me/share/ui?url='.urlencode( get_the_permalink( $post->ID ) ).'" data-href="https://lineit.line.me/share/ui?url='.urlencode( get_the_permalink( $post->ID ) ).'" class="seed-social-btn" target="seed-social -line">' . $line_icon . '<span class="text">' . $line_text . '</span><span class="count"></span></a>';
+		if( $is_line ) $line = '<a href="https://lineit.line.me/share/ui?url='.urlencode( get_the_permalink( $post->ID ) ).'" data-href="https://lineit.line.me/share/ui?url='.urlencode( get_the_permalink( $post->ID ) ).'" class="seed-social-btn" target="seed-social -line">' . $line_icon . '<span class="text">' . $line_text . '</span><span class="count"></span></a>';
+
+		/* Copy link */
+		if( $is_copylink ) $copylink = '<a href="#" class="seed-social-btn copylink-btn" data-link="'.get_permalink( $post->ID ).'">
+				<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48" width="24px" height="24px">
+				<g id="surface214132708"><path style=" stroke:none;fill-rule:nonzero;fill:rgb(100%,100%,100%);fill-opacity:1;" d="M 18 7.5 C 15.515625 7.5 13.5 9.515625 13.5 12 L 13.5 13.5 L 12.75 13.5 C 10.269531 13.5 8.25 15.519531 8.25 18 L 8.25 36 C 8.25 38.480469 10.269531 40.5 12.75 40.5 L 30.75 40.5 C 33.230469 40.5 35.25 38.480469 35.25 36 L 35.25 35.25 L 36.75 35.25 C 39.234375 35.25 41.25 33.234375 41.25 30.75 L 41.25 12 C 41.25 9.515625 39.234375 7.5 36.75 7.5 Z M 18 10.5 L 36.75 10.5 C 37.574219 10.5 38.25 11.175781 38.25 12 L 38.25 30.75 C 38.25 31.574219 37.574219 32.25 36.75 32.25 L 35.25 32.25 L 35.25 18 C 35.25 15.519531 33.230469 13.5 30.75 13.5 L 16.5 13.5 L 16.5 12 C 16.5 11.175781 17.175781 10.5 18 10.5 Z M 12.75 16.5 L 30.75 16.5 C 31.578125 16.5 32.25 17.171875 32.25 18 L 32.25 36 C 32.25 36.828125 31.578125 37.5 30.75 37.5 L 12.75 37.5 C 11.921875 37.5 11.25 36.828125 11.25 36 L 11.25 18 C 11.25 17.171875 11.921875 16.5 12.75 16.5 Z M 24.992188 18.75 C 23.710938 18.75 22.429688 19.242188 21.449219 20.222656 L 19.5 22.164062 C 18.523438 23.144531 18.039062 24.417969 18.039062 25.710938 C 18.039062 26.984375 18.523438 28.273438 19.5 29.25 C 20.222656 29.96875 21.113281 30.421875 22.039062 30.609375 L 20.457031 32.191406 C 18.769531 33.875 16.390625 32.359375 16.558594 32.191406 C 15.480469 31.117188 15.480469 29.371094 16.558594 28.296875 L 16.90625 27.953125 C 16.640625 27.253906 16.5 26.503906 16.5 25.714844 C 16.5 25.523438 16.507812 25.328125 16.523438 25.140625 C 16.46875 25.191406 16.445312 25.21875 16.394531 25.269531 L 14.96875 26.699219 C 13.011719 28.65625 13.011719 31.832031 14.96875 33.78125 C 15.945312 34.757812 17.222656 35.246094 18.503906 35.246094 C 19.789062 35.246094 21.070312 34.757812 22.046875 33.785156 L 23.996094 31.835938 C 25.945312 29.882812 25.945312 26.707031 23.996094 24.753906 C 24.054688 24.695312 23.023438 23.734375 21.449219 23.410156 L 23.046875 21.808594 C 24.121094 20.738281 25.867188 20.730469 26.941406 21.808594 C 28.019531 22.882812 28.019531 24.628906 26.941406 25.703125 L 26.597656 26.046875 C 26.859375 26.746094 27 27.496094 27 28.28125 C 27 28.476562 26.992188 28.671875 26.976562 28.859375 C 27.03125 28.808594 27.039062 28.800781 27.078125 28.757812 L 28.527344 27.300781 C 30.488281 25.34375 30.488281 22.171875 28.527344 20.21875 C 27.554688 19.242188 26.273438 18.75 24.992188 18.75 Z M 20.453125 25.519531 C 21.625 25.519531 22.347656 26.402344 22.40625 26.34375 C 22.980469 26.921875 23.238281 27.691406 23.195312 28.449219 C 22.441406 28.492188 21.675781 28.230469 21.097656 27.652344 C 20.511719 27.070312 20.253906 26.289062 20.304688 25.527344 C 20.355469 25.523438 20.40625 25.515625 20.453125 25.519531 Z M 20.453125 25.519531 "/></g>
+				</svg>
+				<span class="text">Copy</span>
+			</a>';
+			
+		/* QR Code */
+		if( $is_qrcode ) $qrcode ='<div id="seed-social-qrcode" data-link="'.get_permalink( $post->ID ).'"></div>';
 
 		$seed_social_echo .= '<ul data-list="seed-social" class="seed-social '. $css_class . '">';
 
-		if( $is_facebook )
-			$seed_social_echo .= '<li class="facebook">'.$fbshare.'</li>';
+		if( $is_facebook ) $seed_social_echo .= '<li class="facebook">'.$fbshare.'</li>';
+		if( $is_twitter ) $seed_social_echo .= '<li class="twitter">'.$tweet.'</li>';
+		if( $is_line ) $seed_social_echo .= '<li class="line">'.$line.'</li>';
 
-		if( $is_twitter )
-			$seed_social_echo .= '<li class="twitter">'.$tweet.'</li>';
-
-		if( $is_line )
-			$seed_social_echo .= '<li class="line">'.$line.'</li>';
+		if( $is_copylink ) $seed_social_echo .= '<li class="copylink">'.$copylink.'</li>';
+		if( $is_qrcode ) $seed_social_echo .= '<li class="qrcode">'.$qrcode.'</li>';
 
 		$seed_social_echo .= '</ul>';
 	}
 
+	
 	if( $echo )
 		echo $seed_social_echo;
 
@@ -174,7 +183,6 @@ if ( ! function_exists( 'is_woo_activated' ) ) {
 
 
 add_action('wp_footer', 'facebook_key_encrypt'); 
-
 function facebook_key_encrypt() { 
 
 	$app_id = get_option('seed_social_app_id');
@@ -211,7 +219,6 @@ function seed_social_auto( $content ) {
 
 	return $content;
 }
-
 add_filter('the_content', 'seed_social_auto', 15);
 
 function seed_social_bbpress_auto_bottom() {
@@ -229,7 +236,6 @@ function seed_social_bbpress_auto_bottom() {
 		}
 	}
 }
-
 add_action( 'bbp_template_after_single_topic', 'seed_social_bbpress_auto_bottom', 15, 0);
 
 function seed_social_bbpress_auto_top() {
@@ -247,7 +253,6 @@ function seed_social_bbpress_auto_top() {
 		}
 	}
 }
-
 add_action( 'bbp_template_before_single_topic', 'seed_social_bbpress_auto_top', 15, 0);
 
 function seed_social_woocommerce_after_product_content() {
@@ -263,7 +268,6 @@ function seed_social_woocommerce_after_product_content() {
 		}
 	}
 }
-
 add_action( 'woocommerce_after_single_product', 'seed_social_woocommerce_after_product_content', 10);
 
 function seed_social_woocommerce_after_summary() {
@@ -278,20 +282,17 @@ function seed_social_woocommerce_after_summary() {
 		}
 	}
 }
-
 add_action( 'woocommerce_share', 'seed_social_woocommerce_after_summary', 10);
 
 /* [seed_social] */
 function seed_social_shortcode( $atts ){
 	return seed_social( false , '-shortcode');
 }
-
 add_shortcode( 'seed_social', 'seed_social_shortcode' );
 
 function seed_social_setup_menu() {
 	$seed_social_page = add_submenu_page ( 'options-general.php', __( 'Seed Social', 'seed-social' ), __( 'Seed Social', 'seed-social' ), 'manage_options', 'seed-social', 'seed_social_init' );
 }
-
 add_action( 'admin_menu', 'seed_social_setup_menu' );
 
 function seed_social_init() { 
@@ -419,6 +420,20 @@ function seed_social_get_settings() {
 					'title'   => esc_html__( '', 'seed-social' ),
 					'type'    => 'text',
 					'default' => 'Line'
+				),
+				array(
+					'id'      => seed_social_get_option_id( 'is_copylink' ),
+					'title'   => esc_html__( 'Copy Link Button', 'seed-social' ),
+					'type'    => 'checkbox',
+					'options' => array( 'on' => esc_html__( 'Enable', 'seed-social' ) ),
+					'default' => array( 'on' )
+				),
+				array(
+					'id'      => seed_social_get_option_id( 'is_qrcode' ),
+					'title'   => esc_html__( 'QR Code', 'seed-social' ),
+					'type'    => 'checkbox',
+					'options' => array( 'on' => esc_html__( 'Enable', 'seed-social' ) ),
+					'default' => array( 'on' )
 				),
 				array(
 					'id'      => seed_social_get_option_id( 'app_id' ),
