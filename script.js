@@ -90,30 +90,6 @@ if (seedButtons !== null) {
   });
 }
 
-var seedCopyLink = document.querySelector(".copylink-btn");
-if (seedCopyLink !== null) {
-  seedButtons.addEventListener("click", function (e) {
-    e.preventDefault();
-
-    var copyLink = e.target.dataset.link;
-    var tempText = document.createElement("input");
-
-    tempText.value = copyLink;
-    document.body.appendChild(tempText);
-    tempText.select();
-    
-    document.execCommand("copy");
-    document.body.removeChild(tempText);
-
-    e.target.children[1].innerHTML = 'Copied';
-  });
-}
-
-var seedQRCode = document.querySelector("#seed-social-qrcode");
-if (seedQRCode !== null) {
-  new QRCode(seedQRCode, seedQRCode.dataset.link);
-}
-
 function passdecrypt(pass) {
   var key, string_arr;
 
