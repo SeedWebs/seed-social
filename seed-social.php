@@ -177,8 +177,8 @@ add_action('wp_footer', 'facebook_key_encrypt');
 
 function facebook_key_encrypt() { 
 
-	$app_id = sanitize_text_field(get_option('seed_social_app_id'));
-	$app_secret = sanitize_text_field(get_option('seed_social_app_secret'));
+	$app_id = sanitize_key(get_option('seed_social_app_id'));
+	$app_secret = sanitize_key(get_option('seed_social_app_secret'));
 
 	if( $app_id && $app_secret ) { 
 		
@@ -485,6 +485,14 @@ function seed_social_register_plugin_settings() {
 			if( 
 				$option['id'] == 'app_id' || 
 				$option['id'] == 'app_secret' ||
+				
+			){
+				$args = array(
+					'type' => 'string', 
+					'sanitize_callback' => 'sanitize_key',
+					'default' => NULL,
+				);
+			}else if(
 				$option['id'] == 'facebook_text' ||
 				$option['id'] == 'twitter_text' ||
 				$option['id'] == 'line_text' 
