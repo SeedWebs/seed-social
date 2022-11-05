@@ -484,8 +484,7 @@ function seed_social_register_plugin_settings() {
 
 			if( 
 				$option['id'] == 'app_id' || 
-				$option['id'] == 'app_secret' ||
-				
+				$option['id'] == 'app_secret'
 			){
 				$args = array(
 					'type' => 'string', 
