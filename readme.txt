@@ -1,6 +1,6 @@
 === Seed Social ===
-Contributors: SeedThemes
-Donate link: https://seedthemes.com/
+Contributors: seedwebs
+Donate link: https://seedwebs.com/
 Tags: social, facebook, twitter, line, share
 Requires at least: 4.5
 Tested up to: 6.1.0
