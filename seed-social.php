@@ -483,28 +483,17 @@ function seed_social_register_plugin_settings() {
 			);
 
 			if( 
-				$option['id'] == 'app_id' || 
-				$option['id'] == 'app_secret'
+				$option['id'] == seed_social_get_option_id('app_id') || 
+				$option['id'] == seed_social_get_option_id('app_secret')
 			){
 				$args = array(
 					'type' => 'string', 
 					'sanitize_callback' => 'sanitize_key',
-					'default' => NULL,
-				);
-			}else if(
-				$option['id'] == 'facebook_text' ||
-				$option['id'] == 'twitter_text' ||
-				$option['id'] == 'line_text' 
-			){
-				$args = array(
-					'type' => 'string', 
-					'sanitize_callback' => 'sanitize_text_field',
-					'default' => NULL,
+					'default' => '',
 				);
 			}else{
 				$args = array(
 					'type' => 'boolean', 
-					'sanitize_callback' => '',
 					'default' => true,
 				);
 			}
@@ -561,7 +550,7 @@ function seed_social_output_settings_field( $option ) {
 	switch( $field_type ):
 
 		case 'text': ?>
-<input type="text" name="<?php echo $option['name']; ?>" id="<?php echo $id; ?>" value="<?php echo $current; ?>" class="regular-text" />
+<input type="text" name="<?php echo $option['name']; ?>" id="<?php echo $id; ?>" value="<?php echo sanitize_text_field($current); ?>" class="regular-text" />
 <?php break;
 
 		case 'checkbox':
