@@ -3,8 +3,8 @@ Contributors: SeedThemes
 Donate link: https://seedthemes.com/
 Tags: social, facebook, twitter, line, share
 Requires at least: 4.5
-Tested up to: 5.6.1
-Stable tag: 2.0.2
+Tested up to: 6.1.0
+Stable tag: 2.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -91,6 +91,10 @@ if(function_exists('seed_social')) {seed_social();}
 3. Settings
 
 == Changelog ==
+
+= 2.0.3 =
+* Date: 7 Nov 2022
+* Fix: Sanitize Settings. Security issues when using unfiltered_html on multisite.
 
 = 2.0.2 =
 * Date: 21 Feb 2021

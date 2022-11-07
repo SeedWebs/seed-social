@@ -1,16 +1,16 @@
 <?php
 /*
 Plugin Name: Seed Social
-Plugin URI: https://github.com/SeedThemes/seed-social
+Plugin URI: https://github.com/SeedWebs/seed-social
 Description: Minimal Social Sharing WordPress Plugin
-Version: 2.0.2
-Author: SeedThemes
-Author URI: https://www.seedthemes.com
+Version: 2.0.3
+Author: SeedWebs
+Author URI: https://www.seedwebs.com
 License: GPL2
 */
 
 /*
-Copyright 2016-2017 SeedThemes  (email : info@seedthemes.com)
+Copyright 2016-2022 Seed Webs  (email : support@seedwebs.com)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License, version 2, as 
