@@ -483,6 +483,9 @@ function seed_social_register_plugin_settings() {
 			);
 
 			if( 
+				$option['id'] == seed_social_get_option_id('facebook_text') || 
+				$option['id'] == seed_social_get_option_id('twitter_text') || 
+				$option['id'] == seed_social_get_option_id('line_text') || 
 				$option['id'] == seed_social_get_option_id('app_id') || 
 				$option['id'] == seed_social_get_option_id('app_secret')
 			){
