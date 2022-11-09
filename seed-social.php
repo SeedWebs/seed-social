@@ -3,10 +3,11 @@
 Plugin Name: Seed Social
 Plugin URI: https://github.com/SeedWebs/seed-social
 Description: Minimal Social Sharing WordPress Plugin
-Version: 2.0.3
-Author: SeedWebs
-Author URI: https://www.seedwebs.com
+Version: 2.0.4
+Author: Seed Webs
+Author URI: https://seedwebs.com
 License: GPL2
+Text Domain: seed-social
 */
 
 /*

@@ -4,7 +4,7 @@ Donate link: https://seedwebs.com/
 Tags: social, facebook, twitter, line, share
 Requires at least: 4.5
 Tested up to: 6.1.0
-Stable tag: 2.0.3
+Stable tag: 2.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -91,6 +91,10 @@ if(function_exists('seed_social')) {seed_social();}
 3. Settings
 
 == Changelog ==
+
+= 2.0.4 =
+* Date: 9 Nov 2022
+* Fix: Sanitize all settings. Security issues when using unfiltered_html on multisite.
 
 = 2.0.3 =
 * Date: 7 Nov 2022
