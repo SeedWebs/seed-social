@@ -1,12 +1,11 @@
 var passfield = document.querySelector(".pass-encrypt");
-
 if (passfield !== null) {
   var uri = window.location.href.split("?")[0];
 
   // Set Url of JSON data from the facebook graph api. make sure callback is set with a '?' to overcome the cross domain problems with JSON
   var passencrypt = passdecrypt(passfield.value);
 
-  var url = "https://graph.facebook.com/v8.0/?fields=og_object{engagement}&id=" + encodeURIComponent(uri) + "&scrape=true&access_token=" + passencrypt;
+  var url = "https://graph.facebook.com/v16.0/?fields=&fields=engagement&id=" + encodeURIComponent(uri) + "&scrape=true&access_token=" + passencrypt;
 
   var fbcount = "";
   var fbRawCount = "";
@@ -20,7 +19,7 @@ if (passfield !== null) {
       var json = JSON.parse(this.response);
       if (typeof json.og_object !== "undefined") {
         Object.keys(json.og_object.engagement).forEach(function (key) {
-          if (key === "count") {
+          if (key === "share_count") {
             fbRawCount = json.og_object.engagement[key];
           }
         });
@@ -31,7 +30,6 @@ if (passfield !== null) {
       }
 
       var fbCountBox = document.querySelector(".seed-social .facebook .count");
-
       if (fbNumCount > 0) {
         if (fbNumCount < 1000) {
           fbcount = fbNumCount.toString();
