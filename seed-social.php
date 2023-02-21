@@ -444,7 +444,7 @@ function seed_social_get_settings() {
 		),
 	);
 
-	if( ! is_woo_activated() ) {
+	if( !is_woo_activated() ) {
 		unset( $settings [0]['options'][2] );
 	}
 	return $settings;
@@ -456,7 +456,7 @@ function seed_social_get_settings() {
  *
  * This function dynamically registers plugin settings.
  *
- * @since 0.10.0
+ * @since 2.0.5
  * @see   seed_social_get_settings
  * @return void
  */
@@ -482,7 +482,7 @@ function seed_social_register_plugin_settings() {
 				'options' => isset( $option['options'] ) ? $option['options'] : array(),
 				'group'   => 'seed-social'
 			);
-
+			
 			if( 
 				$option['id'] == seed_social_get_option_id('facebook_text') || 
 				$option['id'] == seed_social_get_option_id('twitter_text') || 
@@ -492,24 +492,32 @@ function seed_social_register_plugin_settings() {
 			){
 				$args = array(
 					'type' => 'string', 
-					'sanitize_callback' => 'sanitize_key',
+					'sanitize_callback' => 'sanitize_this_value',
 					'default' => '',
 				);
-			}else{
+			}else{ 
 				$args = array(
 					'type' => 'boolean', 
 					'default' => true,
 				);
 			}
-
+			
 			register_setting( 'seed-social', $option['id'], $args );
 			add_settings_field( $option['id'], $option['title'], 'seed_social_output_settings_field', 'seed-social', $section['id'], $field_args );
-
 		}
 	}
-
 }
 add_action( 'admin_init', 'seed_social_register_plugin_settings' );
+
+/**
+ * Remove all special characters.
+ * 
+ * @since 2.0.5
+ */
+function sanitize_this_value($value) {
+    $return = preg_replace('/[^A-Za-z0-9\-]/', '', $value);
+    return $return;
+}
 
 
 /**

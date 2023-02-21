@@ -92,6 +92,11 @@ if(function_exists('seed_social')) {seed_social();}
 
 == Changelog ==
 
+= 2.0.5 =
+* Date: 21 Feb 2023
+* Fix: Unable to save button text.
+* Fix: Fix "Facebook API" to be able to get count shared to show.
+
 = 2.0.4 =
 * Date: 9 Nov 2022
 * Fix: Sanitize all settings. Security issues when using unfiltered_html on multisite.
