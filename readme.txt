@@ -3,8 +3,9 @@ Contributors: seedwebs
 Donate link: https://seedwebs.com/
 Tags: social, facebook, twitter, line, share
 Requires at least: 4.5
-Tested up to: 6.1.0
-Stable tag: 2.0.4
+Tested up to: 6.1
+Requires PHP: 5.3
+Stable tag: 2.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
