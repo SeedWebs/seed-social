@@ -1,11 +1,11 @@
 === Seed Social ===
 Contributors: seedwebs
 Donate link: https://seedwebs.com/
-Tags: social, facebook, twitter, line, share
+Tags: social, facebook, twitter, line, share, copy link
 Requires at least: 4.5
-Tested up to: 6.1
-Requires PHP: 5.3
-Stable tag: 2.0.5
+Tested up to: 6.2
+Requires PHP: 7.4
+Stable tag: 3.0.0-beta
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,36 +54,6 @@ if(function_exists('seed_social')) {seed_social();}
 [seed_social]
 ```
 
-= Can you suggest CSS to align buttons center? =
-
-* You can add this CSS code in Appearance → Customize → Additional CSS
-
-```
-.seed-social {
-    text-align: center;
-}
-```
-= Can you suggest CSS to make buttons rounded? =
-
-* You can add this CSS code in Appearance → Customize → Additional CSS
-
-```
-.seed-social a {
-    min-width: 40px;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-}
-.seed-social i {
-    width: 20px;
-    height: 20px;
-    background-size: 100%;
-}
-.seed-social span.text,
-.seed-social span.count {
-    display: none;
-}
-```
 
 == Screenshots ==
 

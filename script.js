@@ -1,62 +1,6 @@
-var passfield = document.querySelector(".pass-encrypt");
-if (passfield !== null) {
-  var uri = window.location.href.split("?")[0];
-
-  // Set Url of JSON data from the facebook graph api. make sure callback is set with a '?' to overcome the cross domain problems with JSON
-  var passencrypt = passdecrypt(passfield.value);
-
-  var url = "https://graph.facebook.com/v16.0/?fields=&fields=engagement&id=" + encodeURIComponent(uri) + "&scrape=true&access_token=" + passencrypt;
-
-  var fbcount = "";
-  var fbRawCount = "";
-  var fbNumCount = 0;
-
-  var request = new XMLHttpRequest();
-  request.open("GET", url, true);
-
-  request.onload = function () {
-    if (this.status >= 200 && this.status < 400) {
-      var json = JSON.parse(this.response);
-      if (typeof json.og_object !== "undefined") {
-        Object.keys(json.og_object.engagement).forEach(function (key) {
-          if (key === "share_count") {
-            fbRawCount = json.og_object.engagement[key];
-          }
-        });
-
-        if (fbRawCount != "") {
-          fbNumCount = parseInt(fbRawCount);
-        }
-      }
-
-      var fbCountBox = document.querySelector(".seed-social .facebook .count");
-      if (fbNumCount > 0) {
-        if (fbNumCount < 1000) {
-          fbcount = fbNumCount.toString();
-        } else if (fbNumCount >= 1000 && fbNumCount < 10000) {
-          if ((fbNumCount / 1000).toFixed(1) % 1 === 0) {
-            fbcount = (fbNumCount / 1000).toFixed().toString() + "k";
-          } else {
-            fbcount = (fbNumCount / 1000).toFixed(1).toString() + "k";
-          }
-        } else if (fbNumCount >= 10000) {
-          fbcount = (fbNumCount / 1000).toFixed().toString() + "k";
-        }
-        fbCountBox.style.opacity = 1;
-        fbCountBox.style.padding = "0 2px 0 8px";
-        fbCountBox.innerHTML = fbcount;
-      }
-    } else {
-    }
-  };
-  request.onerror = function () {};
-  request.send();
-}
-
 var seedButtons = document.querySelector("[data-list='seed-social']");
-
 if (seedButtons !== null) {
-  seedButtons.addEventListener("click", function (e) {
+  seedButtons.addEventListener('click', function (e) {
     if (e.target.dataset.href !== undefined) {
       var isMobile = false; //initiate as false
 
@@ -77,22 +21,29 @@ if (seedButtons !== null) {
         var winTop = screen.height / 2 - winHeight / 2;
         var winLeft = screen.width / 2 - winWidth / 2;
 
-        window.open(e.target.dataset.href, "social", "top=" + winTop + ",left=" + winLeft + ",toolbar=0,status=0,width=" + winWidth + ",height=" + winHeight);
+        window.open(e.target.dataset.href, 'social', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width=' + winWidth + ',height=' + winHeight);
       } else {
-        if (e.target.dataset.href.indexOf("lineit") != -1) {
-          var url = "http://line.me/R/msg/text/?" + encodeURIComponent(document.title) + "%0d%0a" + encodeURIComponent(window.location.href);
-          e.srcElement.setAttribute("href", url);
+        if (e.target.dataset.href.indexOf('lineit') != -1) {
+          var url = 'http://line.me/R/msg/text/?' + encodeURIComponent(document.title) + '%0d%0a' + encodeURIComponent(window.location.href);
+          e.srcElement.setAttribute('href', url);
         }
       }
     }
   });
 }
+var seedCopyLink = document.querySelector('.ss-copy');
+if (seedCopyLink !== null) {
+  seedCopyLink.addEventListener('click', function (e) {
+    e.preventDefault();
 
-function passdecrypt(pass) {
-  var key, string_arr;
-
-  string_arr = atob(pass).split(" ");
-  key = string_arr[0].substring(6) + "|" + atob(string_arr[1]).substring(6);
-
-  return key;
+    let url = e.target.dataset.link;
+    navigator.clipboard.writeText(url).then(
+      function () {
+        e.target.querySelector('span').classList.remove('hide');
+      },
+      function () {
+        console.log('Copy error');
+      }
+    );
+  });
 }
