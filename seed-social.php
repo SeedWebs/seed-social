@@ -132,22 +132,22 @@ function seed_social($echo = true, $css_class = '')
 
         /* Facebook Button */
         if (in_array('facebook', $socials)) {
-            $facebook = '<li><a href="https://www.facebook.com/share.php?u=' . $url . '" data-href="https://www.facebook.com/share.php?u=' . $url . '" class="ss-facebook" target="seed-social">' . $facebook_icon . '</a></li>';
+            $facebook = '<li><a href="https://www.facebook.com/share.php?u=' . $url . '" data-href="https://www.facebook.com/share.php?u=' . $url . '" class="ss-facebook"  aria-label="Facebook Share">' . $facebook_icon . '</a></li>';
         }
 
         /* Twitter Button */
         if (in_array('twitter', $socials)) {
-            $twitter = '<li><a href="https://twitter.com/share?url=' . $url . '&text=' . $title . '" data-href="https://twitter.com/share?url=' . $url . '&text=' . $title . '" class="ss-twitter" target="seed-social">' . $twitter_icon . '</a></li>';
+            $twitter = '<li><a href="https://twitter.com/share?url=' . $url . '&text=' . $title . '" data-href="https://twitter.com/share?url=' . $url . '&text=' . $title . '" class="ss-twitter" aria-label="Tweet">' . $twitter_icon . '</a></li>';
         }
 
         /* Line */
         if (in_array('line', $socials)) {
-            $line = '<li><a href="https://lineit.line.me/share/ui?url=' . $url . '" data-href="https://lineit.line.me/share/ui?url=' . $url . '" class="ss-line" target="seed-social">' . $line_icon . '</a></li>';
+            $line = '<li><a href="https://lineit.line.me/share/ui?url=' . $url . '" data-href="https://lineit.line.me/share/ui?url=' . $url . '" class="ss-line" aria-label="Send to Line">' . $line_icon . '</a></li>';
         }
 
         /* Copy */
         if (in_array('copy', $socials)) {
-            $copy = '<li><a href="#" class="ss-copy" data-link="' . get_permalink($post->ID) . '">' . $copy_icon . '<span class="ss-copied hide">' . $copied_text . '</span></a></li>';
+            $copy = '<li><a href="#" class="ss-copy" data-link="' . get_permalink($post->ID) . '" aria-label="Copy URL">' . $copy_icon . '<span class="ss-copied hide">' . $copied_text . '</span></a></li>';
         }
 
         $seed_social_echo .= '<ul data-list="seed-social" class="seed-social ' . $css_class . '">';
