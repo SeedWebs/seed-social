@@ -31,19 +31,23 @@ if (seedButtons !== null) {
     }
   });
 }
-var seedCopyLink = document.querySelector('.ss-copy');
-if (seedCopyLink !== null) {
-  seedCopyLink.addEventListener('click', function (e) {
-    e.preventDefault();
 
-    let url = e.target.dataset.link;
-    navigator.clipboard.writeText(url).then(
-      function () {
-        e.target.querySelector('span').classList.remove('hide');
-      },
-      function () {
-        console.log('Copy error');
-      }
-    );
+var seedCopyLinks = document.querySelectorAll('.ss-copy');
+
+if (seedCopyLinks.length > 0) {
+  seedCopyLinks.forEach(function (seedCopyLink) {
+    seedCopyLink.addEventListener('click', function (e) {
+      e.preventDefault();
+
+      let url = e.target.dataset.link;
+      navigator.clipboard.writeText(url).then(
+        function () {
+          e.target.querySelector('span').classList.remove('hide');
+        },
+        function () {
+          console.log('Copy error');
+        }
+      );
+    });
   });
 }
