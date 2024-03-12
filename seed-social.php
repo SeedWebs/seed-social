@@ -137,7 +137,7 @@ function seed_social($echo = true, $css_class = '')
 
         /* Twitter Button */
         if (in_array('twitter', $socials)) {
-            $twitter = '<li><a href="https://twitter.com/share?url=' . $url . '&text=' . $title . '" data-href="https://twitter.com/share?url=' . $url . '&text=' . $title . '" class="ss-twitter" aria-label="Tweet">' . $twitter_icon . '</a></li>';
+            $twitter = '<li><a href="https://twitter.com/intent/tweet?url=' . $url . '&text=' . $title . '" data-href="https://twitter.com/intent/tweet?url=' . $url . '&text=' . $title . '" class="ss-twitter" aria-label="Tweet">' . $twitter_icon . '</a></li>';
         }
 
         /* Line */
