@@ -4,7 +4,7 @@
 Plugin Name: Seed Social
 Plugin URI: https://github.com/SeedWebs/seed-social
 Description: Minimal Social Sharing WordPress Plugin
-Version: 3.0.0-beta
+Version: 2.0.6
 Author: Seed Webs
 Author URI: https://seedwebs.com
 License: GPL2
@@ -12,7 +12,7 @@ Text Domain: seed-social
 */
 
 /*
-Copyright 2016-2022 Seed Webs  (email : support@seedwebs.com)
+Copyright 2016-2024 Seed Webs (email : support@seedwebs.com)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License, version 2, as
@@ -80,7 +80,7 @@ function seed_social_fb_og()
 
         $featured_image = '';
 
-        if (! empty($large_image_url[0])) {
+        if (!empty($large_image_url[0])) {
             $featured_image = esc_url($large_image_url[0]);
         }
 
@@ -99,59 +99,73 @@ add_action('wp_enqueue_scripts', 'seed_social_scripts');
 function seed_social_scripts()
 {
     if (!is_admin()) {
-        wp_enqueue_script('seed-social', plugin_dir_url(__FILE__) . 'script.js', array(), '2023.04', true);
-        wp_enqueue_style('seed-social', plugin_dir_url(__FILE__) . 'style.css', array(), '2023.04');
+        wp_enqueue_script('seed-social', plugin_dir_url(__FILE__) . 'script.js', array(), '2021.02', true);
+        wp_enqueue_style('seed-social', plugin_dir_url(__FILE__) . 'style.css', array(), '2021.02');
     }
 }
 
 function seed_social($echo = true, $css_class = '')
 {
+    $is_facebook = get_option('seed_social_is_facebook', array( 'on' ));
+    $is_twitter = get_option('seed_social_is_twitter', array( 'on' ));
+    $is_line = get_option('seed_social_is_line', array( 'on' ));
 
-    $facebook_icon = '<svg role="img" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><title>Facebook icon</title><path d="M23.9981 11.9991C23.9981 5.37216 18.626 0 11.9991 0C5.37216 0 0 5.37216 0 11.9991C0 17.9882 4.38789 22.9522 10.1242 23.8524V15.4676H7.07758V11.9991H10.1242V9.35553C10.1242 6.34826 11.9156 4.68714 14.6564 4.68714C15.9692 4.68714 17.3424 4.92149 17.3424 4.92149V7.87439H15.8294C14.3388 7.87439 13.8739 8.79933 13.8739 9.74824V11.9991H17.2018L16.6698 15.4676H13.8739V23.8524C19.6103 22.9522 23.9981 17.9882 23.9981 11.9991Z"/></svg>';
+    $facebook_text = get_option('seed_social_facebook_text', 'Facebook');
+    $twitter_text = get_option('seed_social_twitter_text', 'X');
+    $line_text = get_option('seed_social_line_text', 'Line');
 
-    $twitter_icon = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.97222 1C2.782 1 1 2.782 1 4.97222V19.0278C1 21.218 2.782 23 4.97222 23H19.0278C21.218 23 23 21.218 23 19.0278V4.97222C23 2.782 21.218 1 19.0278 1H4.97222ZM5.78385 5.88889H9.71787L12.6863 10.1321L16.3614 5.88889H17.5836L13.2377 10.921L18.2687 18.1111H14.3347L11.0655 13.4371L7.02876 18.1111H5.78027L10.5116 12.6457L5.78385 5.88889ZM7.68283 6.92492L14.8037 17.075H16.3697L9.2488 6.92492H7.68283Z" fill="currentColor"/></svg>';
+    $facebook_icon = '<svg class="ss-facebook" role="img" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><title>Facebook</title><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg>';
 
-    $line_icon = '<svg role="img" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>LINE icon</title><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>';
+    $twitter_icon = '<svg class="ss-twitter" role="img" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><title>X</title><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>';
 
-    $copy_icon = '<svg role="img" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.5 1C5.84375 1 4.5 2.34375 4.5 4V5H4C2.34635 5 1 6.34635 1 8V20C1 21.6536 2.34635 23 4 23H16C17.6536 23 19 21.6536 19 20V19.5H20C21.6563 19.5 23 18.1563 23 16.5V4C23 2.34375 21.6563 1 20 1H7.5ZM7.5 3H20C20.5495 3 21 3.45052 21 4V16.5C21 17.0495 20.5495 17.5 20 17.5H19V8C19 6.34635 17.6536 5 16 5H6.5V4C6.5 3.45052 6.95052 3 7.5 3ZM4 7H16C16.5521 7 17 7.44792 17 8V20C17 20.5521 16.5521 21 16 21H4C3.44792 21 3 20.5521 3 20V8C3 7.44792 3.44792 7 4 7ZM12.1615 8.5C11.3073 8.5 10.4531 8.82813 9.79948 9.48177L8.5 10.776C7.84896 11.4297 7.52604 12.2786 7.52604 13.1406C7.52604 13.9896 7.84896 14.849 8.5 15.5C8.98177 15.9792 9.57552 16.2813 10.1927 16.4063L9.13802 17.4609C8.01302 18.5833 6.42708 17.5729 6.53906 17.4609C5.82031 16.7448 5.82031 15.5807 6.53906 14.8646L6.77083 14.6354C6.59375 14.1693 6.5 13.6693 6.5 13.1432C6.5 13.0156 6.50521 12.8854 6.51563 12.7604C6.47917 12.7943 6.46354 12.8125 6.42969 12.8464L5.47917 13.7995C4.17448 15.1042 4.17448 17.2214 5.47917 18.5208C6.13021 19.1719 6.98177 19.4974 7.83594 19.4974C8.69271 19.4974 9.54687 19.1719 10.1979 18.5234L11.4974 17.224C12.7969 15.9219 12.7969 13.8047 11.4974 12.5026C11.5365 12.4635 10.849 11.8229 9.79948 11.6068L10.8646 10.5391C11.5807 9.82552 12.7448 9.82031 13.4609 10.5391C14.1797 11.2552 14.1797 12.4193 13.4609 13.1354L13.2318 13.3646C13.4063 13.8307 13.5 14.3307 13.5 14.8542C13.5 14.9844 13.4948 15.1146 13.4844 15.2396C13.5208 15.2057 13.526 15.2005 13.5521 15.1719L14.5182 14.2005C15.8255 12.8958 15.8255 10.7813 14.5182 9.47917C13.8698 8.82813 13.0156 8.5 12.1615 8.5ZM9.13542 13.013C9.91667 13.013 10.3984 13.6016 10.4375 13.5625C10.8203 13.9479 10.9922 14.4609 10.9635 14.9661C10.4609 14.9948 9.95052 14.8203 9.5651 14.4349C9.17448 14.0469 9.0026 13.526 9.03646 13.0182C9.07031 13.0156 9.10417 13.0104 9.13542 13.013Z" fill="currentColor"/></svg>';
+    $line_icon = '<svg class="ss-line" role="img" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><title>LINE</title><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>';
+
+
+    if ($facebook_text == '') {
+        $facebook_text = 'Facebook';
+    }
+    if ($twitter_text == '') {
+        $twitter_text = 'X';
+    }
+    if ($line_text == '') {
+        $line_text = 'Line';
+    }
+
 
     global $post;
 
-    $seed_social_echo =  $share_text = $facebook = $twitter = $line = $copy = $copied_text = '';
-    $share_text = get_option('seed_social_share_text', 'Share') ;
-    $copied_text = get_option('seed_social_copied_text', 'Link Copied!') ;
-    if ($share_text) {
-        $share_text = '<li class="share-text">' . $share_text . '</li>';
-    }
-    $socials = get_option('seed_social_socials', ['facebook', 'twitter', 'line', 'copy']);
+    $seed_social_echo = '';
 
-    if ($socials) {
-        $url = urlencode(get_the_permalink($post->ID));
-        $title = urlencode($post->post_title);
-
-
+    if ($is_facebook || $is_twitter || $is_line) {
         /* Facebook Button */
-        if (in_array('facebook', $socials)) {
-            $facebook = '<li><a href="https://www.facebook.com/share.php?u=' . $url . '" data-href="https://www.facebook.com/share.php?u=' . $url . '" class="ss-facebook"  aria-label="Facebook Share">' . $facebook_icon . '</a></li>';
+        if ($is_facebook) {
+            $fbshare = '<a href="https://www.facebook.com/share.php?u=' . urlencode(get_the_permalink($post->ID)) . '" data-href="https://www.facebook.com/share.php?u=' . urlencode(get_the_permalink($post->ID)) . '" class="seed-social-btn" target="seed-social">' . $facebook_icon . '<span class="text">' . $facebook_text . '</span><span class="count"></span></a>';
         }
 
         /* Twitter Button */
-        if (in_array('twitter', $socials)) {
-            $twitter = '<li><a href="https://twitter.com/intent/tweet?url=' . $url . '&text=' . $title . '" data-href="https://twitter.com/intent/tweet?url=' . $url . '&text=' . $title . '" class="ss-twitter" aria-label="Tweet">' . $twitter_icon . '</a></li>';
+        if ($is_twitter) {
+            $tweet = '<a href="https://twitter.com/share?url=' . urlencode(get_the_permalink($post->ID)) . '&text=' . urlencode($post->post_title) . '" data-href="https://twitter.com/share?url=' . urlencode(get_the_permalink($post->ID)) . '&text=' . urlencode($post->post_title) . '" class="seed-social-btn" target="seed-social">' . $twitter_icon . '<span class="text">' . $twitter_text . '</span><span class="count"></span></a>';
         }
 
         /* Line */
-        if (in_array('line', $socials)) {
-            $line = '<li><a href="https://lineit.line.me/share/ui?url=' . $url . '" data-href="https://lineit.line.me/share/ui?url=' . $url . '" class="ss-line" aria-label="Send to Line">' . $line_icon . '</a></li>';
-        }
-
-        /* Copy */
-        if (in_array('copy', $socials)) {
-            $copy = '<li><a href="#" class="ss-copy" data-link="' . get_permalink($post->ID) . '" aria-label="Copy URL">' . $copy_icon . '<span class="ss-copied hide">' . $copied_text . '</span></a></li>';
+        if ($is_line) {
+            $line = '<a href="https://lineit.line.me/share/ui?url=' . urlencode(get_the_permalink($post->ID)) . '" data-href="https://lineit.line.me/share/ui?url=' . urlencode(get_the_permalink($post->ID)) . '" class="seed-social-btn" target="seed-social -line">' . $line_icon . '<span class="text">' . $line_text . '</span><span class="count"></span></a>';
         }
 
         $seed_social_echo .= '<ul data-list="seed-social" class="seed-social ' . $css_class . '">';
-        $seed_social_echo .= $share_text . $facebook . $twitter . $line . $copy;
+
+        if ($is_facebook) {
+            $seed_social_echo .= '<li class="facebook">' . $fbshare . '</li>';
+        }
+
+        if ($is_twitter) {
+            $seed_social_echo .= '<li class="twitter">' . $tweet . '</li>';
+        }
+
+        if ($is_line) {
+            $seed_social_echo .= '<li class="line">' . $line . '</li>';
+        }
+
         $seed_social_echo .= '</ul>';
     }
 
@@ -166,7 +180,7 @@ function seed_social($echo = true, $css_class = '')
  * Check if WooCommerce plugin is installed and activated.
  * @return bool
  */
-if (! function_exists('is_woo_activated')) {
+if (!function_exists('is_woo_activated')) {
     function is_woo_activated()
     {
         if (class_exists('woocommerce')) {
@@ -174,6 +188,24 @@ if (! function_exists('is_woo_activated')) {
         } else {
             return false;
         }
+    }
+}
+
+
+add_action('wp_footer', 'facebook_key_encrypt');
+
+function facebook_key_encrypt()
+{
+
+    $app_id = sanitize_key(get_option('seed_social_app_id'));
+    $app_secret = sanitize_key(get_option('seed_social_app_secret'));
+
+    if ($app_id && $app_secret) {
+        $app_id_encypt = date('mY') . $app_id;
+        $app_secret_encypt = base64_encode(date('mY') . $app_secret);
+
+        $value = base64_encode($app_id_encypt . ' ' . $app_secret_encypt);
+        echo '<input type="hidden" value="' . $value . '" class="pass-encrypt">';
     }
 }
 
@@ -185,7 +217,7 @@ function seed_social_auto($content)
         $positions = get_option('seed_social_positions', array( 'bottom' ));
         $post_types = get_option('seed_social_post_types', array( 'post', 'page' ));
 
-        if (! empty($positions) && ! empty($post_types) && in_array(get_post_type(), $post_types) && ! is_front_page() && is_singular()) {
+        if (!empty($positions) && !empty($post_types) && in_array(get_post_type(), $post_types) && !is_front_page() && is_singular()) {
             if ($GLOBALS['post']->ID == get_the_ID()) {
                 if (in_array('top', $positions)) {
                     $content = seed_social(false, '-top') . $content;
@@ -211,7 +243,7 @@ function seed_social_bbpress_auto_bottom()
         $positions = get_option('seed_social_positions', array( 'bottom' ));
         $post_types = get_option('seed_social_post_types', array( 'post', 'page' ));
 
-        if (! empty($positions) && in_array(get_post_type(), $post_types) && ! is_front_page() && is_singular()) {
+        if (!empty($positions) && in_array(get_post_type(), $post_types) && !is_front_page() && is_singular()) {
             if ($GLOBALS['post']->ID == get_the_ID()) {
                 if (in_array('bottom', $positions)) {
                     seed_social(true, '-bbpress-bottom');
@@ -231,7 +263,7 @@ function seed_social_bbpress_auto_top()
         $positions = get_option('seed_social_positions', array( 'bottom' ));
         $post_types = get_option('seed_social_post_types', array( 'post', 'page' ));
 
-        if (! empty($positions) && in_array(get_post_type(), $post_types) && ! is_front_page() && is_singular()) {
+        if (!empty($positions) && in_array(get_post_type(), $post_types) && !is_front_page() && is_singular()) {
             if ($GLOBALS['post']->ID == get_the_ID()) {
                 if (in_array('top', $positions)) {
                     seed_social(true, '-bbpress-top');
@@ -250,7 +282,7 @@ function seed_social_woocommerce_after_product_content()
     if ($is_disable != 'on') {
         $woocommerce = get_option('seed_social_woocommerce', array( 'after-summary' ));
 
-        if (! empty($woocommerce)) {
+        if (!empty($woocommerce)) {
             if (in_array('after-product-content', $woocommerce)) {
                 seed_social(true, '-product-content');
             }
@@ -266,7 +298,7 @@ function seed_social_woocommerce_after_summary()
 
     if ($is_disable != 'on') {
         $woocommerce = get_option('seed_social_woocommerce', array( 'after-summary' ));
-        if (! empty($woocommerce)) {
+        if (!empty($woocommerce)) {
             if (in_array('after-summary', $woocommerce)) {
                 seed_social(true, '-product-summary');
             }
@@ -295,38 +327,43 @@ function seed_social_init()
 {
     ?>
 <style>
-	form label {
-		display: inline-block;
-		min-width: 60px;
-		margin-right: 10px;
-	}
+    form label {
+        display: inline-block;
+        min-width: 60px;
+        margin-right: 10px;
+    }
 
-	.form-table th,
-	.form-table td {
-		padding: 0;
-		line-height: 4em;
-	}
+    .form-table th,
+    .form-table td {
+        padding: 0;
+        line-height: 4em;
+    }
 
-	.form-table td p.description {
-		margin-top: -10px;
-	}
+    .form-table td p.description {
+        margin-top: -10px;
+    }
+
+    input#seed-social-facebook-text,
+    input#seed-social-twitter-text,
+    input#seed-social-line-text {
+        position: absolute;
+        margin: -3em 0 0 24px;
+        width: 100px;
+    }
 </style>
 <div class="wrap">
-	<div class="icon32" id="icon-options-general"></div>
-	<h2><?php esc_html_e('Seed Social', 'seed-social'); ?>
-	</h2>
-	<p>
-		<?php printf(wp_kses(__('For more information, please visit <a href="%1s" target="_blank">FAQ on WordPress.org</a>.', 'seed-social'), array( 'a' => array( 'href' => array(), 'target' => array() ) )), esc_url('https://wordpress.org/plugins/seed-social/#faq')); ?>
-	</p>
-	<form
-		action="<?php echo admin_url('options.php'); ?>"
-		method="post" id="seed-social-form">
-		<?php
+    <div class="icon32" id="icon-options-general"></div>
+    <h2><?php esc_html_e('Seed Social', 'seed-social'); ?></h2>
+    <p>
+        <?php printf(wp_kses(__('For more information, please visit <a href="%1s" target="_blank">FAQ on WordPress.org</a>.', 'seed-social'), array( 'a' => array( 'href' => array(), 'target' => array() ) )), esc_url('https://wordpress.org/plugins/seed-social/#faq')); ?>
+    </p>
+    <form action="<?php echo admin_url('options.php'); ?>" method="post" id="seed-social-form">
+        <?php
                 settings_fields('seed-social');
     do_settings_sections('seed-social');
     submit_button();
     ?>
-	</form>
+    </form>
 </div>
 <?php
 }
@@ -367,46 +404,66 @@ function seed_social_get_settings()
                     'id'      => seed_social_get_option_id('positions'),
                     'title'   => esc_html__('Position to show:', 'seed-social'),
                     'type'    => 'checkbox',
-                    'options' => array(
-                        'top' => esc_html__('Top', 'seed-social') ,
-                        'bottom' => esc_html__('Bottom', 'seed-social')
-                    ),
+                    'options' => array( 'top' => esc_html__('Top', 'seed-social') , 'bottom' => esc_html__('Bottom', 'seed-social') ),
                     'default' => array( 'bottom' )
                 ),
                 array(
                     'id'      => seed_social_get_option_id('woocommerce'),
                     'title'   => esc_html__('WooCommerce', 'seed-social'),
                     'type'    => 'checkbox',
-                    'options' => array(
-                        'after-summary' => esc_html__('Show after summary', 'seed-social') ,
-                        'after-product-content' => esc_html__('Show after product content', 'seed-social')
-                    ),
+                    'options' => array( 'after-summary' => esc_html__('Show after summary', 'seed-social') , 'after-product-content' => esc_html__('Show after product content', 'seed-social') ),
                     'default' => array( 'after-product-content' )
                 ),
-
                 array(
-                    'id'      => seed_social_get_option_id('share_text'),
-                    'title'   => esc_html__('Share Text', 'seed-social'),
-                    'type'    => 'text',
-                    'default' => esc_html__('Share', 'seed-social'),
-                ),
-                array(
-                    'id'      => seed_social_get_option_id('socials'),
-                    'title'   => esc_html__('Social', 'seed-social'),
+                    'id'      => seed_social_get_option_id('is_facebook'),
+                    'title'   => esc_html__('Facebook', 'seed-social'),
                     'type'    => 'checkbox',
-                    'options' => array(
-                        'facebook'   => esc_html__('Facebook', 'seed-social') ,
-                        'twitter'    => esc_html__('Twitter', 'seed-social'),
-                        'line'       => esc_html__('Line', 'seed-social'),
-                        'copy'       => esc_html__('Copy Link', 'seed-social'),
-                        ),
-                    'default' => array( 'facebook', 'twitter', 'line', 'copy' ),
+                    'options' => array( 'on' => esc_html__('', 'seed-social') ),
+                    'default' => array( 'on' )
                 ),
                 array(
-                    'id'      => seed_social_get_option_id('copied_text'),
-                    'title'   => esc_html__('Copied Text', 'seed-social'),
+                    'id'      => seed_social_get_option_id('facebook_text'),
+                    'title'   => esc_html__('', 'seed-social'),
                     'type'    => 'text',
-                    'default' => esc_html__('Link Copied!', 'seed-social')
+                    'default' => 'Facebook'
+                ),
+                array(
+                    'id'      => seed_social_get_option_id('is_twitter'),
+                    'title'   => esc_html__('X', 'seed-social'),
+                    'type'    => 'checkbox',
+                    'options' => array( 'on' => esc_html__('', 'seed-social') ),
+                    'default' => array( 'on' )
+                ),
+                array(
+                    'id'      => seed_social_get_option_id('twitter_text'),
+                    'title'   => esc_html__('', 'seed-social'),
+                    'type'    => 'text',
+                    'default' => 'X'
+                ),
+                array(
+                    'id'      => seed_social_get_option_id('is_line'),
+                    'title'   => esc_html__('Line', 'seed-social'),
+                    'type'    => 'checkbox',
+                    'options' => array( 'on' => esc_html__('', 'seed-social') ),
+                    'default' => array( 'on' )
+                ),
+                array(
+                    'id'      => seed_social_get_option_id('line_text'),
+                    'title'   => esc_html__('', 'seed-social'),
+                    'type'    => 'text',
+                    'default' => 'Line'
+                ),
+                array(
+                    'id'      => seed_social_get_option_id('app_id'),
+                    'title'   => esc_html__('Facebook App ID', 'seed-social'),
+                    'type'    => 'text',
+                    'default' => ''
+                ),
+                array(
+                    'id'      => seed_social_get_option_id('app_secret'),
+                    'title'   => esc_html__('Facebook App Secret', 'seed-social'),
+                    'type'    => 'text',
+                    'default' => ''
                 ),
                 array(
                     'id'      => seed_social_get_option_id('is_open_graph'),
@@ -457,8 +514,11 @@ function seed_social_register_plugin_settings()
             );
 
             if (
-                $option['id'] == seed_social_get_option_id('share_text') ||
-                $option['id'] == seed_social_get_option_id('copied_text')
+                $option['id'] == seed_social_get_option_id('facebook_text') ||
+                $option['id'] == seed_social_get_option_id('twitter_text') ||
+                $option['id'] == seed_social_get_option_id('line_text') ||
+                $option['id'] == seed_social_get_option_id('app_id') ||
+                $option['id'] == seed_social_get_option_id('app_secret')
             ) {
                 $args = array(
                     'type' => 'string',
@@ -480,14 +540,14 @@ function seed_social_register_plugin_settings()
 add_action('admin_init', 'seed_social_register_plugin_settings');
 
 /**
- * Remove all special characters but allow Thai characters and ? ! - space
+ * Remove all special characters.
  *
- * @since 3.0.0
+ * @since 2.0.5
  */
 function sanitize_this_value($value)
 {
-    $value = preg_replace('/[^ก-๙a-zA-Z0-9\?\!\-\s]/u', '', $value);
-    return $value;
+    $return = preg_replace('/[^A-Za-z0-9\-]/', '', $value);
+    return $return;
 }
 
 
@@ -509,7 +569,7 @@ function seed_social_get_post_types_option_list()
 
     foreach (get_post_types(array( '_builtin' => false, 'public' => true ), 'objects') as $_slug => $_post_type) {
         if (
-            ((! is_woo_activated()) || ($_post_type->name != 'product')) &&
+            ((!is_woo_activated()) || ($_post_type->name != 'product')) &&
             ($_post_type->name != 'seed_confirm_log')
         ) {
             $list[ $_slug ] = $_post_type->labels->name ;
@@ -537,11 +597,8 @@ function seed_social_output_settings_field($option)
 
     switch ($field_type) :
         case 'text':
-            ?><input type="text"
-	name="<?php echo $option['name']; ?>"
-	id="<?php echo $id; ?>"
-	value="<?php echo sanitize_text_field($current); ?>"
-	class="regular-text" />
+            ?>
+<input type="text" name="<?php echo $option['name']; ?>" id="<?php echo $id; ?>" value="<?php echo sanitize_text_field($current); ?>" class="regular-text" />
 <?php
             break;
 
@@ -552,33 +609,30 @@ function seed_social_output_settings_field($option)
                 }
 
                 $selected = is_array($current) && in_array($val, $current) ? 'checked="checked"' : '';
-                ?><label
-	for="<?php echo $id; ?>"><input type="checkbox"
-		name="<?php echo $option['name']; ?>[]"
-		value="<?php echo $val; ?>"
-		id="<?php echo $id; ?>"
-		<?php echo $selected; ?> />
-	<?php echo $choice; ?></label><?php
+                ?>
+<label for="<?php echo $id; ?>">
+    <input type="checkbox" name="<?php echo $option['name']; ?>[]" value="<?php echo $val; ?>" id="<?php echo $id; ?>" <?php echo $selected; ?> />
+    <?php echo $choice; ?>
+</label>
+<?php
             endforeach;
             break;
 
         case 'dropdown':
             ?>
 <label for="<?php echo $option['name']; ?>">
-	<select name="<?php echo $option['name']; ?>"
-		id="<?php echo $id; ?>">
-		<?php
+    <select name="<?php echo $option['name']; ?>" id="<?php echo $id; ?>">
+        <?php
             foreach ($option['options'] as $val => $choice) :
                 if ($val == $current) {
                     $selected = 'selected="selected"';
                 } else {
                     $selected = ''; ?>
-		<option value="<?php echo $val; ?>" <?php echo $selected; ?>><?php echo $choice; ?>
-		</option><?php
+        <option value="<?php echo $val; ?>" <?php echo $selected; ?>><?php echo $choice; ?></option><?php
                 }
             endforeach;
             ?>
-	</select>
+    </select>
 </label>
 <?php
             break;
@@ -587,9 +641,7 @@ function seed_social_output_settings_field($option)
             if (!$current && isset($option['std'])) {
                 $current = $option['std'];
             } ?>
-<textarea name="<?php echo $option['name']; ?>"
-	id="<?php echo $id; ?>" rows="8"
-	cols="70"><?php echo $current; ?></textarea>
+<textarea name="<?php echo $option['name']; ?>" id="<?php echo $id; ?>" rows="8" cols="70"><?php echo $current; ?></textarea>
 <?php
             break;
 
@@ -597,9 +649,7 @@ function seed_social_output_settings_field($option)
             if (!$current && isset($option['std'])) {
                 $current = $option['std'];
             } ?>
-<textarea name="<?php echo $option['name']; ?>"
-	id="<?php echo $id; ?>" rows="4" cols="60" class="code"
-	readonly><?php echo $current; ?></textarea>
+<textarea name="<?php echo $option['name']; ?>" id="<?php echo $id; ?>" rows="4" cols="60" class="code" readonly><?php echo $current; ?></textarea>
 <?php
             break;
     endswitch;
@@ -634,8 +684,7 @@ function seed_social_custom_box_html($post)
 {
     $value = get_post_meta(get_the_ID(), '_seed_social_disable', true);
     ?>
-<input type="checkbox" name="seed_social_disable" id="seed_social_disable" class="postbox"
-	<?php checked($value, 'on'); ?> />
+<input type="checkbox" name="seed_social_disable" id="seed_social_disable" class="postbox" <?php checked($value, 'on'); ?> />
 <label for="seed_social_disable">Disable social sharing button</label>
 <?php
 }

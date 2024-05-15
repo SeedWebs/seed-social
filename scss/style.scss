@@ -1,60 +1,110 @@
 .seed-social {
+  font-family: sans-serif;
   font-family: var(--s-heading, sans-serif);
-  font-size: 0.875em;
+  font-size: 14px;
   margin: 1.5em 0;
   padding: 0;
+  text-align: center;
   list-style: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1em;
   * {
     box-sizing: border-box;
   }
+  &:before,
+  &:after {
+    content: '';
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+  > li {
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    vertical-align: top;
+    &:last-of-type a {
+      margin-right: 0;
+    }
+  }
   a {
-    color: inherit;
+    color: #fff !important;
     text-decoration: none !important;
     box-shadow: none !important;
     display: flex;
-    gap: 0.5em;
     align-items: center;
-    transition: 0.3s ease;
+    justify-content: center;
+    min-height: 40px;
+    min-width: 80px;
+    border-radius: 3px;
+    padding: 4px;
+    &:hover {
+      color: #fff;
+      span,
+      svg {
+        opacity: 0.8;
+      }
+    }
     &:focus,
     &:active {
-      color: inherit;
+      color: #fff;
       span,
       svg {
         opacity: 0.5;
       }
     }
   }
-  svg {
+  svg,
+  span {
+    color: #fff;
+    transition: 0.3s ease;
     pointer-events: none;
   }
-  span {
-    font-size: 0.8em;
+  .text {
+    display: none;
+    pointer-events: none;
   }
-  .hide {
-    display: none !important;
+  .count {
+    background: none;
+    float: none;
+    font-size: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: 500ms ease-in-out;
+    font-weight: normal;
+    text-transform: uppercase;
   }
   .woocommerce-cart &,
   .woocommerce-checkout &,
   .woocommerce-account & {
     display: none;
   }
-  @media (min-width: 992px) {
-    justify-content: unset;
+
+  .facebook {
+    a {
+      background-color: #1877f2;
+    }
   }
-}
-.ss-facebook:hover {
-  color: #1877f2;
-}
-.ss-twitter:hover {
-  color: #55acee;
-}
-.ss-line:hover {
-  color: #00b900;
-}
-.ss-copy:hover {
-  color: #98a2b3;
+  .twitter {
+    a {
+      background-color: #000000;
+    }
+  }
+  .line {
+    a {
+      background-color: #00b900;
+    }
+  }
+
+  @media (min-width: 768px) {
+    text-align: left;
+    a {
+      padding: 4px 10px 4px 8px;
+    }
+    .text {
+      padding-left: 8px;
+      display: flex;
+      font-weight: 500;
+    }
+  }
 }
