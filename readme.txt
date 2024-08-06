@@ -3,7 +3,7 @@ Contributors: seedwebs
 Donate link: https://seedwebs.com/
 Tags: social, facebook, twitter, line, share
 Requires at least: 4.5
-Tested up to: 6.5
+Tested up to: 6.6
 Requires PHP: 5.3
 Stable tag: 2.0.6
 License: GPLv2 or later
