@@ -2,14 +2,14 @@
 Contributors: seedwebs
 Donate link: https://seedwebs.com/
 Tags: social, facebook, twitter, line, share
-Requires at least: 4.5
-Tested up to: 6.6
-Requires PHP: 5.3
-Stable tag: 2.0.6
+Requires at least: 4.9
+Tested up to: 7.1
+Requires PHP: 7.4
+Stable tag: 2.0.7
 License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Minimal Social Sharing WordPress Plugin (Just Facebook, Twitter and Line)
+Minimal Social Sharing WordPress Plugin (Just Facebook, X and LINE)
 
 == Description ==
 
@@ -17,7 +17,17 @@ Just upload this plugin to WordPress and activate it. The plugin will add social
 
 You can enable each social network and change settings via Settings → Seed Social.
 
-Official development of Seed Social is on GitHub, with official stable releases published on WordPress.org. The GitHub repo can be found at https://github.com/SeedThemes/seed-social. Please use the Support tab for potential bugs, issues, or enhancement ideas.
+Official development of Seed Social is on GitHub, with official stable releases published on WordPress.org. The GitHub repo can be found at https://github.com/SeedWebs/seed-social. Please use the Support tab for potential bugs, issues, or enhancement ideas.
+
+== External services ==
+
+Seed Social does not send data from your server to any other service, and it does not contact any service when a page loads.
+
+The share buttons are links. Nothing is sent to Facebook, X or LINE until a visitor clicks a button. The click opens that service's share page and sends it the address of the page being shared. X also receives the post title. On mobile devices, the LINE button sends the page title and the full page address. Each service also receives the visitor's IP address, browser information and any cookies it has set for that visitor.
+
+* Facebook share dialog (https://www.facebook.com/share.php), provided by Meta Platforms, Inc.: [Terms of Service](https://www.facebook.com/terms.php), [Privacy Policy](https://www.facebook.com/privacy/policy/).
+* X share page (https://twitter.com/share), provided by X Corp.: [Terms of Service](https://x.com/en/tos), [Privacy Policy](https://x.com/en/privacy).
+* LINE share pages (https://lineit.line.me/share/ui and https://line.me/R/msg/text/), provided by LY Corporation: [Terms of Use](https://terms.line.me/line_terms?lang=en), [Privacy Policy](https://www.lycorp.co.jp/en/company/privacypolicy/).
 
 
 == Installation ==
@@ -29,13 +39,18 @@ Official development of Seed Social is on GitHub, with official stable releases 
 
 == Frequently Asked Questions ==
 
+= Where is the Facebook share count? =
+
+* Seed Social no longer shows the Facebook share count (removed in 2.0.7). Earlier versions needed your Facebook App Secret for it and exposed that secret in your site's HTML.
+* If you entered a Facebook App ID and App Secret, reset the App Secret of that app in Meta for Developers. Then clear both fields in Settings → Seed Social and save.
+
 = How to disable some social networks =
 
 * Go to Settings → Seed Social.
 
 = Image not shown on social network / facebook post? =
 
-* Go to Settings → Seed Social and enable Open Graph. Or use Yoast SEO / All in one SEO plugin.
+* Go to Settings → Seed Social and check "Share featured image?". This adds Open Graph tags. Or use an SEO plugin such as Yoast SEO or All in One SEO.
 * After setup, go to https://developers.facebook.com/tools/debug/ put your link and click Scrape Again button.
 
 = How to add buttons manually in template files? =
@@ -74,10 +89,9 @@ if(function_exists('seed_social')) {seed_social();}
     height: 40px;
     border-radius: 50%;
 }
-.seed-social i {
+.seed-social svg {
     width: 20px;
     height: 20px;
-    background-size: 100%;
 }
 .seed-social span.text,
 .seed-social span.count {
@@ -92,6 +106,28 @@ if(function_exists('seed_social')) {seed_social();}
 3. Settings
 
 == Changelog ==
+
+= 2.0.7 =
+* Date: 20 Nov 2026
+* Security: Versions 2.0.0 to 2.0.6 printed the Facebook App ID and App Secret in every page (only base64-encoded) and sent them from visitors' browsers to the Facebook Graph API. This version no longer does. If you entered an App Secret, reset it in Meta for Developers, then clear the old values in Settings → Seed Social.
+* Security: Escape button labels, settings and Open Graph tags on output.
+* Security: Saving "Disable social sharing button" now checks a nonce and the user's permission.
+* Security: Open Graph tags no longer show the excerpt of password-protected posts.
+* Removed: Facebook share count. The Facebook button still shares as before.
+* Fix: Quick Edit, Bulk Edit, scheduled publishing and the REST API no longer clear "Disable social sharing button". Please check posts where you had turned the buttons off.
+* Fix: PHP 8 fatal error on bbPress topics when no post type is selected.
+* Fix: PHP warnings from Open Graph tags on 404 and empty search pages.
+* Fix: seed_social() and [seed_social] show nothing when there is no post, instead of buttons that share an empty address.
+* Fix: Button labels accept spaces and non-English text such as Thai again.
+* Fix: The second set of buttons (Top and Bottom) opens the share popup too.
+* Fix: The LINE button on mobile uses https.
+* Fix: Button labels no longer appear inside automatic excerpts.
+* Fix: The "Disable social sharing button" checkbox is visible in the block editor.
+* Fix: The WooCommerce setting shows the position the shop really uses (Show after summary).
+* Tweak: CSS and JS versions follow the plugin version, so caches refresh after updates.
+* Tweak: Removed unused files (qrcode.js, qrcode.min.js, close.html) and the old translation template.
+* Tweak: Requires WordPress 4.9 and PHP 7.4. Tested up to WordPress 7.1.
+* Tweak: License is GPLv2 or later in all files.
 
 = 2.0.6 =
 * Date: 15 May 2024
@@ -171,8 +207,6 @@ if(function_exists('seed_social')) {seed_social();}
 
 = 1.2.6 =
 * Fix: Close window after shared on Facebook (Mobile Chrome).
-
-= 1.2.6 =
 * New: hide on some WooCommerce pages by default. (Cart, Checkout, Account pages.)
 * Fix: Facebook has more space than others. Now we can use inline-block and align-center.
 
@@ -208,6 +242,9 @@ if(function_exists('seed_social')) {seed_social();}
 
 
 == Upgrade Notice ==
+
+= 2.0.7 =
+Security release. Versions 2.0.0 to 2.0.6 exposed the Facebook App Secret in page HTML. If you entered one, reset it in Meta for Developers. The Facebook share count is removed.
 
 = 1.3.0 =
 * New: Support BBPress
