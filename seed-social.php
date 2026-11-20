@@ -4,19 +4,23 @@
 Plugin Name: Seed Social
 Plugin URI: https://github.com/SeedWebs/seed-social
 Description: Minimal Social Sharing WordPress Plugin
-Version: 2.0.6
+Version: 2.0.7
+Requires at least: 4.9
+Requires PHP: 7.4
 Author: Seed Webs
 Author URI: https://seedwebs.com
-License: GPL2
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: seed-social
 */
 
 /*
-Copyright 2016-2024 Seed Webs (email : support@seedwebs.com)
+Copyright 2016-2026 Seed Webs (email : support@seedwebs.com)
 
 This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License, version 2, as
-published by the Free Software Foundation.
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -27,6 +31,12 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
+
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+define('SEED_SOCIAL_VERSION', '2.0.7');
 
 if (!class_exists('Seed_Social')) {
     class Seed_Social
@@ -72,25 +82,29 @@ function seed_social_fb_og()
     if ($is_open_graph) {
         global $post;
 
-        /* FB Open Graph */
+        /* No post on this page (404, search without results): print no tags. */
+        if (!($post instanceof WP_Post)) {
+            return;
+        }
 
-        $fb_og = '';
+        /* FB Open Graph */
 
         $large_image_url = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'full');
 
         $featured_image = '';
 
         if (!empty($large_image_url[0])) {
-            $featured_image = esc_url($large_image_url[0]);
+            $featured_image = $large_image_url[0];
         }
 
-        $fb_og .= '<meta property="og:url" content="' . home_url('/') . $post->post_name . '" />
-		<meta property="og:type" content="article" />
-		<meta property="og:title" content="' . htmlspecialchars($post->post_title) . '" />
-		<meta property="og:description" content="' . htmlspecialchars($post->post_excerpt) . '" />
-		<meta property="og:image" content="' . $featured_image . '" />';
+        /* Core hides the excerpt of a password-protected post, so do the same. */
+        $description = post_password_required($post) ? '' : $post->post_excerpt;
 
-        echo $fb_og;
+        echo '<meta property="og:url" content="' . esc_url(home_url('/') . $post->post_name) . '" />
+		<meta property="og:type" content="article" />
+		<meta property="og:title" content="' . esc_attr($post->post_title) . '" />
+		<meta property="og:description" content="' . esc_attr($description) . '" />
+		<meta property="og:image" content="' . esc_url($featured_image) . '" />';
     }
 }
 
@@ -99,8 +113,8 @@ add_action('wp_enqueue_scripts', 'seed_social_scripts');
 function seed_social_scripts()
 {
     if (!is_admin()) {
-        wp_enqueue_script('seed-social', plugin_dir_url(__FILE__) . 'script.js', array(), '2021.02', true);
-        wp_enqueue_style('seed-social', plugin_dir_url(__FILE__) . 'style.css', array(), '2021.02');
+        wp_enqueue_script('seed-social', plugin_dir_url(__FILE__) . 'script.js', array(), SEED_SOCIAL_VERSION, true);
+        wp_enqueue_style('seed-social', plugin_dir_url(__FILE__) . 'style.css', array(), SEED_SOCIAL_VERSION);
     }
 }
 
@@ -132,27 +146,38 @@ function seed_social($echo = true, $css_class = '')
     }
 
 
-    global $post;
+    $post = get_post();
+
+    /* No post to share (404, search without results, legacy Text widget on an archive). */
+    if (!$post) {
+        return '';
+    }
 
     $seed_social_echo = '';
 
     if ($is_facebook || $is_twitter || $is_line) {
+        $permalink = urlencode(get_the_permalink($post->ID));
+
         /* Facebook Button */
         if ($is_facebook) {
-            $fbshare = '<a href="https://www.facebook.com/share.php?u=' . urlencode(get_the_permalink($post->ID)) . '" data-href="https://www.facebook.com/share.php?u=' . urlencode(get_the_permalink($post->ID)) . '" class="seed-social-btn" target="seed-social">' . $facebook_icon . '<span class="text">' . $facebook_text . '</span><span class="count"></span></a>';
+            $facebook_url = 'https://www.facebook.com/share.php?u=' . $permalink;
+            $fbshare = '<a href="' . esc_url($facebook_url) . '" data-href="' . esc_url($facebook_url) . '" class="seed-social-btn" target="seed-social">' . $facebook_icon . '<span class="text">' . esc_html($facebook_text) . '</span><span class="count"></span></a>';
         }
 
         /* Twitter Button */
         if ($is_twitter) {
-            $tweet = '<a href="https://twitter.com/share?url=' . urlencode(get_the_permalink($post->ID)) . '&text=' . urlencode($post->post_title) . '" data-href="https://twitter.com/share?url=' . urlencode(get_the_permalink($post->ID)) . '&text=' . urlencode($post->post_title) . '" class="seed-social-btn" target="seed-social">' . $twitter_icon . '<span class="text">' . $twitter_text . '</span><span class="count"></span></a>';
+            $twitter_url = 'https://twitter.com/share?url=' . $permalink . '&text=' . urlencode($post->post_title);
+            /* esc_attr(), not esc_url(): esc_url() drops encoded line breaks (%0A) from the title. Both parts are urlencoded. */
+            $tweet = '<a href="' . esc_attr($twitter_url) . '" data-href="' . esc_attr($twitter_url) . '" class="seed-social-btn" target="seed-social">' . $twitter_icon . '<span class="text">' . esc_html($twitter_text) . '</span><span class="count"></span></a>';
         }
 
         /* Line */
         if ($is_line) {
-            $line = '<a href="https://lineit.line.me/share/ui?url=' . urlencode(get_the_permalink($post->ID)) . '" data-href="https://lineit.line.me/share/ui?url=' . urlencode(get_the_permalink($post->ID)) . '" class="seed-social-btn" target="seed-social -line">' . $line_icon . '<span class="text">' . $line_text . '</span><span class="count"></span></a>';
+            $line_url = 'https://lineit.line.me/share/ui?url=' . $permalink;
+            $line = '<a href="' . esc_url($line_url) . '" data-href="' . esc_url($line_url) . '" class="seed-social-btn" target="seed-social -line">' . $line_icon . '<span class="text">' . esc_html($line_text) . '</span><span class="count"></span></a>';
         }
 
-        $seed_social_echo .= '<ul data-list="seed-social" class="seed-social ' . $css_class . '">';
+        $seed_social_echo .= '<ul data-list="seed-social" class="seed-social ' . esc_attr($css_class) . '">';
 
         if ($is_facebook) {
             $seed_social_echo .= '<li class="facebook">' . $fbshare . '</li>';
@@ -170,54 +195,75 @@ function seed_social($echo = true, $css_class = '')
     }
 
     if ($echo) {
-        echo $seed_social_echo;
+        echo wp_kses($seed_social_echo, seed_social_allowed_html());
     }
 
     return $seed_social_echo;
 }
 
 /**
+ * HTML that a Button set may contain. Used to escape it on output.
+ *
+ * @return array
+ */
+function seed_social_allowed_html()
+{
+    $svg = array(
+        'class'   => true,
+        'role'    => true,
+        'width'   => true,
+        'height'  => true,
+        'viewbox' => true,
+        'xmlns'   => true,
+        'fill'    => true,
+    );
+
+    return array(
+        'ul'    => array( 'data-list' => true, 'class' => true ),
+        'li'    => array( 'class' => true ),
+        'a'     => array( 'href' => true, 'data-href' => true, 'class' => true, 'target' => true ),
+        'span'  => array( 'class' => true ),
+        'svg'   => $svg,
+        'title' => array(),
+        'path'  => array( 'd' => true ),
+    );
+}
+
+/**
  * Check if WooCommerce plugin is installed and activated.
  * @return bool
  */
-if (!function_exists('is_woo_activated')) {
-    function is_woo_activated()
-    {
-        if (class_exists('woocommerce')) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+function seed_social_is_woocommerce_active()
+{
+    return class_exists('woocommerce');
 }
 
-
-add_action('wp_footer', 'facebook_key_encrypt');
-
-function facebook_key_encrypt()
-{
-
-    $app_id = sanitize_key(get_option('seed_social_app_id'));
-    $app_secret = sanitize_key(get_option('seed_social_app_secret'));
-
-    if ($app_id && $app_secret) {
-        $app_id_encypt = date('mY') . $app_id;
-        $app_secret_encypt = base64_encode(date('mY') . $app_secret);
-
-        $value = base64_encode($app_id_encypt . ' ' . $app_secret_encypt);
-        echo '<input type="hidden" value="' . $value . '" class="pass-encrypt">';
+/**
+ * Kept for themes and plugins that call it. Seed Social itself uses seed_social_is_woocommerce_active().
+ * @return bool
+ */
+if (!function_exists('is_woo_activated')) {
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- public name kept for back-compat.
+    function is_woo_activated()
+    {
+        return seed_social_is_woocommerce_active();
     }
 }
 
 function seed_social_auto($content)
 {
+    /* wp_trim_excerpt() runs the_content: keep Button sets out of automatic excerpts. */
+    if (doing_filter('get_the_excerpt')) {
+        return $content;
+    }
+
     $is_disable = get_post_meta(get_the_ID(), '_seed_social_disable', true);
 
     if ($is_disable != 'on') {
         $positions = get_option('seed_social_positions', array( 'bottom' ));
         $post_types = get_option('seed_social_post_types', array( 'post', 'page' ));
 
-        if (!empty($positions) && !empty($post_types) && in_array(get_post_type(), $post_types) && !is_front_page() && is_singular()) {
+        if (!empty($positions) && is_array($positions) && !empty($post_types) && is_array($post_types) && in_array(get_post_type(), $post_types) && !is_front_page() && is_singular()) {
             if ($GLOBALS['post']->ID == get_the_ID()) {
                 if (in_array('top', $positions)) {
                     $content = seed_social(false, '-top') . $content;
@@ -243,7 +289,7 @@ function seed_social_bbpress_auto_bottom()
         $positions = get_option('seed_social_positions', array( 'bottom' ));
         $post_types = get_option('seed_social_post_types', array( 'post', 'page' ));
 
-        if (!empty($positions) && in_array(get_post_type(), $post_types) && !is_front_page() && is_singular()) {
+        if (!empty($positions) && is_array($positions) && !empty($post_types) && is_array($post_types) && in_array(get_post_type(), $post_types) && !is_front_page() && is_singular()) {
             if ($GLOBALS['post']->ID == get_the_ID()) {
                 if (in_array('bottom', $positions)) {
                     seed_social(true, '-bbpress-bottom');
@@ -263,7 +309,7 @@ function seed_social_bbpress_auto_top()
         $positions = get_option('seed_social_positions', array( 'bottom' ));
         $post_types = get_option('seed_social_post_types', array( 'post', 'page' ));
 
-        if (!empty($positions) && in_array(get_post_type(), $post_types) && !is_front_page() && is_singular()) {
+        if (!empty($positions) && is_array($positions) && !empty($post_types) && is_array($post_types) && in_array(get_post_type(), $post_types) && !is_front_page() && is_singular()) {
             if ($GLOBALS['post']->ID == get_the_ID()) {
                 if (in_array('top', $positions)) {
                     seed_social(true, '-bbpress-top');
@@ -282,7 +328,7 @@ function seed_social_woocommerce_after_product_content()
     if ($is_disable != 'on') {
         $woocommerce = get_option('seed_social_woocommerce', array( 'after-summary' ));
 
-        if (!empty($woocommerce)) {
+        if (!empty($woocommerce) && is_array($woocommerce)) {
             if (in_array('after-product-content', $woocommerce)) {
                 seed_social(true, '-product-content');
             }
@@ -298,7 +344,7 @@ function seed_social_woocommerce_after_summary()
 
     if ($is_disable != 'on') {
         $woocommerce = get_option('seed_social_woocommerce', array( 'after-summary' ));
-        if (!empty($woocommerce)) {
+        if (!empty($woocommerce) && is_array($woocommerce)) {
             if (in_array('after-summary', $woocommerce)) {
                 seed_social(true, '-product-summary');
             }
@@ -355,9 +401,12 @@ function seed_social_init()
     <div class="icon32" id="icon-options-general"></div>
     <h2><?php esc_html_e('Seed Social', 'seed-social'); ?></h2>
     <p>
-        <?php printf(wp_kses(__('For more information, please visit <a href="%1s" target="_blank">FAQ on WordPress.org</a>.', 'seed-social'), array( 'a' => array( 'href' => array(), 'target' => array() ) )), esc_url('https://wordpress.org/plugins/seed-social/#faq')); ?>
+        <?php
+        /* translators: %s: URL of the FAQ on WordPress.org. */
+        printf(wp_kses(__('For more information, please visit <a href="%s" target="_blank">FAQ on WordPress.org</a>.', 'seed-social'), array( 'a' => array( 'href' => array(), 'target' => array() ) )), esc_url('https://wordpress.org/plugins/seed-social/#faq'));
+        ?>
     </p>
-    <form action="<?php echo admin_url('options.php'); ?>" method="post" id="seed-social-form">
+    <form action="<?php echo esc_url(admin_url('options.php')); ?>" method="post" id="seed-social-form">
         <?php
                 settings_fields('seed-social');
     do_settings_sections('seed-social');
@@ -412,18 +461,18 @@ function seed_social_get_settings()
                     'title'   => esc_html__('WooCommerce', 'seed-social'),
                     'type'    => 'checkbox',
                     'options' => array( 'after-summary' => esc_html__('Show after summary', 'seed-social') , 'after-product-content' => esc_html__('Show after product content', 'seed-social') ),
-                    'default' => array( 'after-product-content' )
+                    'default' => array( 'after-summary' )
                 ),
                 array(
                     'id'      => seed_social_get_option_id('is_facebook'),
                     'title'   => esc_html__('Facebook', 'seed-social'),
                     'type'    => 'checkbox',
-                    'options' => array( 'on' => esc_html__('', 'seed-social') ),
+                    'options' => array( 'on' => '' ),
                     'default' => array( 'on' )
                 ),
                 array(
                     'id'      => seed_social_get_option_id('facebook_text'),
-                    'title'   => esc_html__('', 'seed-social'),
+                    'title'   => '',
                     'type'    => 'text',
                     'default' => 'Facebook'
                 ),
@@ -431,12 +480,12 @@ function seed_social_get_settings()
                     'id'      => seed_social_get_option_id('is_twitter'),
                     'title'   => esc_html__('X', 'seed-social'),
                     'type'    => 'checkbox',
-                    'options' => array( 'on' => esc_html__('', 'seed-social') ),
+                    'options' => array( 'on' => '' ),
                     'default' => array( 'on' )
                 ),
                 array(
                     'id'      => seed_social_get_option_id('twitter_text'),
-                    'title'   => esc_html__('', 'seed-social'),
+                    'title'   => '',
                     'type'    => 'text',
                     'default' => 'X'
                 ),
@@ -444,12 +493,12 @@ function seed_social_get_settings()
                     'id'      => seed_social_get_option_id('is_line'),
                     'title'   => esc_html__('Line', 'seed-social'),
                     'type'    => 'checkbox',
-                    'options' => array( 'on' => esc_html__('', 'seed-social') ),
+                    'options' => array( 'on' => '' ),
                     'default' => array( 'on' )
                 ),
                 array(
                     'id'      => seed_social_get_option_id('line_text'),
-                    'title'   => esc_html__('', 'seed-social'),
+                    'title'   => '',
                     'type'    => 'text',
                     'default' => 'Line'
                 ),
@@ -462,6 +511,7 @@ function seed_social_get_settings()
                 array(
                     'id'      => seed_social_get_option_id('app_secret'),
                     'title'   => esc_html__('Facebook App Secret', 'seed-social'),
+                    'desc'    => esc_html__('No longer used. Seed Social 2.0.6 and earlier exposed this App Secret in your site\'s HTML. Reset it in Meta for Developers, then clear both fields and save. The fields disappear once they are empty.', 'seed-social'),
                     'type'    => 'text',
                     'default' => ''
                 ),
@@ -476,10 +526,33 @@ function seed_social_get_settings()
         ),
     );
 
-    if (!is_woo_activated()) {
+    if (!seed_social_is_woocommerce_active()) {
         unset($settings [0]['options'][2]);
     }
+
+    /* Show the unused Facebook App ID/Secret fields only while old values remain, so they can be cleared. */
+    if (!seed_social_has_facebook_app_values()) {
+        unset($settings [0]['options'][9], $settings [0]['options'][10]);
+    }
     return $settings;
+}
+
+/**
+ * Whether a Facebook App ID or App Secret saved by version 2.0.6 or earlier is still in the database.
+ *
+ * @return bool
+ */
+function seed_social_has_facebook_app_values()
+{
+    foreach (array( 'app_id', 'app_secret' ) as $name) {
+        $value = get_option(seed_social_get_option_id($name), '');
+
+        if (is_scalar($value) && '' !== (string) $value) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 /**
@@ -516,19 +589,32 @@ function seed_social_register_plugin_settings()
             if (
                 $option['id'] == seed_social_get_option_id('facebook_text') ||
                 $option['id'] == seed_social_get_option_id('twitter_text') ||
-                $option['id'] == seed_social_get_option_id('line_text') ||
+                $option['id'] == seed_social_get_option_id('line_text')
+            ) {
+                /* Button labels: plain text, spaces and any language allowed. Escaped on output. */
+                $args = array(
+                    'type' => 'string',
+                    'sanitize_callback' => 'sanitize_text_field',
+                    'default' => '',
+                );
+            } elseif (
                 $option['id'] == seed_social_get_option_id('app_id') ||
                 $option['id'] == seed_social_get_option_id('app_secret')
             ) {
                 $args = array(
                     'type' => 'string',
-                    'sanitize_callback' => 'sanitize_this_value',
+                    'sanitize_callback' => 'seed_social_sanitize_value',
                     'default' => '',
                 );
             } else {
+                /* Checkbox groups: keep only the choices the field offers. */
+                $choices = array_map('strval', array_keys($field_args['options']));
                 $args = array(
-                    'type' => 'boolean',
-                    'default' => true,
+                    'type' => 'array',
+                    'sanitize_callback' => function ($value) use ($choices) {
+                        return seed_social_sanitize_choices($value, $choices);
+                    },
+                    'default' => is_array($field_args['default']) ? $field_args['default'] : array(),
                 );
             }
 
@@ -542,12 +628,36 @@ add_action('admin_init', 'seed_social_register_plugin_settings');
 /**
  * Remove all special characters.
  *
- * @since 2.0.5
+ * @since 2.0.7 Renamed from sanitize_this_value() (2.0.5).
  */
-function sanitize_this_value($value)
+function seed_social_sanitize_value($value)
 {
-    $return = preg_replace('/[^A-Za-z0-9\-]/', '', $value);
-    return $return;
+    if (!is_scalar($value)) {
+        return '';
+    }
+
+    return preg_replace('/[^A-Za-z0-9\-]/', '', (string) $value);
+}
+
+/**
+ * Keep only the checkbox values that are among the field's choices.
+ *
+ * @param mixed    $value   Submitted value.
+ * @param string[] $choices Allowed values.
+ *
+ * @return string[]
+ */
+function seed_social_sanitize_choices($value, $choices)
+{
+    $clean = array();
+
+    foreach ((array) $value as $item) {
+        if (is_scalar($item) && in_array((string) $item, $choices, true)) {
+            $clean[] = (string) $item;
+        }
+    }
+
+    return $clean;
 }
 
 
@@ -564,12 +674,12 @@ function seed_social_get_post_types_option_list()
 {
     $list = array();
 
-    $list[ 'post' ] = 'Posts';
-    $list[ 'page' ] = 'Pages';
+    $list[ 'post' ] = __('Posts', 'seed-social');
+    $list[ 'page' ] = __('Pages', 'seed-social');
 
     foreach (get_post_types(array( '_builtin' => false, 'public' => true ), 'objects') as $_slug => $_post_type) {
         if (
-            ((!is_woo_activated()) || ($_post_type->name != 'product')) &&
+            ((!seed_social_is_woocommerce_active()) || ($_post_type->name != 'product')) &&
             ($_post_type->name != 'seed_confirm_log')
         ) {
             $list[ $_slug ] = $_post_type->labels->name ;
@@ -598,7 +708,7 @@ function seed_social_output_settings_field($option)
     switch ($field_type) :
         case 'text':
             ?>
-<input type="text" name="<?php echo $option['name']; ?>" id="<?php echo $id; ?>" value="<?php echo sanitize_text_field($current); ?>" class="regular-text" />
+<input type="text" name="<?php echo esc_attr($option['name']); ?>" id="<?php echo esc_attr($id); ?>" value="<?php echo esc_attr(is_scalar($current) ? $current : ''); ?>" class="regular-text" />
 <?php
             break;
 
@@ -607,50 +717,13 @@ function seed_social_output_settings_field($option)
                 if (count($option['options']) > 1) {
                     $id = "{$id}_{$val}";
                 }
-
-                $selected = is_array($current) && in_array($val, $current) ? 'checked="checked"' : '';
                 ?>
-<label for="<?php echo $id; ?>">
-    <input type="checkbox" name="<?php echo $option['name']; ?>[]" value="<?php echo $val; ?>" id="<?php echo $id; ?>" <?php echo $selected; ?> />
-    <?php echo $choice; ?>
+<label for="<?php echo esc_attr($id); ?>">
+    <input type="checkbox" name="<?php echo esc_attr($option['name']); ?>[]" value="<?php echo esc_attr($val); ?>" id="<?php echo esc_attr($id); ?>" <?php checked(is_array($current) && in_array($val, $current)); ?> />
+    <?php echo esc_html($choice); ?>
 </label>
 <?php
             endforeach;
-            break;
-
-        case 'dropdown':
-            ?>
-<label for="<?php echo $option['name']; ?>">
-    <select name="<?php echo $option['name']; ?>" id="<?php echo $id; ?>">
-        <?php
-            foreach ($option['options'] as $val => $choice) :
-                if ($val == $current) {
-                    $selected = 'selected="selected"';
-                } else {
-                    $selected = ''; ?>
-        <option value="<?php echo $val; ?>" <?php echo $selected; ?>><?php echo $choice; ?></option><?php
-                }
-            endforeach;
-            ?>
-    </select>
-</label>
-<?php
-            break;
-
-        case 'textarea':
-            if (!$current && isset($option['std'])) {
-                $current = $option['std'];
-            } ?>
-<textarea name="<?php echo $option['name']; ?>" id="<?php echo $id; ?>" rows="8" cols="70"><?php echo $current; ?></textarea>
-<?php
-            break;
-
-        case 'textarea_code':
-            if (!$current && isset($option['std'])) {
-                $current = $option['std'];
-            } ?>
-<textarea name="<?php echo $option['name']; ?>" id="<?php echo $id; ?>" rows="4" cols="60" class="code" readonly><?php echo $current; ?></textarea>
-<?php
             break;
     endswitch;
 
@@ -662,7 +735,7 @@ function seed_social_output_settings_field($option)
 function seed_social_box()
 {
 
-    if (is_woo_activated()) {
+    if (seed_social_is_woocommerce_active()) {
         $screens =  array('post', 'page', 'product');
     } else {
         $screens = array('post', 'page');
@@ -670,7 +743,7 @@ function seed_social_box()
     foreach ($screens as $screen) {
         add_meta_box(
             'seed_social_box', /* Unique ID */
-            'Seed Social',  /* Box title */
+            __('Seed Social', 'seed-social'),  /* Box title */
             'seed_social_custom_box_html',  /* Content callback, must be of type callable */
             $screen, /* Post type */
             'advanced',
@@ -682,20 +755,37 @@ add_action('add_meta_boxes', 'seed_social_box');
 
 function seed_social_custom_box_html($post)
 {
-    $value = get_post_meta(get_the_ID(), '_seed_social_disable', true);
+    $value = get_post_meta($post->ID, '_seed_social_disable', true);
+    wp_nonce_field('seed_social_save_meta', 'seed_social_meta_nonce', false);
     ?>
-<input type="checkbox" name="seed_social_disable" id="seed_social_disable" class="postbox" <?php checked($value, 'on'); ?> />
-<label for="seed_social_disable">Disable social sharing button</label>
+<input type="checkbox" name="seed_social_disable" id="seed_social_disable" <?php checked($value, 'on'); ?> />
+<label for="seed_social_disable"><?php esc_html_e('Disable social sharing button', 'seed-social'); ?></label>
 <?php
 }
 
 function seed_social_save_postdata($post_id)
 {
-    if (array_key_exists('seed_social_disable', $_POST)) {
+    /*
+     * Act only on a submit of the Seed Social box. Quick Edit, Bulk Edit, scheduled publishing
+     * and the REST API do not send the box, so they must leave the saved value alone.
+     */
+    if (!isset($_POST['seed_social_meta_nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['seed_social_meta_nonce'])), 'seed_social_save_meta')) {
+        return;
+    }
+
+    if ((defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) || wp_is_post_revision($post_id) || wp_is_post_autosave($post_id)) {
+        return;
+    }
+
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+
+    if (isset($_POST['seed_social_disable'])) {
         update_post_meta(
             $post_id,
             '_seed_social_disable',
-            $_POST['seed_social_disable']
+            'on'
         );
     } else {
         delete_post_meta(
@@ -705,6 +795,3 @@ function seed_social_save_postdata($post_id)
     }
 }
 add_action('save_post', 'seed_social_save_postdata');
-
-load_plugin_textdomain('seed-social', false, basename(dirname(__FILE__)) . '/languages');
-?>
