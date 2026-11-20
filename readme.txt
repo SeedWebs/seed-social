@@ -113,6 +113,7 @@ if(function_exists('seed_social')) {seed_social();}
 * Security: Escape button labels, settings and Open Graph tags on output.
 * Security: Saving "Disable social sharing button" now checks a nonce and the user's permission.
 * Security: Open Graph tags no longer show the excerpt of password-protected posts.
+* Security: The share popup opens only Facebook, X and LINE share addresses.
 * Removed: Facebook share count. The Facebook button still shares as before.
 * Fix: Quick Edit, Bulk Edit, scheduled publishing and the REST API no longer clear "Disable social sharing button". Please check posts where you had turned the buttons off.
 * Fix: PHP 8 fatal error on bbPress topics when no post type is selected.
@@ -126,6 +127,7 @@ if(function_exists('seed_social')) {seed_social();}
 * Fix: The WooCommerce setting shows the position the shop really uses (Show after summary).
 * Tweak: CSS and JS versions follow the plugin version, so caches refresh after updates.
 * Tweak: Removed unused files (qrcode.js, qrcode.min.js, close.html) and the old translation template.
+* Tweak: Removed the global functions facebook_key_encrypt() and sanitize_this_value() (now seed_social_sanitize_value()). is_woo_activated() is kept.
 * Tweak: Requires WordPress 4.9 and PHP 7.4. Tested up to WordPress 7.1.
 * Tweak: License is GPLv2 or later in all files.
 

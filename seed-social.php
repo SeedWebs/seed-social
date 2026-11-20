@@ -167,7 +167,8 @@ function seed_social($echo = true, $css_class = '')
         /* Twitter Button */
         if ($is_twitter) {
             $twitter_url = 'https://twitter.com/share?url=' . $permalink . '&text=' . urlencode($post->post_title);
-            $tweet = '<a href="' . esc_url($twitter_url) . '" data-href="' . esc_url($twitter_url) . '" class="seed-social-btn" target="seed-social">' . $twitter_icon . '<span class="text">' . esc_html($twitter_text) . '</span><span class="count"></span></a>';
+            /* esc_attr(), not esc_url(): esc_url() drops encoded line breaks (%0A) from the title. Both parts are urlencoded. */
+            $tweet = '<a href="' . esc_attr($twitter_url) . '" data-href="' . esc_attr($twitter_url) . '" class="seed-social-btn" target="seed-social">' . $twitter_icon . '<span class="text">' . esc_html($twitter_text) . '</span><span class="count"></span></a>';
         }
 
         /* Line */

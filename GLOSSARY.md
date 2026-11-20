@@ -33,7 +33,7 @@ _เลี่ยง_: share counter, likes
 ### การวางปุ่ม
 
 **วางอัตโนมัติ (Automatic placement)**:
-ชุดปุ่มที่ Seed Social ใส่ให้เองในชนิดเนื้อหาที่ผู้ดูแลเลือก ตามการตั้งค่าตำแหน่งและตำแหน่งใน WooCommerce
+ชุดปุ่มที่ Seed Social ใส่ให้เอง ทั้งในชนิดเนื้อหาที่ผู้ดูแลเลือกตามการตั้งค่าตำแหน่ง และบนหน้าสินค้า WooCommerce ทุกหน้าตามการตั้งค่าตำแหน่งใน WooCommerce
 _เลี่ยง_: auto buttons, default buttons
 
 **วางเอง (Manual placement)**:

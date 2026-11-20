@@ -1,6 +1,12 @@
 (function () {
+  // Only the plugin's own share links may open the popup. Post content can carry the same
+  // markup with any data-href, so never pass anything else to window.open().
+  var shareUrl = /^https:\/\/(www\.facebook\.com\/share\.php|twitter\.com\/share|lineit\.line\.me\/share\/ui)\?/;
+
   function onClick(e) {
-    if (e.target.dataset.href !== undefined) {
+    var href = e.target.dataset.href;
+
+    if (href !== undefined && shareUrl.test(href)) {
       var isMobile = false; //initiate as false
 
       // device detection
@@ -23,12 +29,12 @@
         var winLeft = screen.width / 2 - winWidth / 2;
 
         window.open(
-          e.target.dataset.href,
+          href,
           'social',
           'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width=' + winWidth + ',height=' + winHeight
         );
       } else {
-        if (e.target.dataset.href.indexOf('lineit') != -1) {
+        if (href.indexOf('lineit') != -1) {
           var url =
             'https://line.me/R/msg/text/?' +
             encodeURIComponent(document.title) +
